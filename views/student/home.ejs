@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KampusLegacy - Student Hub</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-light": "#eef4ff", // Very light blue for backgrounds
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for horizontal scrolling sections */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased">
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2332] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 z-20">
+            <a href="/" class="flex items-center gap-3 px-6 py-8">
+                <div class="h-8 w-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</h1>
+            </a>
+            <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+                <!-- User Profile Summary -->
+                <div
+                    class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <img alt="Student profile photo"
+                            class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600"
+                            data-alt="Young asian female student portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQld-yO7kAq_Jb0RKvWe9vAfYzh_9HSjL54Z1_JVHPcc3-zAEAd8CEtz5opMt-Y2QYj8fUvnFf0IxhqQwGqTu5Op36fXhNlcJECkc9Xq4kp8K9sV14S0YFsswuX8O24mXsMXOTwm9ECR0aG53HrG7ij1rSO6mc8Jz0-MNuesyy3Y2JtdSpyeUbTMf3R12lS1eQ4wxLTnSyvi0mvOlxy8EREIZOTVqZewbnLwgGnNnxkMHG0PmP7SyxYZRfeM1m03UEmkoGF47mVws" />
+                        <div class="overflow-hidden">
+                            <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white">
+                                <%= user.name %>
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nav Links -->
+                <nav class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium"
+                        href="/student/home">
+                        <span class="material-symbols-outlined fill-1">home</span>
+                        Home
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="/student/dashboard">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="/student/mentors">
+                        <span class="material-symbols-outlined">group</span>
+                        Mentors
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">work</span>
+                        Jobs &amp; Internships
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        Events
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">folder_open</span>
+                        Resources
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">forum</span>
+                        Community
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 mt-auto">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors text-sm font-medium"
+                    href="/auth/logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    Log Out
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 h-full overflow-y-auto overflow-x-hidden bg-background-light dark:bg-background-dark">
+            <!-- Header Mobile/Desktop -->
+            <header
+                class="sticky top-0 z-10 bg-white/80 dark:bg-[#1a2332]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden p-2 -ml-2 text-slate-500 hover:text-slate-700">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Welcome back, <%= user.name.split(' ')[0] %>! 👋</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 hidden sm:block">Here' s what's happening
+                                in your network today.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative hidden sm:block">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <span class="material-symbols-outlined text-[20px]">search</span>
+                        </span>
+                        <input
+                            class="w-64 pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:ring-2 focus:ring-primary/50 focus:bg-white dark:focus:bg-slate-700 transition-all"
+                            placeholder="Search mentors, jobs..." type="text" />
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800"></span>
+                    </button>
+                </div>
+            </header>
+            <div class="p-6 max-w-7xl mx-auto space-y-8">
+                <!-- Section 1: Mentors (Horizontal Scroll) -->
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">verified_user</span>
+                            Available Mentors
+                        </h3>
+                        <a class="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                            href="#">
+                            View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x">
+                        <!-- Mentor Card 1 -->
+                        <div
+                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-3">
+                                    <img alt="Professional woman in business attire"
+                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
+                                        data-alt="Portrait of Sarah Jenkins"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkgwiJtHtag0W-zOSpncdJl_HF_qVuyLF8gYqAYpCEL2c39sq21okLcK3iP3W7H9LzOBe4_MLdYaHRKpqTKiz-j_IZZ-GPq0TxgFk2HW-leIiPYJm1Ylib3RpH28tYSD8ZXjwa7F2zsHCuwcOHoKiY9g7zwbA5w43o-BpKAoOsD-EFm15w9qzc5mpOd_SWaU92W7ez_6EwOQl3DcCzzC1CFtINQjSSnGJsdKYa-P_RjjtGHKXKb7m9uxKmOfNpOXD5xJL64ZYAkfQ" />
+                                    <div
+                                        class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800">
+                                    </div>
+                                </div>
+                                <h4 class="font-bold text-slate-900 dark:text-white">Sarah Jenkins</h4>
+                                <p class="text-xs text-primary font-medium mb-1">Product Manager @ Google</p>
+                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">UX/UI</span>
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Strategy</span>
+                                </div>
+                                <button
+                                    class="w-full py-1.5 px-3 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">Connect</button>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 2 -->
+                        <div
+                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-3">
+                                    <img alt="Professional man in suit"
+                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
+                                        data-alt="Portrait of Michael Chen"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2FwzIxfv0QEzMhdDMOqNzIhWVaLVILVCIQyqPW4GB2ieSL4PtoFQp7zzRQ1-YLDwTgreIrU_SLbdfMbSP_WCR2Sq1lmqvgxudTUVWgX52WmaPCAWTSNqn-AF0HGRXI3nP11ISdnErw1ziGXeg5JZO2yWlNjwYPVO31e50D_TCHmsoDC59U5TyG3_Ih8GKcNt-M8niJs-o6c8e_AOehwj0I51EOs55CKNYwdJenUldoGL4kwnvpRvjF0-5KsX3S6N3UnaP9ht3f48" />
+                                </div>
+                                <h4 class="font-bold text-slate-900 dark:text-white">Michael Chen</h4>
+                                <p class="text-xs text-primary font-medium mb-1">Sr. Developer @ Netflix</p>
+                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">React</span>
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Node.js</span>
+                                </div>
+                                <button
+                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 3 -->
+                        <div
+                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-3">
+                                    <img alt="Smiling woman looking at camera"
+                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
+                                        data-alt="Portrait of Emily Davis"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNnG65I1ZtJqD1B3r61wTQ2Q8PlHM2siHwGDJiRYbZB6Vsywrahvt5g0HgGfqGly6np85qpduZoHeTCCuhR2Ca4CKhMxN7NZBeVmU1OoyJucW1O-1T1vTFzy6fRociLbkcsa79D2s1Qbp-uqmNhkGBm4_NsN97Dum-EAuV9SEepfJ52abJ312KVzhBDcos4BX2WZvro_uxVxiAt0mu0PKoALO-42Zf5KQwuejOhGC7V5GcuGCU7wesbZVva7rXO5EDipM_YAQpkRQ" />
+                                    <div
+                                        class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800">
+                                    </div>
+                                </div>
+                                <h4 class="font-bold text-slate-900 dark:text-white">Emily Davis</h4>
+                                <p class="text-xs text-primary font-medium mb-1">Data Scientist @ Spotify</p>
+                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Python</span>
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">ML</span>
+                                </div>
+                                <button
+                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 4 -->
+                        <div
+                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-3">
+                                    <img alt="Man with glasses in office"
+                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
+                                        data-alt="Portrait of David Kim"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZuL8AUNoYcAuP870cdB9fCSOhk9MnrudX7eEkRWl2WOuaci1_E-FvACPtIpBihKL2G9CVj-A25xXP8Sz8n5VFmhGKaDlyMnv9jFQ1xSKrPL9QoEGFqX8ULdIidzR-jvl3Kta8qMX-8YI_wOxhLxy_b_8B0Li-0vOAGMqvlDJxcXFF5Pyi57nCidxDKL6Q0EKB5e4ID9_fqYi6AeiBj24vV_sUh7kZrWfWmfkiaNa_2Z_8ND1OBD4XnEu-T42-JHm4xEeGRb7rusk" />
+                                </div>
+                                <h4 class="font-bold text-slate-900 dark:text-white">David Kim</h4>
+                                <p class="text-xs text-primary font-medium mb-1">Founder @ TechStart</p>
+                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Startup</span>
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Pitching</span>
+                                </div>
+                                <button
+                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column (Span 2) -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Events & Hackathons -->
+                        <section>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-purple-500">event</span>
+                                Upcoming Events
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Event Card 1 -->
+                                <div
+                                    class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
+                                    <div class="h-32 w-full bg-cover bg-center relative"
+                                        data-alt="Large conference hall with audience"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB59dJXS-mf8EoO_5exd3kqaumovik6NPPMHCrSDGnlIFhPR1bb3r38tyJc7P35Mcp0tzK531I7rFJyaL1iQuo-wOC7nmYZ5f3EjHjyZ2S6ojopR0nHPHWNtwyRpaZTlyGv-mKel_pK_4a6ROv_T8l7peHkB5oBHe-Ci7fwN8UwEK9txu28jpKh6nSNa_X6zMvV_KGUufHSZfXlo1bzAQW7LoyXolrKw0dxOnYjRmB_aC3Obh1IorPmTP4h3Dq4j_2u24qojZ2DZR4');">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                                        </div>
+                                        <div class="absolute bottom-3 left-3 text-white">
+                                            <span
+                                                class="bg-primary px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Tech
+                                                Talk</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h4
+                                                    class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                                                    Future of AI Ethics</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400">Oct 24 • 2:00 PM
+                                                    EST</p>
+                                            </div>
+                                            <div
+                                                class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
+                                                <span
+                                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">OCT</span>
+                                                <span
+                                                    class="text-lg font-bold text-slate-900 dark:text-white leading-none">24</span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            class="w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register
+                                            Now</button>
+                                    </div>
+                                </div>
+                                <!-- Event Card 2 -->
+                                <div
+                                    class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
+                                    <div class="h-32 w-full bg-cover bg-center relative"
+                                        data-alt="People working on laptops at a hackathon"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCThbVz0t_WuiS4TTh7ChlgskH8GDa4qdb6U8ufFz6f6Xk4MjggnWXq9zDtfj3_hg0V-aRuaNiiTNm1-oZbzX5FWB2YcVsNRHLdNwjFRdoY98nqBKhkrV8vDD6hYlKSd0e5mhyQPRzpO7WhNIpupTKU-ROoCxhAyqeqoQZlpYjQz7SY-kwSuwChE7aHavvEu5fq8rqWj_EzpOlNMW54TNflNBKXCjrw2TlYdBRPGjbYIaHed_YxZHG_kiawwJ_dARlzgfJaQbHAKkY');">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                                        </div>
+                                        <div class="absolute bottom-3 left-3 text-white">
+                                            <span
+                                                class="bg-purple-600 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Hackathon</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h4
+                                                    class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                                                    Global Code Jam '23</h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400">Nov 12-14 •
+                                                    Virtual</p>
+                                            </div>
+                                            <div
+                                                class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
+                                                <span
+                                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">NOV</span>
+                                                <span
+                                                    class="text-lg font-bold text-slate-900 dark:text-white leading-none">12</span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            class="w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Join
+                                            Team</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Jobs & Internships -->
+                        <section>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-orange-500">briefcase_meal</span>
+                                    Fresh Opportunities
+                                </h3>
+                                <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors"
+                                    href="#">View All Jobs</a>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
+                                <!-- Job Item 1 -->
+                                <div
+                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div
+                                        class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                                        <span
+                                            class="material-symbols-outlined text-2xl text-slate-600 dark:text-slate-400">deployed_code</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Frontend
+                                            Developer Intern</h4>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                                            <span>TechFlow Inc.</span>
+                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <span>Remote</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-medium">Internship</span>
+                                        <button
+                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
+                                    </div>
+                                </div>
+                                <!-- Job Item 2 -->
+                                <div
+                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div
+                                        class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
+                                        <span
+                                            class="material-symbols-outlined text-2xl text-blue-600 dark:text-blue-400">data_object</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Junior Data
+                                            Analyst</h4>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                                            <span>Metrics Global</span>
+                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <span>New York, NY</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-medium">Full-time</span>
+                                        <button
+                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
+                                    </div>
+                                </div>
+                                <!-- Job Item 3 -->
+                                <div
+                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div
+                                        class="w-12 h-12 rounded-lg bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
+                                        <span
+                                            class="material-symbols-outlined text-2xl text-purple-600 dark:text-purple-400">brush</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Product Design
+                                            Associate</h4>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                                            <span>Creative Studio</span>
+                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <span>Hybrid</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-xs font-medium">Contract</span>
+                                        <button
+                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- Right Column (Span 1) -->
+                    <div class="space-y-8">
+                        <!-- Student Spotlight -->
+                        <section
+                            class="bg-gradient-to-br from-primary to-[#2563EB] rounded-2xl p-6 text-white relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-4 opacity-10">
+                                <span class="material-symbols-outlined text-[120px]">star</span>
+                            </div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-sm font-bold uppercase tracking-wider opacity-90">Student Spotlight
+                                    </h3>
+                                    <span class="bg-white/20 px-2 py-0.5 rounded text-xs">Achievement</span>
+                                </div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img alt="Portrait of James Wilson"
+                                        class="w-16 h-16 rounded-full border-2 border-white/50 object-cover"
+                                        data-alt="Portrait of James Wilson smiling"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmYq1NhWEWtgt9ZFy99jB1Mx7mrM8F837VTde92y7J17GcMh7MDJT7RPMF1MsI1EirJXLs9aEnoI62SB2JtTLnZGbbiQP9WglpaS2BeJJwDRQsm6DTUdorFZX22t6XdZVQtDbzHw9fba8B81QshCIXJAr1g9TDBMrcHxWQpYpmUYYpUF1c-NB-HvY5tyCr15fmCYwLB9Cztgf0bKVAjoy-uR9iYPr7B-PVuilimIpTeU8O547N73gRLab6Y1MbXdHS3pNkySfacmg" />
+                                    <div>
+                                        <p class="font-bold text-lg leading-tight">James Wilson</p>
+                                        <p class="text-sm text-blue-100">Senior, Marketing</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-blue-50 italic mb-4">"Thanks to KampusLegacy, I landed my dream
+                                    internship at Nike this summer. The mock interview tool was a lifesaver!"</p>
+                                <button
+                                    class="w-full py-2 bg-white text-primary rounded-lg text-sm font-semibold hover:bg-blue-50 transition-colors">Read
+                                    His Story</button>
+                            </div>
+                        </section>
+                        <!-- Resources Grid -->
+                        <section>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-teal-500">library_books</span>
+                                Resources
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- Resource 1 -->
+                                <a class="p-4 bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:shadow-sm transition-all group flex flex-col items-center text-center gap-2"
+                                    href="#">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-teal-600 dark:text-teal-400 group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined">description</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Resume
+                                        Builder</span>
+                                </a>
+                                <!-- Resource 2 -->
+                                <a class="p-4 bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:shadow-sm transition-all group flex flex-col items-center text-center gap-2"
+                                    href="#">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined">mic</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Mock
+                                        Interview</span>
+                                </a>
+                                <!-- Resource 3 -->
+                                <a class="p-4 bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:shadow-sm transition-all group flex flex-col items-center text-center gap-2"
+                                    href="#">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined">code</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Code
+                                        Practice</span>
+                                </a>
+                                <!-- Resource 4 -->
+                                <a class="p-4 bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:shadow-sm transition-all group flex flex-col items-center text-center gap-2"
+                                    href="#">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined">school</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Career
+                                        Guide</span>
+                                </a>
+                            </div>
+                        </section>
+                        <!-- Suggested Connections (Mini List) -->
+                        <section
+                            class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 p-5">
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4">People you may know</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User Avatar" class="w-10 h-10 rounded-full object-cover"
+                                            data-alt="Portrait of Mark T."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKgdOebiAKXpeZBD1Sf1g1szqzFTLRbxJvGnyplPvBfnFkUlGYII_1bSMgRpzicrbMKygqYg5jjtJHlVX84UhujR_inzhuDK1ZArIdWqMpC_ucdn-Gnx4tqD_TlhEr5itgWTwoDOeTqwvlk4pFck9y1XyRT2GLSRMifkBCsdBokY4EP-MMDBNqpLY7PpxYNQ11nhuXwYaguy4LFfwszobVagevkwAqlCoY6DF_htuqqg7E1GhJRQxwZUD7fDzcYPYSYMEI1Rj9TMg" />
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">Mark
+                                                T.</span>
+                                            <span class="text-xs text-slate-500 dark:text-slate-400">CS Major</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-primary">
+                                        <span class="material-symbols-outlined text-[20px]">person_add</span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User Avatar" class="w-10 h-10 rounded-full object-cover"
+                                            data-alt="Portrait of Lisa R."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6-ajsu18Vu671q4CZ4yfyfIPSBCYgjDge9FvRC9jfRRtK00ryGQHx4bMu2TC-1fWKfxdicGQudhszq3na0QlK54vdvJzf6fG6kRzFe4E-OIxOfirdZYyL5C4Ps2IzPkczBeiIUyDGOK-WTDYM6QQjC42BOEXeD3WTbi8apoijjQktODfKQvl67emqv5Chk6aknxsGJux4DW-8o_kHFpYrxa98VDAJIf71Khr7VS49Ky1mcQ4FxMiSfhIdXpo2a8006ifSyUBsYF8" />
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">Lisa
+                                                R.</span>
+                                            <span class="text-xs text-slate-500 dark:text-slate-400">Design Major</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-primary">
+                                        <span class="material-symbols-outlined text-[20px]">person_add</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full mt-4 text-xs font-medium text-slate-500 hover:text-primary transition-colors">See
+                                all suggestions</button>
+                        </section>
+                    </div>
+                </div>
+                <footer class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700 text-center pb-8">
+                    <p class="text-sm text-slate-500 dark:text-slate-400">© 2023 KampusLegacy. Empowering the next
+                        generation.</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

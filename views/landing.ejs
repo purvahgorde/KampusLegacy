@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KampusLegacy - Connect with your future</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-dark": "#0e45b8",
+                        "primary-light": "#eef4ff",
+                        "background-light": "#ffffff",
+                        "background-off-white": "#f8f9fc",
+                        "background-dark": "#101622",
+                        "text-main": "#0d121b",
+                        "text-muted": "#4c669a",
+                        "border-light": "#e7ebf3",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-text-main font-display antialiased selection:bg-primary/20">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-border-light bg-background-light/90 backdrop-blur-md px-4 py-3 lg:px-10">
+            <a href="/" class="flex items-center gap-4">
+                <div class="h-10 w-10 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2 class="text-text-main text-lg font-bold leading-tight tracking-tight">KampusLegacy</h2>
+            </a>
+            <div class="hidden flex-1 justify-end gap-8 md:flex">
+                <nav class="flex items-center gap-6">
+                    <a class="text-text-main hover:text-primary text-sm font-medium transition-colors" href="#">Home</a>
+                    <a class="text-text-main hover:text-primary text-sm font-medium transition-colors"
+                        href="#">Mentors</a>
+                    <a class="text-text-main hover:text-primary text-sm font-medium transition-colors"
+                        href="#">Events</a>
+                    <a class="text-text-main hover:text-primary text-sm font-medium transition-colors" href="#">Jobs</a>
+                </nav>
+                <div class="flex gap-3">
+                    <a href="/login"
+                        class="flex h-10 cursor-pointer items-center justify-center rounded-lg border border-border-light bg-background-light px-4 text-sm font-bold text-text-main transition-colors hover:bg-background-off-white">
+                        Log In
+                    </a>
+                    <a href="/login?mode=signup"
+                        class="flex h-10 cursor-pointer items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white transition-colors hover:bg-primary-dark">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="flex h-10 w-10 items-center justify-center rounded-lg text-text-main md:hidden">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </header>
+        <main class="flex flex-1 flex-col">
+            <!-- Hero Section -->
+            <section class="w-full bg-background-off-white px-4 py-12 md:py-20 lg:px-20">
+                <div class="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 lg:flex-row lg:gap-16">
+                    <div class="flex flex-1 flex-col gap-6 text-center lg:text-left">
+                        <div
+                            class="inline-flex w-fit items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary mx-auto lg:mx-0">
+                            <span class="material-symbols-outlined text-[16px]">rocket_launch</span>
+                            <span>New Cohort Starting Soon</span>
+                        </div>
+                        <h1
+                            class="text-4xl font-black leading-[1.1] tracking-tight text-text-main sm:text-5xl lg:text-6xl">
+                            Connect with your future. <span class="text-primary">Learn from the past.</span>
+                        </h1>
+                        <p class="text-lg leading-relaxed text-text-muted">
+                            KampusLegacy bridges the gap between academic theory and career reality. Join a thriving
+                            community of ambitous students and industry leaders today.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4 lg:justify-start">
+                            <button
+                                class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-6 text-base font-bold text-white transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20">
+                                <span class="material-symbols-outlined text-[20px]">search</span>
+                                Find a Mentor
+                            </button>
+                            <button
+                                class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-border-light bg-white px-6 text-base font-bold text-text-main transition-colors hover:bg-background-off-white hover:text-primary">
+                                Become a Mentor
+                            </button>
+                        </div>
+                        <div
+                            class="mt-4 flex items-center justify-center gap-4 text-sm font-medium text-text-muted lg:justify-start">
+                            <div class="flex -space-x-2">
+                                <img alt="User avatar 1" class="h-8 w-8 rounded-full border-2 border-white object-cover"
+                                    data-alt="Portrait of a young woman smiling"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsNyD7LEkdMlmm2Ay2vaAyFKvukgPAl9O3iEvRf447BpLOOvEYzwQMT8uzAorM59d34Zl7gO1GDgAa79EKcY70NGgGURUPwXZuCIIdBjUw7nwigvu0Tio57wvHE9KrVcCZrxb4_QkwPkcOR2-ftgFXPZoIPK9lW69EcZbK2CTo-T7uVMb_PucP7bgof0bSNcsSDI6h0DeSalDU4bJcTIjWJMT4mzR0nCC4CZsOdQr0GlkOyIwoqwXQ4MqytLGV_ThzrxvoNZVTSOw" />
+                                <img alt="User avatar 2" class="h-8 w-8 rounded-full border-2 border-white object-cover"
+                                    data-alt="Portrait of a young man with glasses"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN86V1AkkjGXR4hUe-VnQ9DP4S77peztbOTxnpx__BB6TaWwLX0o6Lbc43cirlY6JNO7RPBkBJp139Fkds0Lbr_FDe27Qyc-1Ow27Ef4gB9zqT-TC2WFECVyXfDxSKAXVUej-GmLnWiFLpHuQDdWUCaEvwGGlPDfkfudfxK7H56lPJC4mLVquNZZhYpo4ouFXXuWEWFOfW1cas11PGnB0nHKOWv2mLiqexpqJqFPYLfLi9GY6dnwn6jFNwtA-2IeiQwwPW9kaY-ug" />
+                                <img alt="User avatar 3" class="h-8 w-8 rounded-full border-2 border-white object-cover"
+                                    data-alt="Portrait of a man smiling"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6YpkevVklND9KwwSPWpu5Qc592h3J49dpIKvKVk0SxDrEIpFyAb12JCP9PsHzsfvopkwT2mpjbFr8w9por24Uz4GpPY0EyxpE_bYO-K0O-ps0wMwDfvOuAta8oJHrKkHLqy56ZFkHgm8CtHAqLu3Cqmi2euJmdf-XfZFki4p6LrEQocaonT3gedIlKY7Hra3PxaSN9PSZ6ezp5vTTXZAEO9NQnB_ZFGceyEQl5ItcIclH8c3mN7-Mff9Q6pAMBIj3rZLHqJHrrSU" />
+                            </div>
+                            <p>Trusted by 10,000+ students</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 justify-center lg:justify-end">
+                        <div
+                            class="relative aspect-square w-full max-w-[500px] overflow-hidden rounded-2xl bg-gradient-to-tr from-primary/20 to-transparent p-4 lg:p-6">
+                            <img alt="Group of students and mentors collaborating around a laptop"
+                                class="h-full w-full rounded-xl object-cover shadow-2xl"
+                                data-alt="Group of diverse students working together on a laptop"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBexCDJ1BCAlFKKeMKQrqnnSKvwCx-ZefHRyl8eiWTfPmflpVZozftsw6DeNZ_Q6LEso10iZxqmwDF0w8VqyhH2AFh54LMIFCQLtGQvWhaHeQXVv_rkpMJsXKrQyFW8-5vHc-LBBpkYLScvnp9MHlCvRjvwAFR5Y5DH2yS0AY9UftYJWLVLxf2U2_JyyZkO7qiEzHebdn3brMNRSpQTcr5te-APb541Rcq604En9dyTJCUXiglVf-u9-4I0DQ7enJmdbXv9Mui1eHs" />
+                            <!-- Floating Card -->
+                            <div
+                                class="absolute -bottom-4 -left-4 hidden w-auto animate-bounce rounded-xl bg-white p-4 shadow-xl shadow-primary/10 md:block lg:bottom-8 lg:-left-8">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
+                                        <span class="material-symbols-outlined">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-text-muted">Success Rate</p>
+                                        <p class="text-lg font-bold text-text-main">94% Hired</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Stats/Social Proof -->
+            <section class="border-y border-border-light bg-white py-8">
+                <div
+                    class="mx-auto flex max-w-7xl flex-wrap justify-center gap-8 px-4 text-center md:justify-between md:px-20">
+                    <div class="opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                        <h3 class="text-xl font-bold text-text-main">Google</h3>
+                    </div>
+                    <div class="opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                        <h3 class="text-xl font-bold text-text-main">Microsoft</h3>
+                    </div>
+                    <div class="opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                        <h3 class="text-xl font-bold text-text-main">Spotify</h3>
+                    </div>
+                    <div class="opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                        <h3 class="text-xl font-bold text-text-main">Airbnb</h3>
+                    </div>
+                    <div class="opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                        <h3 class="text-xl font-bold text-text-main">Uber</h3>
+                    </div>
+                </div>
+            </section>
+            <!-- Value Proposition -->
+            <section class="bg-background-light px-4 py-16 lg:px-20">
+                <div class="mx-auto max-w-7xl">
+                    <div class="mb-12 flex flex-col gap-4 text-center md:text-left">
+                        <h2
+                            class="text-3xl font-black leading-tight tracking-tight text-text-main md:max-w-2xl md:text-4xl">
+                            Why KampusLegacy?
+                        </h2>
+                        <p class="text-lg text-text-muted md:max-w-2xl">We provide the tools you need to launch your
+                            career with confidence.</p>
+                    </div>
+                    <div class="grid gap-6 md:grid-cols-3">
+                        <!-- Feature 1 -->
+                        <div
+                            class="group flex flex-col gap-4 rounded-xl border border-border-light bg-background-off-white p-6 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                                <span class="material-symbols-outlined text-[28px]">school</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-xl font-bold text-text-main">Expert Guidance</h3>
+                                <p class="text-text-muted">Get 1-on-1 mentorship from alumni at top firms who have been
+                                    in your shoes and know the way forward.</p>
+                            </div>
+                        </div>
+                        <!-- Feature 2 -->
+                        <div
+                            class="group flex flex-col gap-4 rounded-xl border border-border-light bg-background-off-white p-6 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                                <span class="material-symbols-outlined text-[28px]">event</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-xl font-bold text-text-main">Exclusive Events</h3>
+                                <p class="text-text-muted">Access workshops, networking mixers, and career panels
+                                    designed to expand your professional circle.</p>
+                            </div>
+                        </div>
+                        <!-- Feature 3 -->
+                        <div
+                            class="group flex flex-col gap-4 rounded-xl border border-border-light bg-background-off-white p-6 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                                <span class="material-symbols-outlined text-[28px]">work</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-xl font-bold text-text-main">Job Board</h3>
+                                <p class="text-text-muted">Browse curated entry-level roles and internships specifically
+                                    filtered for ambitious students like you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- For Students vs For Mentors Split Section -->
+            <section class="bg-background-off-white px-4 py-16 lg:px-20">
+                <div class="mx-auto max-w-7xl">
+                    <div class="grid gap-8 md:grid-cols-2">
+                        <!-- For Students -->
+                        <div
+                            class="relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-border-light transition-shadow hover:shadow-md lg:p-12">
+                            <div
+                                class="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-blue-50 blur-3xl">
+                            </div>
+                            <div class="relative z-10 flex flex-col items-start gap-4">
+                                <span
+                                    class="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-700">For
+                                    Students</span>
+                                <h3 class="text-3xl font-bold text-text-main">Launch Your Career</h3>
+                                <ul class="flex flex-col gap-3 text-text-muted">
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-green-500">check</span>
+                                        <span>Build your resume with expert feedback</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-green-500">check</span>
+                                        <span>Mock interviews with industry pros</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-green-500">check</span>
+                                        <span>Unlock hidden job opportunities</span>
+                                    </li>
+                                </ul>
+                                <button
+                                    class="mt-4 flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
+                                    Start Learning <span
+                                        class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- For Mentors -->
+                        <div
+                            class="relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-border-light transition-shadow hover:shadow-md lg:p-12">
+                            <div
+                                class="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-purple-50 blur-3xl">
+                            </div>
+                            <div class="relative z-10 flex flex-col items-start gap-4">
+                                <span
+                                    class="rounded-full bg-purple-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-purple-700">For
+                                    Mentors</span>
+                                <h3 class="text-3xl font-bold text-text-main">Give Back &amp; Grow</h3>
+                                <ul class="flex flex-col gap-3 text-text-muted">
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-purple-500">check</span>
+                                        <span>Share your journey and inspire others</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-purple-500">check</span>
+                                        <span>Connect with future talent early</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-purple-500">check</span>
+                                        <span>Exclusive networking with other leaders</span>
+                                    </li>
+                                </ul>
+                                <button
+                                    class="mt-4 flex items-center gap-2 font-bold text-purple-600 hover:text-purple-800">
+                                    Start Mentoring <span
+                                        class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Featured Mentors -->
+            <section class="bg-background-light px-4 py-16 lg:px-20">
+                <div class="mx-auto max-w-7xl">
+                    <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                        <div>
+                            <h2 class="text-3xl font-black text-text-main">Meet Our Top Mentors</h2>
+                            <p class="mt-2 text-text-muted">Learn from the best in the industry.</p>
+                        </div>
+                        <a class="flex items-center gap-1 font-bold text-primary hover:underline" href="#">
+                            View All Mentors <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span>
+                        </a>
+                    </div>
+                    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <!-- Mentor Card 1 -->
+                        <div
+                            class="group flex flex-col overflow-hidden rounded-xl border border-border-light bg-background-light transition-all hover:-translate-y-1 hover:shadow-lg">
+                            <div class="aspect-[4/5] w-full overflow-hidden bg-gray-100">
+                                <img alt="Portrait of Sarah Chen, Product Manager"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    data-alt="Professional portrait of a woman in business attire"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEpjj9QGJ2vQzV79MgPl3M10IOupk4XSwxXMI_MFSG9DeRmMWKtbYCAVcKdLa1pdccaoozT1M1G6mF5_0NYjO-y00YtCrpQsX7cFL5uZVssyZqOsN_WCsAv9UTDmmv28jc5qXfmTPYFwryI093W5469n4UOlrIdNYB5KgmuY1vS367QKSx6OmehonPM-vE6sfItH2umS2QQ0fRWIyg77NU0e92-kUwFk4gOVxrbUIFXC7c6plJ75ZDmiRWNcHGx79z_TCSaVPJsrE" />
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <h3 class="text-lg font-bold text-text-main">Sarah Chen</h3>
+                                <p class="mb-3 text-sm font-medium text-primary">Product Manager @ TechCo</p>
+                                <p class="mt-auto text-xs text-text-muted line-clamp-2">"Passionate about helping
+                                    non-technical founders build great products."</p>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 2 -->
+                        <div
+                            class="group flex flex-col overflow-hidden rounded-xl border border-border-light bg-background-light transition-all hover:-translate-y-1 hover:shadow-lg">
+                            <div class="aspect-[4/5] w-full overflow-hidden bg-gray-100">
+                                <img alt="Portrait of David Miller, Software Engineer"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    data-alt="Professional portrait of a man in a suit smiling"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgiVf7s3qtvwnp3H6qOxCFggLX1MM2-ckiilxJ5_VMopw1ACJZoAHm7MKZR6rETSp46SHbem9fClEphFfo9dpW_7xrm0DMTqlbSuQfbOXYazOTGCE6PAFl8uH8t-AJauPdb1fYJKTdzBi_4oWCBi3oEuaQ82V4f1qNCq8qwEllKw3WincO6QxZ7hWZa9JI3mH31KMEdIGc3-gwuU1cVgPZdqcqOPrarKuPeF-3cTcRPlH2Mjus1npqx7UElO-fT3874ovrqZ9X-hM" />
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <h3 class="text-lg font-bold text-text-main">David Miller</h3>
+                                <p class="mb-3 text-sm font-medium text-primary">Senior Eng @ StartUp</p>
+                                <p class="mt-auto text-xs text-text-muted line-clamp-2">"Specializing in scaling
+                                    distributed systems and backend architecture."</p>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 3 -->
+                        <div
+                            class="group flex flex-col overflow-hidden rounded-xl border border-border-light bg-background-light transition-all hover:-translate-y-1 hover:shadow-lg">
+                            <div class="aspect-[4/5] w-full overflow-hidden bg-gray-100">
+                                <img alt="Portrait of Elena Rodriguez, Marketing Lead"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    data-alt="Professional portrait of a woman smiling outdoors"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuADgOkwsjdqMAfje_C6lFamRko4RoQz8R3GuwPlGKkbwPU6WJQPJTGNHVebYkHp2Xgex5JX0ZbEI_TPe8s30mUV8qwppzWxbPFPhnmYfA_maYIcqG9KWAD-_hf25EL9ta6GX02a53_GgqLvamSyTGTDuheX6IREqxhKrWlyVd8Ml_OU7clF1BmBEMlPpeRLz9JSb8XdG8LMv9ZoBRF08JXLsJWN-X47CjqAQDmfalKZBkvNmLJiQBI1CtAGBnw-eyP2IC7OAW_u3mA" />
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <h3 class="text-lg font-bold text-text-main">Elena Rodriguez</h3>
+                                <p class="mb-3 text-sm font-medium text-primary">CMO @ CreativeAgency</p>
+                                <p class="mt-auto text-xs text-text-muted line-clamp-2">"Helping students understand the
+                                    nuances of digital marketing."</p>
+                            </div>
+                        </div>
+                        <!-- Mentor Card 4 -->
+                        <div
+                            class="group flex flex-col overflow-hidden rounded-xl border border-border-light bg-background-light transition-all hover:-translate-y-1 hover:shadow-lg">
+                            <div class="aspect-[4/5] w-full overflow-hidden bg-gray-100">
+                                <img alt="Portrait of Michael Chang, Data Scientist"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    data-alt="Professional portrait of a man with a beard"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMTKJwEUQMzY9Cd9rq6TNZYY8TjEYocNw3vLqtAlCGdN4CJTMsoODGJS6uXD51-DXdkesMeZCZUEweKAkSF68EhNogQB7yxn3JKCvAo00ps4Ldd0x7Ql0-CJkWfRvUO7tUDF1X6AFGCT5MW8EEKkkCPhV5ozTarR7XPNUgQuko7JtvE3EMBT-oGSn-z0od1_VMMeBuVUof3kYzeOum0OeS160VZloniAvYSSQcgxokChkLr2BWz7_sqyxsOzwlVH9A5m0qtKgMIs" />
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <h3 class="text-lg font-bold text-text-main">Michael Chang</h3>
+                                <p class="mb-3 text-sm font-medium text-primary">Data Scientist @ FinCorp</p>
+                                <p class="mt-auto text-xs text-text-muted line-clamp-2">"From academia to industry:
+                                    navigating the world of big data."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- CTA Section -->
+            <section class="bg-background-light px-4 py-16 lg:px-20">
+                <div class="mx-auto max-w-5xl rounded-3xl bg-primary px-6 py-16 text-center shadow-2xl md:px-12">
+                    <h2 class="mb-4 text-3xl font-black text-white md:text-5xl">Ready to start your legacy?</h2>
+                    <p class="mx-auto mb-8 max-w-2xl text-lg text-primary-light/90">Join thousands of students and
+                        mentors transforming their careers today. It's free to get started.</p>
+                    <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <a href="/login?mode=signup"
+                            class="flex h-12 w-full min-w-[160px] cursor-pointer items-center justify-center rounded-lg bg-white px-6 font-bold text-primary transition-transform hover:scale-105 hover:shadow-lg sm:w-auto">
+                            Sign Up Now
+                        </a>
+                        <button
+                            class="flex h-12 w-full min-w-[160px] cursor-pointer items-center justify-center rounded-lg border-2 border-primary-light/30 bg-transparent px-6 font-bold text-white transition-colors hover:bg-primary-dark sm:w-auto">
+                            View Demo
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer class="border-t border-border-light bg-background-off-white px-4 py-12 lg:px-20">
+            <div class="mx-auto max-w-7xl">
+                <div class="flex flex-col justify-between gap-10 md:flex-row">
+                    <div class="flex max-w-xs flex-col gap-4">
+                        <a href="/" class="flex items-center gap-2 text-text-main">
+                            <div class="h-8 w-8 text-primary">
+                                <svg class="h-full w-full" fill="none" viewBox="0 0 48 48"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_6_319_footer)">
+                                        <path
+                                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                            fill="currentColor"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_6_319_footer">
+                                            <rect fill="white" height="48" width="48"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-bold">KampusLegacy</span>
+                        </a>
+                        <p class="text-sm text-text-muted">Empowering the next generation of leaders through mentorship
+                            and community.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-12 sm:gap-20">
+                        <div class="flex flex-col gap-3">
+                            <h4 class="font-bold text-text-main">Platform</h4>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Browse Mentors</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Events</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Jobs Board</a>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <h4 class="font-bold text-text-main">Company</h4>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">About Us</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Careers</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Blog</a>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <h4 class="font-bold text-text-main">Support</h4>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Help Center</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Terms of Service</a>
+                            <a class="text-sm text-text-muted hover:text-primary" href="#">Privacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border-light pt-8 md:flex-row">
+                    <p class="text-sm text-text-muted">© 2023 KampusLegacy. All rights reserved.</p>
+                    <div class="flex gap-4">
+                        <a class="text-text-muted hover:text-primary" href="#">
+                            <!-- Social Icon Placeholder -->
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a class="text-text-muted hover:text-primary" href="#">
+                            <!-- Social Icon Placeholder -->
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

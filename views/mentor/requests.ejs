@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Student Requests - KampusLegacy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: { extend: { colors: { "primary": "#135bec" }, fontFamily: { "sans": ["Inter", "sans-serif"] } } }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 font-sans text-slate-900 antialiased flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="hidden md:flex w-20 lg:w-64 flex-col border-r border-slate-200 bg-white shrink-0">
+        <a href="/" class="p-4 lg:p-6 flex items-center gap-3 border-b border-slate-100 italic">
+            <div class="h-9 w-9 text-primary">
+                <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_6_319)">
+                        <path
+                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                            fill="currentColor"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_6_319">
+                            <rect fill="white" height="48" width="48"></rect>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            <span class="hidden lg:block text-lg font-bold tracking-tight">KampusLegacy</span>
+        </a>
+        <div class="flex-1 p-4 lg:p-6 overflow-y-auto">
+            <p class="hidden lg:block text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3 px-2">Menu
+            </p>
+            <nav class="space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
+                    href="/mentor/home">
+                    <span class="material-symbols-outlined">home</span><span class="hidden lg:block">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
+                    href="/mentor/dashboard">
+                    <span class="material-symbols-outlined">dashboard</span><span
+                        class="hidden lg:block">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium">
+                    <span class="material-symbols-outlined">inbox</span>
+                    <span class="hidden lg:block">Requests</span>
+                    <% if (pending.length> 0) { %><span
+                            class="ml-auto bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden lg:block">
+                            <%= pending.length %>
+                        </span>
+                        <% } %>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
+                    href="#">
+                    <span class="material-symbols-outlined">calendar_month</span><span
+                        class="hidden lg:block">Schedule</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
+                    href="#">
+                    <span class="material-symbols-outlined">chat_bubble</span><span
+                        class="hidden lg:block">Messages</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
+                    href="#">
+                    <span class="material-symbols-outlined">menu_book</span><span
+                        class="hidden lg:block">Resources</span>
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 lg:p-6 border-t border-slate-100 space-y-1">
+            <div class="flex items-center gap-3 px-3 py-2 rounded-lg">
+                <div
+                    class="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+                <div class="hidden lg:block min-w-0">
+                    <p class="text-sm font-medium text-slate-900 truncate">
+                        <%= user.name %>
+                    </p>
+                    <p class="text-xs text-slate-500 truncate">Mentor</p>
+                </div>
+            </div>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors font-medium"
+                href="/auth/logout">
+                <span class="material-symbols-outlined">logout</span><span class="hidden lg:block">Log Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Student Requests</h1>
+                <p class="text-sm text-slate-500 mt-0.5">Manage your mentorship connections</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-slate-700 hidden sm:block">
+                    <%= user.name %>
+                </span>
+                <div
+                    class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="bg-white border-b border-slate-200 px-6">
+            <div class="flex gap-1">
+                <button onclick="showTab('pending')" id="tab-pending"
+                    class="px-4 py-3 text-sm font-semibold text-primary border-b-2 border-primary transition-colors">
+                    Pending Requests
+                    <% if (pending.length> 0) { %>
+                        <span class="ml-1 bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            <%= pending.length %>
+                        </span>
+                        <% } %>
+                </button>
+                <button onclick="showTab('accepted')" id="tab-accepted"
+                    class="px-4 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors">
+                    Accepted Students
+                    <% if (accepted.length> 0) { %>
+                        <span class="ml-1 bg-emerald-100 text-emerald-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            <%= accepted.length %>
+                        </span>
+                        <% } %>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="flex-1 overflow-y-auto p-6">
+
+            <!-- Pending Panel -->
+            <div id="panel-pending">
+                <% if (pending.length===0) { %>
+                    <div class="text-center py-20 text-slate-400">
+                        <span class="material-symbols-outlined text-5xl mb-3">inbox</span>
+                        <p class="font-medium">No pending requests</p>
+                        <p class="text-sm mt-1">When students send you a request, it will appear here</p>
+                    </div>
+                    <% } else { %>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                            <% pending.forEach(conn=> { const student = conn.student; %>
+                                <div
+                                    class="bg-white rounded-2xl border border-amber-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-12 w-12 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-amber-700 font-bold text-lg shrink-0">
+                                            <%= student.name.charAt(0).toUpperCase() %>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h3 class="font-semibold text-slate-900 truncate">
+                                                <%= student.name %>
+                                            </h3>
+                                            <p class="text-xs text-slate-500 truncate">
+                                                <%= student.email %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+                                        <% if (student.university) { %>
+                                            <div class="flex items-center gap-1.5"><span
+                                                    class="material-symbols-outlined text-[14px]">school</span>
+                                                <span class="truncate">
+                                                    <%= student.university %>
+                                                        <% if (student.graduationYear) { %> · <%= student.graduationYear
+                                                                %>
+                                                                <% } %>
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                                <% if (student.domain) { %>
+                                                    <div class="flex items-center gap-1.5"><span
+                                                            class="material-symbols-outlined text-[14px]">category</span><span
+                                                            class="truncate">
+                                                            <%= student.domain %>
+                                                        </span></div>
+                                                    <% } %>
+                                    </div>
+                                    <% if (student.bio) { %>
+                                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                            <%= student.bio %>
+                                        </p>
+                                        <% } %>
+                                            <div class="mt-auto flex gap-2">
+                                                <form method="POST" action="/mentor/requests/<%= conn._id %>/accept"
+                                                    class="flex-1">
+                                                    <button type="submit"
+                                                        class="w-full flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 text-white py-2.5 text-sm font-semibold hover:bg-emerald-600 transition-colors">
+                                                        <span class="material-symbols-outlined text-[15px]">check</span>
+                                                        Accept
+                                                    </button>
+                                                </form>
+                                                <form method="POST" action="/mentor/requests/<%= conn._id %>/reject"
+                                                    class="flex-1">
+                                                    <button type="submit"
+                                                        class="w-full flex items-center justify-center gap-1.5 rounded-xl bg-slate-100 text-slate-600 py-2.5 text-sm font-semibold hover:bg-red-50 hover:text-red-600 transition-colors">
+                                                        <span class="material-symbols-outlined text-[15px]">close</span>
+                                                        Decline
+                                                    </button>
+                                                </form>
+                                            </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </div>
+
+            <!-- Accepted Panel -->
+            <div id="panel-accepted" class="hidden">
+                <% if (accepted.length===0) { %>
+                    <div class="text-center py-20 text-slate-400">
+                        <span class="material-symbols-outlined text-5xl mb-3">diversity_3</span>
+                        <p class="font-medium">No accepted students yet</p>
+                        <p class="text-sm mt-1">Accept pending requests to grow your mentee network</p>
+                    </div>
+                    <% } else { %>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                            <% accepted.forEach(conn=> { const student = conn.student; %>
+                                <div
+                                    class="bg-white rounded-2xl border border-emerald-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-12 w-12 rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center text-emerald-700 font-bold text-lg shrink-0">
+                                            <%= student.name.charAt(0).toUpperCase() %>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h3 class="font-semibold text-slate-900 truncate">
+                                                <%= student.name %>
+                                            </h3>
+                                            <p class="text-xs text-slate-500 truncate">
+                                                <%= student.email %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+                                        <% if (student.university) { %>
+                                            <div class="flex items-center gap-1.5"><span
+                                                    class="material-symbols-outlined text-[14px]">school</span>
+                                                <span class="truncate">
+                                                    <%= student.university %>
+                                                        <% if (student.graduationYear) { %> · <%= student.graduationYear
+                                                                %>
+                                                                <% } %>
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                                <% if (student.domain) { %>
+                                                    <div class="flex items-center gap-1.5"><span
+                                                            class="material-symbols-outlined text-[14px]">category</span><span
+                                                            class="truncate">
+                                                            <%= student.domain %>
+                                                        </span></div>
+                                                    <% } %>
+                                    </div>
+                                    <% if (student.bio) { %>
+                                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                            <%= student.bio %>
+                                        </p>
+                                        <% } %>
+                                            <div
+                                                class="mt-auto flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2.5">
+                                                <span
+                                                    class="material-symbols-outlined text-emerald-500 text-[16px]">check_circle</span>
+                                                <span class="text-sm font-medium text-emerald-700">Mentoring</span>
+                                            </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tab) {
+            ['pending', 'accepted'].forEach(t => {
+                document.getElementById('panel-' + t).classList.add('hidden');
+                const btn = document.getElementById('tab-' + t);
+                btn.classList.remove('text-primary', 'border-primary', 'font-semibold');
+                btn.classList.add('text-slate-500', 'border-transparent', 'font-medium');
+            });
+            document.getElementById('panel-' + tab).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.add('text-primary', 'border-primary', 'font-semibold');
+            activeBtn.classList.remove('text-slate-500', 'border-transparent', 'font-medium');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KampusLegacy – Messages</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-dark": "#0e4bce",
+                        "primary-light": "#e8effd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display h-screen overflow-hidden flex">
+
+    <!-- ─── Sidebar ─────────────────────────────────────────── -->
+    <aside
+        class="w-64 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full">
+        <a href="/" class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+            <div class="size-8 text-primary">
+                <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_msg_mentor)">
+                        <path
+                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                            fill="currentColor"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_msg_mentor">
+                            <rect fill="white" height="48" width="48"></rect>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</span>
+        </a>
+
+        <!-- Mentor Profile snippet -->
+        <div class="p-5 border-b border-slate-200 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+                <div class="min-w-0">
+                    <p class="font-semibold text-slate-900 dark:text-white text-sm truncate">
+                        <%= user.name %>
+                    </p>
+                    <p class="text-xs text-slate-400 truncate">
+                        <%= user.jobTitle || 'Mentor' %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="/mentor/home"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
+                <span class="material-symbols-outlined text-[20px]">home</span> Home
+            </a>
+            <a href="/mentor/dashboard"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard
+            </a>
+            <a href="/mentor/requests"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
+                <span class="material-symbols-outlined text-[20px]">group</span> My Mentees
+            </a>
+            <a href="/mentor/messages"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold text-sm">
+                <span class="material-symbols-outlined text-[20px]">chat_bubble</span> Messages
+            </a>
+        </nav>
+
+        <!-- Logout -->
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+            <a href="/auth/logout"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm font-medium">
+                <span class="material-symbols-outlined text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- ─── Main Content ──────────────────────────────────── -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <!-- Page Header -->
+        <header
+            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-4 shrink-0 flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-[26px]">chat_bubble</span>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 dark:text-white">Messages</h1>
+                <p class="text-xs text-slate-400">Chat with your accepted students</p>
+            </div>
+        </header>
+
+        <!-- Chat Layout -->
+        <div class="flex-1 flex overflow-hidden">
+
+            <!-- Student List -->
+            <div
+                class="w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col">
+                <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+                    <h2 class="font-semibold text-slate-800 dark:text-white text-sm">Your Students</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        <%= connectedStudents.length %> accepted
+                    </p>
+                </div>
+                <div class="flex-1 overflow-y-auto custom-scrollbar">
+                    <% if (connectedStudents.length===0) { %>
+                        <div class="flex flex-col items-center justify-center h-full px-6 py-10 text-center">
+                            <span class="material-symbols-outlined text-slate-300 text-5xl mb-3">group_off</span>
+                            <p class="text-sm font-medium text-slate-500">No accepted students yet.</p>
+                            <a href="/mentor/requests"
+                                class="mt-2 text-xs text-primary font-medium hover:underline">View Requests</a>
+                        </div>
+                        <% } else { %>
+                            <% connectedStudents.forEach((student, idx)=> { %>
+                                <div onclick="openChat('<%= student._id %>', '<%= student.name %>')"
+                                    id="contact-<%= student._id %>"
+                                    class="contact-item px-4 py-3.5 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800 <%= idx === 0 ? 'bg-primary/5 border-l-4 border-primary' : '' %>">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold shrink-0">
+                                            <%= student.name.charAt(0).toUpperCase() %>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="font-semibold text-sm text-slate-900 dark:text-white truncate">
+                                                <%= student.name %>
+                                            </p>
+                                            <p class="text-xs text-slate-400 truncate">
+                                                <%= student.university || student.domain || 'Student' %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                </div>
+            </div>
+
+            <!-- Chat Panel -->
+            <div class="flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-hidden">
+
+                <!-- Placeholder -->
+                <div id="chat-placeholder" class="flex-1 flex flex-col items-center justify-center text-slate-400">
+                    <span class="material-symbols-outlined text-6xl mb-4 text-slate-300">forum</span>
+                    <p class="text-base font-semibold text-slate-500">Select a student to start chatting</p>
+                    <p class="text-sm text-slate-400 mt-1">Messages are only available with accepted students</p>
+                </div>
+
+                <!-- Active Chat -->
+                <div id="active-chat" class="hidden flex-col h-full">
+                    <!-- Header -->
+                    <div
+                        class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3.5 flex items-center gap-3 shrink-0">
+                        <div id="chat-avatar"
+                            class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm">
+                            ?</div>
+                        <div>
+                            <p class="font-bold text-slate-900 dark:text-white text-sm" id="chat-name">–</p>
+                            <p class="text-xs text-slate-400" id="chat-sub">Student</p>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="chat-messages" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+                        <div class="text-center text-xs text-slate-400 py-8">Loading…</div>
+                    </div>
+
+                    <!-- Input -->
+                    <div
+                        class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <input id="msg-input"
+                                class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-full py-3 px-5 text-sm focus:ring-2 focus:ring-primary"
+                                placeholder="Type your message…" type="text"
+                                onkeydown="if(event.key==='Enter') sendMessage()" />
+                            <button onclick="sendMessage()"
+                                class="p-3 bg-primary hover:bg-primary-dark text-white rounded-full shadow-md transition-colors flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[20px]">send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ─── Chat JS ──────────────────────────────────────── -->
+    <script>
+        let currentUserId = null;
+        let pollInterval = null;
+
+        function openChat(userId, userName) {
+            currentUserId = userId;
+
+            // Highlight contact
+            document.querySelectorAll('.contact-item').forEach(el => {
+                el.classList.remove('bg-primary/5', 'border-l-4', 'border-primary');
+            });
+            const sel = document.getElementById('contact-' + userId);
+            if (sel) sel.classList.add('bg-primary/5', 'border-l-4', 'border-primary');
+
+            // Show active chat
+            document.getElementById('chat-placeholder').classList.add('hidden');
+            const ac = document.getElementById('active-chat');
+            ac.classList.remove('hidden');
+            ac.classList.add('flex');
+
+            // Set header
+            document.getElementById('chat-name').textContent = userName;
+            document.getElementById('chat-avatar').textContent = userName.charAt(0).toUpperCase();
+
+            loadMessages();
+            clearInterval(pollInterval);
+            pollInterval = setInterval(loadMessages, 3000);
+        }
+
+        async function loadMessages() {
+            if (!currentUserId) return;
+            try {
+                const res = await fetch('/api/messages/' + currentUserId);
+                const data = await res.json();
+                renderMessages(data.messages || []);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderMessages(messages) {
+            const box = document.getElementById('chat-messages');
+            if (!messages.length) {
+                box.innerHTML = '<div class="text-center text-xs text-slate-400 py-10">No messages yet. Start the conversation!</div>';
+                return;
+            }
+            const name = document.getElementById('chat-name').textContent;
+            box.innerHTML = messages.map(m => {
+                if (m.mine) {
+                    return `<div class="flex flex-row-reverse gap-3">
+                        <div class="flex flex-col items-end gap-1 max-w-[70%]">
+                            <div class="bg-primary text-white px-4 py-2.5 rounded-2xl rounded-tr-none text-sm shadow">${esc(m.content)}</div>
+                            <span class="text-[10px] text-slate-400">${m.time}</span>
+                        </div>
+                    </div>`;
+                } else {
+                    return `<div class="flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 font-bold text-xs shrink-0 mt-1">${esc(name.charAt(0))}</div>
+                        <div class="flex flex-col gap-1 max-w-[70%]">
+                            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 rounded-2xl rounded-tl-none text-sm text-slate-700 dark:text-slate-200 shadow-sm">${esc(m.content)}</div>
+                            <span class="text-[10px] text-slate-400 ml-1">${m.time}</span>
+                        </div>
+                    </div>`;
+                }
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const content = input.value.trim();
+            if (!content || !currentUserId) return;
+            input.value = '';
+            try {
+                await fetch('/api/messages/' + currentUserId, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content }),
+                });
+                await loadMessages();
+            } catch (e) { console.error(e); }
+        }
+
+        function esc(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const first = document.querySelector('.contact-item');
+            if (first) first.click();
+        });
+    </script>
+</body>
+
+</html>

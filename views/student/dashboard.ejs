@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KampusLegacy - Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-content": "#ffffff",
+                        "primary-dark": "#0e4bce",
+                        "primary-light": "#e8effd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for chat area */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200 h-screen overflow-hidden flex flex-col">
+    <!-- Top Navigation Bar -->
+    <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shrink-0 z-20">
+        <div class="flex items-center gap-8">
+            <a href="/" class="flex items-center gap-3 text-slate-900 dark:text-white">
+                <div class="size-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight">KampusLegacy</h2>
+            </a>
+            <div class="hidden md:flex items-center w-full max-w-md">
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <span class="material-symbols-outlined text-[20px]">search</span>
+                    </div>
+                    <input
+                        class="bg-slate-100 dark:bg-slate-800 border-none text-slate-900 dark:text-slate-100 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5"
+                        placeholder="Search mentors, resources..." required="" type="text" />
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <nav class="hidden lg:flex items-center gap-6 mr-4">
+                <a class="text-primary font-semibold text-sm" href="#">Dashboard</a>
+                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
+                    href="#">Mentors</a>
+                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
+                    href="#">Resources</a>
+                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
+                    href="#">Jobs</a>
+            </nav>
+            <button
+                class="relative p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-2 right-2 flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
+            </button>
+            <button
+                class="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <img class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 object-cover"
+                    data-alt="User profile picture of a student"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvOAoxCJWPgBn-bW8am-n7Eb_Xxj9i6dko9lFj3lNqvs5XjGKg3K8lO2tMlWeCzhif2yChjsW7MDtK0cthFTAJ3pz0xXmNbEcndNPjsgImajpvbCts-bEqFTWjtKrC2bCgYw1wpRDqWlHhtVTYPEOQGFTMpDMrglMeZD4HIELZmoEtPrVF2Z_ieN8d5suF3hON_4xTP7zS8ZF_DB9LSHGh2C7guV4WB_b6N0HU9xH5badNe_TzAEmxlNDeQv31jfEsNtp2OFjkDng" />
+                <span class="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">expand_more</span>
+            </button>
+        </div>
+    </header>
+    <!-- Main Layout -->
+    <main class="flex flex-1 overflow-hidden">
+        <!-- Left Sidebar (Collapsed on mobile, icons only/labels) -->
+        <aside
+            class="hidden md:flex w-20 lg:w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+            <div class="p-6">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 px-2 hidden lg:block">Menu
+                </p>
+                <div class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="/student/home">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="hidden lg:block">Home</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium"
+                        href="/student/dashboard">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span class="hidden lg:block">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="/student/mentors">
+                        <span class="material-symbols-outlined">group</span>
+                        <span class="hidden lg:block">Mentors</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">work</span>
+                        <span class="hidden lg:block">Jobs &amp; Internships</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        <span class="hidden lg:block">Events</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">folder_open</span>
+                        <span class="hidden lg:block">Resources</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">forum</span>
+                        <span class="hidden lg:block">Community</span>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="hidden lg:block">Settings</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg font-medium transition-colors"
+                    href="/auth/logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="hidden lg:block">Log Out</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+            <!-- Dashboard Content Scrollable -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
+                <!-- Welcome & Stats Section -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome back, <%=
+                            user.name.split(' ')[0] %></h1>
+                    <p class="text-slate-500 dark:text-slate-400 mb-6">Here' s what's happening with your mentorship
+                            journey today.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Stat Card 1 -->
+                                <div
+                                    class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium text-sm">Mentorship
+                                            Hours</span>
+                                        <span
+                                            class="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 p-2 rounded-lg">
+                                            <span class="material-symbols-outlined text-[20px]">schedule</span>
+                                        </span>
+                                    </div>
+                                    <div class="flex items-end gap-3 mt-auto">
+                                        <span
+                                            class="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">12.5</span>
+                                        <span
+                                            class="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-1 flex items-center">
+                                            <span
+                                                class="material-symbols-outlined text-[16px] mr-0.5">trending_up</span>
+                                            +2 hrs
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-2">Total active hours this month</p>
+                                </div>
+                                <!-- Stat Card 2 -->
+                                <div
+                                    class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium text-sm">Resources
+                                            Completed</span>
+                                        <span
+                                            class="bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300 p-2 rounded-lg">
+                                            <span class="material-symbols-outlined text-[20px]">library_books</span>
+                                        </span>
+                                    </div>
+                                    <div class="flex items-end gap-3 mt-auto">
+                                        <span
+                                            class="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">4</span>
+                                        <span
+                                            class="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-1 flex items-center">
+                                            <span
+                                                class="material-symbols-outlined text-[16px] mr-0.5">check_circle</span>
+                                            +1 new
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-2">Out of 10 enrolled courses</p>
+                                </div>
+                                <!-- Stat Card 3 -->
+                                <div
+                                    class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span
+                                            class="text-slate-500 dark:text-slate-400 font-medium text-sm">Applications
+                                            Sent</span>
+                                        <span
+                                            class="bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300 p-2 rounded-lg">
+                                            <span class="material-symbols-outlined text-[20px]">send</span>
+                                        </span>
+                                    </div>
+                                    <div class="flex items-end gap-3 mt-auto">
+                                        <span
+                                            class="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">8</span>
+                                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
+                                            3 Pending
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-2">Last sent 2 days ago</p>
+                                </div>
+                            </div>
+                </div>
+                <!-- Main Layout Grid: Chat & Resources -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 h-[600px] mb-6">
+                    <!-- Chat Interface (Spans 2 columns) -->
+                    <div
+                        class="xl:col-span-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex overflow-hidden h-full">
+                        <!-- Chat Sidebar (List of Connected Mentors) -->
+                        <div
+                            class="w-1/3 min-w-[180px] border-r border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/50">
+                            <div class="p-4 border-b border-slate-200 dark:border-slate-700">
+                                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Messages</h3>
+                                <p class="text-[11px] text-slate-400 mt-0.5">Connected mentors</p>
+                            </div>
+                            <div class="flex-1 overflow-y-auto custom-scrollbar">
+                                <% if (connectedMentors.length===0) { %>
+                                    <div class="flex flex-col items-center justify-center h-full px-4 py-8 text-center">
+                                        <span
+                                            class="material-symbols-outlined text-slate-300 text-4xl mb-2">chat_bubble</span>
+                                        <p class="text-xs text-slate-400">No connections yet.</p>
+                                        <a href="/student/mentors"
+                                            class="mt-2 text-xs text-primary font-medium hover:underline">Find a
+                                            mentor</a>
+                                    </div>
+                                    <% } else { %>
+                                        <% connectedMentors.forEach((mentor, idx)=> { %>
+                                            <div onclick="openChat('<%= mentor._id %>', '<%= mentor.name %>')"
+                                                id="contact-<%= mentor._id %>"
+                                                class="contact-item px-4 py-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors <%= idx === 0 ? 'bg-white dark:bg-slate-700 border-l-4 border-primary' : '' %>">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="relative shrink-0">
+                                                        <div
+                                                            class="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">
+                                                            <%= mentor.name.charAt(0).toUpperCase() %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <h4
+                                                            class="font-semibold text-sm text-slate-900 dark:text-white truncate">
+                                                            <%= mentor.name %>
+                                                        </h4>
+                                                        <p class="text-xs text-slate-500 truncate">
+                                                            <%= mentor.jobTitle || mentor.domain || 'Mentor' %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                                <% } %>
+                            </div>
+                        </div>
+                        <!-- Chat Area -->
+                        <div class="flex-1 flex flex-col bg-white dark:bg-slate-800" id="chat-area">
+                            <!-- Placeholder when no contact selected -->
+                            <div id="chat-placeholder"
+                                class="flex-1 flex flex-col items-center justify-center text-slate-400">
+                                <span class="material-symbols-outlined text-5xl mb-3">forum</span>
+                                <p class="font-medium text-sm">Select a mentor to start chatting</p>
+                            </div>
+                            <!-- Active chat panel (hidden until mentor selected) -->
+                            <div id="active-chat" class="hidden flex-1 flex flex-col h-full">
+                                <!-- Chat Header -->
+                                <div
+                                    class="h-14 px-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between shrink-0">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm"
+                                            id="chat-avatar">?</div>
+                                        <h3 class="font-bold text-slate-900 dark:text-white text-sm" id="chat-name">–
+                                        </h3>
+                                    </div>
+                                </div>
+                                <!-- Chat Messages -->
+                                <div class="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-3 bg-slate-50/50 dark:bg-slate-900/30"
+                                    id="chat-messages">
+                                    <div class="text-center text-xs text-slate-400 py-8">Loading messages…</div>
+                                </div>
+                                <!-- Input Area -->
+                                <div
+                                    class="p-3 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shrink-0">
+                                    <div class="flex items-center gap-2">
+                                        <input id="msg-input"
+                                            class="flex-1 bg-slate-100 dark:bg-slate-900 border-none rounded-full py-2.5 px-4 text-sm focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-slate-800"
+                                            placeholder="Type your message…" type="text"
+                                            onkeydown="if(event.key==='Enter') sendMessage()" />
+                                        <button onclick="sendMessage()"
+                                            class="p-2.5 bg-primary hover:bg-blue-700 text-white rounded-full shadow transition-colors flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-[20px]">send</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enrolled Resources List (1 Column) -->
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-full overflow-hidden">
+                        <div
+                            class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Enrolled Resources</h3>
+                            <a class="text-xs font-semibold text-primary hover:text-primary-dark" href="#">View All</a>
+                        </div>
+                        <div class="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-4">
+                            <!-- Resource Card 1 -->
+                            <div class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 shrink-0 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
+                                    <span class="material-symbols-outlined text-[28px]">analytics</span>
+                                </div>
+                                <div class="flex-1 min-w-0 flex flex-col justify-center">
+                                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-1 truncate">Intro
+                                        to Data Science</h4>
+                                    <div class="flex justify-between items-center text-xs text-slate-500 mb-1.5">
+                                        <span>Module 4/6</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">75%</span>
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-primary h-1.5 rounded-full" style="width:75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="border-slate-100 dark:border-slate-700/50" />
+                            <!-- Resource Card 2 -->
+                            <div class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 shrink-0 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 transition-colors">
+                                    <span class="material-symbols-outlined text-[28px]">description</span>
+                                </div>
+                                <div class="flex-1 min-w-0 flex flex-col justify-center">
+                                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-1 truncate">
+                                        Resume Writing Workshop</h4>
+                                    <div class="flex justify-between items-center text-xs text-slate-500 mb-1.5">
+                                        <span>Part 1/3</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">30%</span>
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-indigo-500 h-1.5 rounded-full" style="width:30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="border-slate-100 dark:border-slate-700/50" />
+                            <!-- Resource Card 3 -->
+                            <div class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 shrink-0 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/40 transition-colors">
+                                    <span class="material-symbols-outlined text-[28px]">campaign</span>
+                                </div>
+                                <div class="flex-1 min-w-0 flex flex-col justify-center">
+                                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-1 truncate">Mock
+                                        Interview Prep</h4>
+                                    <div class="flex justify-between items-center text-xs text-slate-500 mb-1.5">
+                                        <span>Not Started</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">0%</span>
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-emerald-500 h-1.5 rounded-full" style="width:0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="border-slate-100 dark:border-slate-700/50" />
+                            <!-- Resource Card 4 -->
+                            <div class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 shrink-0 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 transition-colors">
+                                    <span class="material-symbols-outlined text-[28px]">code</span>
+                                </div>
+                                <div class="flex-1 min-w-0 flex flex-col justify-center">
+                                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-1 truncate">
+                                        Advanced Python Algorithms</h4>
+                                    <div class="flex justify-between items-center text-xs text-slate-500 mb-1.5">
+                                        <span>Module 2/10</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">15%</span>
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-orange-500 h-1.5 rounded-full" style="width:15%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                            <button
+                                class="w-full py-2 px-4 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                                Browse Catalog
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ─── Chat JS ─────────────────────────────────────────── -->
+    <script>
+        let currentUserId = null;
+        let pollInterval = null;
+
+        function openChat(userId, userName) {
+            currentUserId = userId;
+
+            // Highlight selected contact
+            document.querySelectorAll('.contact-item').forEach(el => {
+                el.classList.remove('bg-white', 'dark:bg-slate-700', 'border-l-4', 'border-primary');
+            });
+            const selected = document.getElementById('contact-' + userId);
+            if (selected) {
+                selected.classList.add('bg-white', 'dark:bg-slate-700', 'border-l-4', 'border-primary');
+            }
+
+            // Show chat panel
+            document.getElementById('chat-placeholder').classList.add('hidden');
+            const activeChat = document.getElementById('active-chat');
+            activeChat.classList.remove('hidden');
+            activeChat.classList.add('flex');
+
+            // Set header
+            document.getElementById('chat-name').textContent = userName;
+            document.getElementById('chat-avatar').textContent = userName.charAt(0).toUpperCase();
+
+            // Load messages
+            loadMessages();
+
+            // Start polling
+            clearInterval(pollInterval);
+            pollInterval = setInterval(loadMessages, 3000);
+        }
+
+        async function loadMessages() {
+            if (!currentUserId) return;
+            try {
+                const res = await fetch('/api/messages/' + currentUserId);
+                const data = await res.json();
+                renderMessages(data.messages || []);
+            } catch (e) {
+                console.error('Load error:', e);
+            }
+        }
+
+        function renderMessages(messages) {
+            const box = document.getElementById('chat-messages');
+            if (messages.length === 0) {
+                box.innerHTML = '<div class="text-center text-xs text-slate-400 py-8">No messages yet. Say hello! 👋</div>';
+                return;
+            }
+            box.innerHTML = messages.map(m => {
+                if (m.mine) {
+                    return `<div class="flex flex-row-reverse gap-2">
+                        <div class="flex flex-col items-end gap-1 max-w-[75%]">
+                            <div class="bg-primary text-white px-3 py-2 rounded-2xl rounded-tr-none shadow-sm text-sm">${escHtml(m.content)}</div>
+                            <span class="text-[10px] text-slate-400">${m.time}</span>
+                        </div>
+                    </div>`;
+                } else {
+                    return `<div class="flex gap-2">
+                        <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs shrink-0 mt-1">${escHtml(document.getElementById('chat-name').textContent.charAt(0))}</div>
+                        <div class="flex flex-col gap-1 max-w-[75%]">
+                            <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-2 rounded-2xl rounded-tl-none shadow-sm text-sm text-slate-700 dark:text-slate-200">${escHtml(m.content)}</div>
+                            <span class="text-[10px] text-slate-400 ml-1">${m.time}</span>
+                        </div>
+                    </div>`;
+                }
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const content = input.value.trim();
+            if (!content || !currentUserId) return;
+            input.value = '';
+            try {
+                const res = await fetch('/api/messages/' + currentUserId, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content }),
+                });
+                const data = await res.json();
+                if (data.message) {
+                    // Optimistically append
+                    await loadMessages();
+                }
+            } catch (e) {
+                console.error('Send error:', e);
+            }
+        }
+
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // Auto-open first mentor if any
+        window.addEventListener('DOMContentLoaded', () => {
+            const first = document.querySelector('.contact-item');
+            if (first) first.click();
+        });
+    </script>
+</body>
+
+</html>

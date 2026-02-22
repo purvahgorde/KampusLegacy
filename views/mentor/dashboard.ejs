@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mentor Dashboard - KampusLegacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+    <!-- Header / Navigation -->
+    <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shadow-sm">
+        <div class="flex items-center gap-8">
+            <a href="/" class="flex items-center gap-3 text-slate-900 dark:text-white">
+                <div class="size-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">KampusLegacy</h2>
+            </a>
+            <!-- Search Bar -->
+            <label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+                <div
+                    class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800 transition-colors focus-within:ring-2 focus-within:ring-primary/50">
+                    <div
+                        class="text-slate-500 dark:text-slate-400 flex border-none items-center justify-center pl-3 rounded-l-lg border-r-0">
+                        <span class="material-symbols-outlined text-xl">search</span>
+                    </div>
+                    <input
+                        class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg bg-transparent text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-3 pl-2 text-sm font-normal leading-normal"
+                        placeholder="Search resources..." value="" />
+                </div>
+            </label>
+        </div>
+        <div class="flex flex-1 justify-end gap-6 items-center">
+            <nav class="hidden lg:flex items-center gap-6">
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
+                    href="/mentor/home">Home</a>
+                <a class="text-primary font-semibold text-sm leading-normal" href="/mentor/dashboard">Dashboard</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
+                    href="/mentor/requests">My Mentees</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
+                    href="/mentor/messages">Messages</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
+                    href="#">Schedule</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
+                    href="#">Resources</a>
+            </nav>
+            <div class="flex gap-2 items-center">
+                <button
+                    class="flex size-10 cursor-pointer items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+                <button
+                    class="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 bg-slate-200 dark:bg-slate-700"
+                        data-alt="Profile picture of a mentor"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAP7Q2-zGzN3VCN64ehRyHKX_TEJUjnr44ApBQk1zJ9H0plRCZ2BeQAHy7w8KiGDY-pmJkGd1ZrHrLeaBl5VVua3v8HJdZr-oGDGjhmPGmFRp26bouX7eenN6NF4hlaKIOAa-ULngL4XLw034f6ncU8b5TnxAZ-rj_3McYIfE3Lx_0ZFr0O8fA1pabxoT5GTPWqXvsTAeMyXCmLA-4i6eAl0LZrsBxWY3kJopuTV0kjgLapI8oaD0dO0FsrR597tNJTbWJ_TCRL9Qg");'>
+                    </div>
+                    <span class="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-200">
+                        <%= user.name %>
+                    </span>
+                    <span class="material-symbols-outlined text-slate-500 text-lg">expand_more</span>
+                </button>
+                <a href="/auth/logout"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
+                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                    <span class="hidden sm:block">Log Out</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-65px)] overflow-hidden">
+        <!-- Left Column: Main Dashboard Content -->
+        <div class="flex-1 overflow-y-auto p-6 lg:p-10 scrollbar-thin">
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Mentor Dashboard</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-base">Manage your resources and track student
+                        progress.</p>
+                </div>
+                <button
+                    class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+                    <span>Upload Resource</span>
+                </button>
+            </div>
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+                <!-- Stat Card 1 -->
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+                            <span class="material-symbols-outlined">group</span>
+                        </div>
+                        <span
+                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
+                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+                        </span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Students Mentored</p>
+                    <p class="text-slate-900 dark:text-white text-2xl font-bold">12</p>
+                </div>
+                <!-- Stat Card 2 -->
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div
+                            class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
+                            <span class="material-symbols-outlined">library_books</span>
+                        </div>
+                        <span
+                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
+                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +5%
+                        </span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Resources</p>
+                    <p class="text-slate-900 dark:text-white text-2xl font-bold">24</p>
+                </div>
+                <!-- Stat Card 3 -->
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </div>
+                        <span
+                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
+                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +15%
+                        </span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Views</p>
+                    <p class="text-slate-900 dark:text-white text-2xl font-bold">1.2k</p>
+                </div>
+                <!-- Stat Card 4 -->
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div
+                            class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+                            <span class="material-symbols-outlined">download</span>
+                        </div>
+                        <span
+                            class="flex items-center text-slate-500 dark:text-slate-400 text-xs font-medium bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
+                            <span class="material-symbols-outlined text-sm mr-1">remove</span> 0%
+                        </span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Downloads</p>
+                    <p class="text-slate-900 dark:text-white text-2xl font-bold">450</p>
+                </div>
+            </div>
+            <!-- Resource Table Section -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between px-1">
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">My Uploaded Resources</h2>
+                    <button class="text-primary text-sm font-medium hover:underline">View All</button>
+                </div>
+                <div
+                    class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+                                    <th class="px-6 py-4 min-w-[240px]">Resource Title</th>
+                                    <th class="px-6 py-4 min-w-[140px]">Date Uploaded</th>
+                                    <th class="px-6 py-4 min-w-[140px]">Category</th>
+                                    <th class="px-6 py-4 text-center">Views</th>
+                                    <th class="px-6 py-4 text-center">Downloads</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="bg-red-50 dark:bg-red-900/20 p-2 rounded text-red-600 dark:text-red-400">
+                                                <span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Intro to
+                                                    Python.pdf</p>
+                                                <p class="text-xs text-slate-500">2.4 MB</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 24, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/20 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-300">
+                                            Programming
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">340
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">120
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <span class="material-symbols-outlined text-xl">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded text-blue-600 dark:text-blue-400">
+                                                <span class="material-symbols-outlined text-xl">description</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Career
+                                                    Roadmap 2024.docx</p>
+                                                <p class="text-xs text-slate-500">1.1 MB</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Nov 01, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-purple-50 dark:bg-purple-900/20 px-2.5 py-0.5 text-xs font-medium text-purple-700 dark:text-purple-300">
+                                            Career Advice
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">210
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">85</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <span class="material-symbols-outlined text-xl">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="bg-amber-50 dark:bg-amber-900/20 p-2 rounded text-amber-600 dark:text-amber-400">
+                                                <span class="material-symbols-outlined text-xl">folder_zip</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Resume
+                                                    Template.sketch</p>
+                                                <p class="text-xs text-slate-500">14 MB</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Nov 15, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-900/20 px-2.5 py-0.5 text-xs font-medium text-orange-700 dark:text-orange-300">
+                                            Design
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">150
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">45</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <span class="material-symbols-outlined text-xl">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="bg-red-50 dark:bg-red-900/20 p-2 rounded text-red-600 dark:text-red-400">
+                                                <span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900 dark:text-white">System
+                                                    Design Basics.pdf</p>
+                                                <p class="text-xs text-slate-500">5.8 MB</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Dec 05, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-cyan-50 dark:bg-cyan-900/20 px-2.5 py-0.5 text-xs font-medium text-cyan-700 dark:text-cyan-300">
+                                            Engineering
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">500
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">190
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <span class="material-symbols-outlined text-xl">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div
+                        class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3 bg-slate-50 dark:bg-slate-900">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Showing 1-4 of 24 resources</span>
+                        <div class="flex gap-2">
+                            <button
+                                class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                            <button
+                                class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right Column: Chat & Messages -->
+        <aside
+            class="w-full lg:w-96 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shadow-sm z-10">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h3 class="font-bold text-slate-900 dark:text-white text-lg">Messages</h3>
+                <button class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-xl">edit_square</span>
+                </button>
+            </div>
+            <!-- Active Chat Area -->
+            <div class="flex-1 flex flex-col h-[500px] lg:h-auto">
+                <!-- Chat History / List -->
+                <div class="overflow-y-auto flex-1 p-2 space-y-1">
+                    <!-- Chat Item: Active -->
+                    <div
+                        class="flex items-center gap-3 p-3 rounded-lg bg-primary/5 hover:bg-primary/10 cursor-pointer transition-colors border-l-4 border-primary">
+                        <div class="relative">
+                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of Sarah J"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClCYlj_OQouT55wgPtxBsOjgJMBGfqTXNtY1uT7gkTLpC99Ty-OuszT-DAwe6YGxaIFLt-mDdMxvIddUvvLF6g8ElL1HBBaydCzHd4HkNTSTM6bLjvAyvo84Wtj5n2D93alI5mJM-AvT3nsSBd5OX78QPnUdvGnzjs9-aKhM4hHqLZ7jAMSVfhyFbA3i3h8qX7AznpMneeI8nuQRmVrjh92gYYtAePUShvqhqMv-8IoOJUHyQ-Px03-nKxkr7_ln4cFrHQ9q8-7Gw')">
+                            </div>
+                            <span
+                                class="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 border-2 border-white dark:border-slate-900"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline mb-0.5">
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Sarah Jenkins
+                                </p>
+                                <span class="text-[10px] text-slate-400">10:42 AM</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Thanks for the resume review!
+                                It was super helpful.</p>
+                        </div>
+                    </div>
+                    <!-- Chat Item -->
+                    <div
+                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-l-4 border-transparent">
+                        <div class="relative">
+                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of Michael C"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2KXvs7u6EbgxZkZvd5G3nWBfSOWtK-sqNzH3WlOGIWF-LvYIhbKBi37NacBhVo3dBEjiL4fmMrfSF7BFxDYXotDN3UfHj1ZrP2dhfOtEWDEOpgGx25c-ufI5ZjQiMkMaYiVoBePdTBjy5aZNh-8gph8qQSKNA7ZpRrh8TQSaVMtWEOQNinpSlbGqwN2TfKbpmbOc7bTdPrZDiMAy2TFMW6xh9gsZpWxV6-xFvNFrG1SVXFbPYN23HK4Q68MoSxfARIw_rC7ux3cE')">
+                            </div>
+                            <span
+                                class="absolute bottom-0 right-0 size-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline mb-0.5">
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Michael Chen
+                                </p>
+                                <span class="text-[10px] text-slate-400">Yesterday</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">When is our next session
+                                scheduled?</p>
+                        </div>
+                        <div
+                            class="size-5 flex items-center justify-center bg-primary rounded-full text-[10px] text-white font-bold">
+                            1</div>
+                    </div>
+                    <!-- Chat Item -->
+                    <div
+                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-l-4 border-transparent">
+                        <div class="relative">
+                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of David K"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmco282d1WK8EolRGD36UwLJygo8XnqfFJwJ978bjxeNkHqJEunQRIGiuucgXk2tqmq0S_wNXczuQ6xzG870uuYwaistlQTEGgaptNvm8HoBniQHLgjv-C5Ybg6x0GR8wpSDM56mJpjKeIyZy2fn-w0ZZWkrCm3CX9f7MQ1IzmzeC7p7z9_TLDmUshdmiorBbn7vzVVVw15mag_B7K-svAQe00eH2VES14hkoE6Z7lAqCopREo_0KbV4nJVRbAfeu249vgZAruStU')">
+                            </div>
+                            <span
+                                class="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 border-2 border-white dark:border-slate-900"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline mb-0.5">
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">David Kim</p>
+                                <span class="text-[10px] text-slate-400">Tue</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">I've uploaded the assignment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chat Input Area (Mini) -->
+                <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Current Chat: Sarah
+                            Jenkins</div>
+                        <div class="relative">
+                            <input
+                                class="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none shadow-sm"
+                                placeholder="Type a message..." type="text" />
+                            <button
+                                class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:text-primary/80 p-1.5 rounded-full hover:bg-primary/10 transition-all">
+                                <span class="material-symbols-outlined text-xl">send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+</body>
+
+</html>

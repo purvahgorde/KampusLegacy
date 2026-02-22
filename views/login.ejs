@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KampusLegacy - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased h-screen w-full overflow-hidden">
+    <div class="flex h-full w-full flex-row">
+        <!-- Left Section: Form -->
+        <div
+            class="flex w-full lg:w-1/2 flex-col justify-center overflow-y-auto bg-white dark:bg-background-dark px-6 py-10 sm:px-12 xl:px-24">
+            <!-- Logo area -->
+            <a href="/" class="mb-12 flex items-center gap-2">
+                <div class="h-10 w-10 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</span>
+            </a>
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 id="form-header" class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+                    Welcome back</h1>
+                <p id="form-subheader" class="text-slate-500 dark:text-slate-400">Please enter your details to sign in.
+                </p>
+            </div>
+
+            <!-- Error message -->
+            <% if (typeof error !=='undefined' && error) { %>
+                <div class="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-red-600 dark:text-red-400 text-lg">error</span>
+                        <p class="text-sm font-medium text-red-700 dark:text-red-300">
+                            <%= error %>
+                        </p>
+                    </div>
+                </div>
+                <% } %>
+
+                    <!-- Role Switcher -->
+                    <div class="mb-8">
+                        <div
+                            class="flex h-12 w-full items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
+                            <label
+                                class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-4 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary dark:has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-medium transition-all duration-200">
+                                <span class="mr-2">Student</span>
+                                <input checked="" class="invisible w-0 absolute" name="role" type="radio"
+                                    value="student" form="auth-form" />
+                                <span class="material-symbols-outlined text-lg">backpack</span>
+                            </label>
+                            <label
+                                class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-4 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary dark:has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-medium transition-all duration-200">
+                                <span class="mr-2">Mentor</span>
+                                <input class="invisible w-0 absolute" name="role" type="radio" value="mentor"
+                                    form="auth-form" />
+                                <span class="material-symbols-outlined text-lg">cast_for_education</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Form -->
+                    <form id="auth-form" class="flex flex-col gap-5" method="POST" action="/auth/login">
+                        <!-- Name field (signup only) -->
+                        <div id="name-field" class="flex flex-col gap-1.5 hidden">
+                            <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Full name</label>
+                            <input id="name-input" name="name"
+                                class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary sm:text-sm h-11"
+                                placeholder="John Doe" type="text" />
+                        </div>
+                        <!-- Extra profile fields (signup only) -->
+                        <div id="profile-fields" class="hidden flex flex-col gap-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex flex-col gap-1.5">
+                                    <label
+                                        class="text-sm font-medium text-slate-700 dark:text-slate-300">University</label>
+                                    <input name="university"
+                                        class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm h-11"
+                                        placeholder="MIT, IIT, etc." type="text" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Graduation
+                                        Year</label>
+                                    <input name="graduationYear"
+                                        class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm h-11"
+                                        placeholder="2025" type="number" min="2000" max="2035" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Domain / Area of
+                                    Interest</label>
+                                <input name="domain"
+                                    class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm h-11"
+                                    placeholder="e.g. Software Engineering, Product, Finance" type="text" />
+                            </div>
+                            <!-- Mentor-only fields -->
+                            <div id="mentor-fields" class="hidden flex flex-col gap-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Job
+                                            Title</label>
+                                        <input name="jobTitle"
+                                            class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm h-11"
+                                            placeholder="Senior Engineer" type="text" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label
+                                            class="text-sm font-medium text-slate-700 dark:text-slate-300">Company</label>
+                                        <input name="company"
+                                            class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm h-11"
+                                            placeholder="Google, Microsoft…" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Bio <span
+                                        class="text-slate-400 font-normal">(optional)</span></label>
+                                <textarea name="bio" rows="3"
+                                    class="form-textarea block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm resize-none"
+                                    placeholder="Tell mentors/students a bit about yourself…"></textarea>
+                            </div>
+                        </div>
+                        <!-- Inputs -->
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Email address</label>
+                            <input name="email"
+                                class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary sm:text-sm h-11"
+                                placeholder="student@university.edu" type="email" required />
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+                                <a id="forgot-link" class="text-sm font-medium text-primary hover:text-primary/80"
+                                    href="#">Forgot password?</a>
+                            </div>
+                            <input name="password"
+                                class="form-input block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary sm:text-sm h-11"
+                                placeholder="••••••••" type="password" required />
+                        </div>
+                        <!-- Submit -->
+                        <button id="submit-btn"
+                            class="mt-2 flex w-full items-center justify-center rounded-lg bg-primary py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all"
+                            type="submit">
+                            Log In
+                        </button>
+                    </form>
+                    <p class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                        <span id="toggle-text">Don't have an account?</span>
+                        <a id="toggle-link" class="font-semibold text-primary hover:text-primary/80 cursor-pointer">
+                            Sign up</a>
+                    </p>
+                    <!-- Footer links -->
+                    <div class="mt-12 flex justify-center space-x-6 text-xs text-slate-400 dark:text-slate-500">
+                        <a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Terms</a>
+                        <a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Privacy</a>
+                        <a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Help</a>
+                    </div>
+        </div>
+        <!-- Right Section: Visual (Hidden on mobile) -->
+        <div class="relative hidden w-0 flex-1 lg:block">
+            <!-- Background Image -->
+            <div class="absolute inset-0 h-full w-full object-cover bg-cover bg-center"
+                data-alt="Group of diverse students collaborating around a laptop in a modern library"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhr2KXGhj4jCekqQzmjnQxxNVW7bQiZkkcJzk7tGejCQxC0yqT5a4EMoPskV5k2XbNBuROPYc7ySZvRpw5BM0_FP38NgjtXPhKYfMjOveldbh6t9Ccb2t9BmFmz9bzJTbX7koelSIEzyuoYbt9R1CCN6mFvVrFhk530Gz83gmQ8f3ahMYKgxvAtbueb1cCUaiRwhKoe27u_5kjrTY6DFLcyGhhMSGhcjOlDArcz1ig-nGiR-Sc0uvfYLYRy6FGWwQdA38paQc2IdM");'>
+            </div>
+            <!-- Overlay Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/40 mix-blend-multiply"></div>
+            <!-- Content over image -->
+            <div class="absolute inset-0 flex flex-col justify-end p-16 pb-24 text-white">
+                <div class="max-w-md space-y-6">
+                    <div
+                        class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white backdrop-blur-md border border-white/20">
+                        <span class="mr-2">🎉</span> Trusted by 50+ Universities
+                    </div>
+                    <h2 class="text-4xl font-bold leading-tight">Build your legacy today.</h2>
+                    <p class="text-lg text-slate-100/90 leading-relaxed">
+                        Connect with industry mentors, collaborate with peers, and shape your future career path with
+                        guidance from those who've walked it before.
+                    </p>
+                    <!-- Testimonial optional element -->
+                    <div class="pt-6 flex items-center gap-4">
+                        <div class="flex -space-x-3">
+                            <img alt="Student avatar 1"
+                                class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAFKL2gRmys_Yi5vH2GRE44r5rV-zumXBd7OeUmVhOIszxlqbvjOb5qLlPl4H6_2CqEAbOk-yel06_MtH9yCyO6LJx-Ozz7UmW-ESn2wWwxpubeQGg7-Gzu6IF99iWCZTyZwggDAvbfLXFbl-jTgnBe7FOUkZYSxpkFn4XfiGw-4GzmCkT2c4LHHNHjZKU0IXK86LhR570DGwevPLT5lTMztkhtO8J30yRYsEd043v6kAF5VvBk1nFDRubQ2XgqTi4b-r25lljPp0" />
+                            <img alt="Student avatar 2"
+                                class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJN3qwMC6lDwqzelaPX5jISkNBupzMG90eQjAGQaI0Uy2wEhpBXDuL1eTCUcueJXVwiDbsaY-biEvCYxqkt6Jf5ltnKtu-d4F_cIVFrEjhzcKsCwXRgUwxjSPeLXsUzQwnd_stV5j-sJypcLANwV0fmQlcun-9MIbusbyiEudmfOvJ0tCA7Mlhv_3Ib9gcPpsQoMxuZArQV-tEJe-soT6_D3Nt5MRtqKfgLXYGISqtcd4OUaduveNSv35lRW5o1xBBcIRtUx_4lYo" />
+                            <img alt="Student avatar 3"
+                                class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF08kH3T9pPhwDPMeofxuOtgZTpmAG2g2S2BFVro5P8mA08S9VlMe_kEw2C7lGv2H2_8bRFHKBiHOfzbu912is39zfQSnDYa_7Ru0e8ViepIQJ_3QpmWn0AVQyB16I9OaBmfyGtQCIdPGblhBMzJNBgrQp5I1tbG7iynGA9VHo2wx5o0fvFdbAWWWqlPGlB87QkMN9NwJ_hIe4jZiIBSnGULJ3R81FOs3_kP-7CvfGACZMsWFAWoiH2Gg0B8iMp1YrIabLbb_96e4" />
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex text-yellow-400 text-sm">
+                                <span class="material-symbols-outlined text-[16px] leading-none">star</span>
+                                <span class="material-symbols-outlined text-[16px] leading-none">star</span>
+                                <span class="material-symbols-outlined text-[16px] leading-none">star</span>
+                                <span class="material-symbols-outlined text-[16px] leading-none">star</span>
+                                <span class="material-symbols-outlined text-[16px] leading-none">star</span>
+                            </div>
+                            <span class="text-sm font-medium text-white/90">Join 10,000+ others</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Signup toggle script -->
+    <script>
+            (function () {
+                const form = document.getElementById('auth-form');
+                const nameField = document.getElementById('name-field');
+                const nameInput = document.getElementById('name-input');
+                const profileFields = document.getElementById('profile-fields');
+                const mentorFields = document.getElementById('mentor-fields');
+                const submitBtn = document.getElementById('submit-btn');
+                const toggleLink = document.getElementById('toggle-link');
+                const toggleText = document.getElementById('toggle-text');
+                const formHeader = document.getElementById('form-header');
+                const formSubheader = document.getElementById('form-subheader');
+                const forgotLink = document.getElementById('forgot-link');
+                const roleInputs = document.querySelectorAll('input[name="role"]');
+
+                let isSignup = '<%= typeof mode !== "undefined" ? mode : "login" %>' === 'signup';
+
+                function updateMentorFields() {
+                    const selectedRole = document.querySelector('input[name="role"]:checked')?.value;
+                    if (isSignup && selectedRole === 'mentor') {
+                        mentorFields.classList.remove('hidden');
+                        mentorFields.classList.add('flex');
+                    } else {
+                        mentorFields.classList.add('hidden');
+                        mentorFields.classList.remove('flex');
+                    }
+                }
+
+                function updateUI() {
+                    if (isSignup) {
+                        form.action = '/auth/signup';
+                        nameField.classList.remove('hidden');
+                        nameInput.required = true;
+                        profileFields.classList.remove('hidden');
+                        profileFields.classList.add('flex');
+                        submitBtn.textContent = 'Create Account';
+                        toggleText.textContent = 'Already have an account?';
+                        toggleLink.textContent = ' Log in';
+                        formHeader.textContent = 'Create your account';
+                        formSubheader.textContent = 'Sign up to start your journey.';
+                        forgotLink.classList.add('hidden');
+                    } else {
+                        form.action = '/auth/login';
+                        nameField.classList.add('hidden');
+                        nameInput.required = false;
+                        profileFields.classList.add('hidden');
+                        profileFields.classList.remove('flex');
+                        submitBtn.textContent = 'Log In';
+                        toggleText.textContent = "Don't have an account?";
+                        toggleLink.textContent = ' Sign up';
+                        formHeader.textContent = 'Welcome back';
+                        formSubheader.textContent = 'Please enter your details to sign in.';
+                        forgotLink.classList.remove('hidden');
+                    }
+                    updateMentorFields();
+                }
+
+                toggleLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    isSignup = !isSignup;
+                    updateUI();
+                });
+
+                roleInputs.forEach(input => {
+                    input.addEventListener('change', updateMentorFields);
+                });
+
+                updateUI();
+            })();
+    </script>
+</body>
+
+</html>
