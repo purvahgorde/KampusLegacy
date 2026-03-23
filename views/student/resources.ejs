@@ -1,0 +1,383 @@
+<%
+function getFileIcon(mime, name) {
+    var ext = (name || '').split('.').pop().toLowerCase();
+    if ((mime && mime.includes('pdf')) || ext === 'pdf') return { icon: 'picture_as_pdf', bg: 'bg-red-100 dark:bg-red-900/30', color: 'red-600 dark:text-red-400', bgBanner: 'bg-red-50 dark:bg-red-900/10' };
+    if (['doc','docx'].includes(ext)) return { icon: 'description', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'blue-600 dark:text-blue-400', bgBanner: 'bg-blue-50 dark:bg-blue-900/10' };
+    if (['ppt','pptx'].includes(ext)) return { icon: 'slideshow', bg: 'bg-orange-100 dark:bg-orange-900/30', color: 'orange-600 dark:text-orange-400', bgBanner: 'bg-orange-50 dark:bg-orange-900/10' };
+    if (['xls','xlsx','csv'].includes(ext)) return { icon: 'table_chart', bg: 'bg-green-100 dark:bg-green-900/30', color: 'green-600 dark:text-green-400', bgBanner: 'bg-green-50 dark:bg-green-900/10' };
+    if (['mp4','mov','avi'].includes(ext) || (mime && mime.startsWith('video'))) return { icon: 'play_circle', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'purple-600 dark:text-purple-400', bgBanner: 'bg-purple-50 dark:bg-purple-900/10' };
+    if (['jpg','jpeg','png','gif','webp'].includes(ext) || (mime && mime.startsWith('image'))) return { icon: 'image', bg: 'bg-pink-100 dark:bg-pink-900/30', color: 'pink-600 dark:text-pink-400', bgBanner: 'bg-pink-50 dark:bg-pink-900/10' };
+    if (['zip','rar'].includes(ext)) return { icon: 'folder_zip', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'amber-600 dark:text-amber-400', bgBanner: 'bg-amber-50 dark:bg-amber-900/10' };
+    return { icon: 'insert_drive_file', bg: 'bg-slate-100 dark:bg-slate-800', color: 'slate-600 dark:text-slate-400', bgBanner: 'bg-slate-50 dark:bg-slate-800/50' };
+}
+
+function formatSize(b) {
+    if (!b) return '—';
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(1) + ' MB';
+}
+
+function getCategoryStyle(cat) {
+    var m = {
+        'Programming': 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
+        'Career Advice': 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300',
+        'Design': 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
+        'Engineering': 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300',
+        'Data Science': 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300',
+        'Product Management': 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300',
+        'Interview Prep': 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300',
+        'Soft Skills': 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300',
+        'Finance': 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300',
+        'Entrepreneurship': 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
+    };
+    return m[cat] || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+}
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Resources - KampusLegacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#135bec", "background-light": "#f6f6f8", "background-dark": "#101622" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+        .resource-card { transition: transform 0.15s, box-shadow 0.15s; }
+        .resource-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(19,91,236,.12); }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+
+    <!-- Sidebar -->
+    <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
+        <div class="flex flex-col h-full">
+            <div class="p-6">
+                <a href="/" class="flex items-center gap-3 mb-8">
+                    <div class="h-10 w-10 text-primary">
+                        <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_res)">
+                                <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+                            </g>
+                            <defs><clipPath id="clip0_res"><rect fill="white" height="48" width="48"></rect></clipPath></defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Student Portal</p>
+                    </div>
+                </a>
+                <nav class="flex flex-col gap-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/student/home">
+                        <span class="material-symbols-outlined text-[20px]">home</span>
+                        <span class="text-sm">Home</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/student/dashboard">
+                        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        <span class="text-sm">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/student/mentors">
+                        <span class="material-symbols-outlined text-[20px]">verified</span>
+                        <span class="text-sm">Mentors</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+                        <span class="material-symbols-outlined text-[20px]">work</span>
+                        <span class="text-sm">Jobs &amp; Internships</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+                        <span class="material-symbols-outlined text-[20px]">event</span>
+                        <span class="text-sm">Events</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="/student/resources">
+                        <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                        <span class="text-sm">Resources</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+                        <span class="material-symbols-outlined text-[20px]">diversity_3</span>
+                        <span class="text-sm">Community</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
+                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
+                    <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
+                        <p class="text-xs text-slate-500">Student</p>
+                    </div>
+                </div>
+                <a href="/auth/logout" class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors text-sm font-medium">
+                    <span class="material-symbols-outlined">logout</span>Log Out
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Resources</h2>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+                    <input id="search-input" type="text" placeholder="Search resources..."
+                        class="pl-9 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 rounded-lg border-none outline-none focus:ring-2 focus:ring-primary/30 w-56 transition-all" />
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 lg:p-8 scrollbar-thin">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Resources from Your Mentors</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Click any resource card to see details, or download it directly.</p>
+            </div>
+
+            <!-- Category filter pills -->
+            <div class="flex gap-2 flex-wrap mb-6" id="filter-pills">
+                <button onclick="filterCategory('all')" data-cat="all"
+                    class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-all">All</button>
+                <% var cats = []; resources.forEach(function(r){ if(cats.indexOf(r.category)===-1) cats.push(r.category); }); %>
+                <% cats.forEach(function(cat){ %>
+                    <button onclick="filterCategory('<%= cat %>')" data-cat="<%= cat %>"
+                        class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-all">
+                        <%= cat %>
+                    </button>
+                <% }); %>
+            </div>
+
+            <!-- Resource Cards Grid -->
+            <% if (resources.length === 0) { %>
+                <div class="flex flex-col items-center justify-center py-24 text-slate-400">
+                    <span class="material-symbols-outlined text-6xl mb-4 opacity-30">library_books</span>
+                    <p class="text-lg font-semibold">No resources yet</p>
+                    <p class="text-sm mt-1 text-center max-w-xs">Connect with mentors and they will share resources with you here.</p>
+                    <a href="/student/mentors" class="mt-4 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">Find Mentors</a>
+                </div>
+            <% } else { %>
+                <div id="resource-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <% resources.forEach(function(r) { %>
+                        <% var icon = getFileIcon(r.mimeType, r.fileName); %>
+                        <div class="resource-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden cursor-pointer"
+                            data-id="<%= r._id %>"
+                            data-category="<%= r.category %>"
+                            data-title="<%= r.title.toLowerCase() %>"
+                            onclick="openResourceDetail(this)">
+                            <!-- File type banner -->
+                            <div class="h-28 flex items-center justify-center <%= icon.bgBanner %>">
+                                <div class="<%= icon.bg %> p-4 rounded-2xl">
+                                    <span class="material-symbols-outlined text-4xl text-<%= icon.color %>"><%= icon.icon %></span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2 flex-1"><%= r.title %></h3>
+                                    <span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full <%= getCategoryStyle(r.category) %>"><%= r.category %></span>
+                                </div>
+                                <% if (r.description) { %>
+                                    <p class="text-xs text-slate-500 line-clamp-2 mb-3"><%= r.description %></p>
+                                <% } %>
+                                <!-- Mentor info -->
+                                <div class="flex items-center gap-2 mb-3">
+                                    <% if (r.author && r.author.profilePicture) { %>
+                                        <img src="<%= r.author.profilePicture %>" class="w-5 h-5 rounded-full object-cover" alt="Mentor" />
+                                    <% } else { %>
+                                        <div class="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[9px] font-bold">
+                                            <%= r.author ? r.author.name.charAt(0) : 'M' %>
+                                        </div>
+                                    <% } %>
+                                    <span class="text-xs text-slate-500 truncate"><%= r.author ? r.author.name : 'Mentor' %></span>
+                                </div>
+                                <!-- Stats -->
+                                <div class="flex items-center justify-between text-xs text-slate-400">
+                                    <div class="flex items-center gap-2">
+                                        <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">visibility</span> <%= r.views %></span>
+                                        <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">download</span> <%= r.downloads %></span>
+                                    </div>
+                                    <span><%= formatSize(r.fileSize) %></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resource detail data -->
+                        <script type="application/json" id="resource-data-<%= r._id %>">
+                        {
+                            "id": "<%= r._id %>",
+                            "title": "<%= r.title.replace(/"/g, '&quot;') %>",
+                            "description": "<%= (r.description||'').replace(/"/g, '&quot;').replace(/\n/g, ' ') %>",
+                            "category": "<%= r.category %>",
+                            "fileName": "<%= r.fileName.replace(/"/g, '&quot;') %>",
+                            "fileSize": "<%= formatSize(r.fileSize) %>",
+                            "mimeType": "<%= r.mimeType %>",
+                            "filePath": "<%= r.filePath %>",
+                            "views": <%= r.views %>,
+                            "downloads": <%= r.downloads %>,
+                            "authorName": "<%= r.author ? r.author.name.replace(/"/g, '') : 'Mentor' %>",
+                            "authorTitle": "<%= r.author ? ((r.author.jobTitle||'') + (r.author.company ? ' @ '+r.author.company : '')).replace(/"/g, '') : '' %>",
+                            "createdAt": "<%= new Date(r.createdAt).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}) %>",
+                            "iconIcon": "<%= icon.icon %>",
+                            "iconBg": "<%= icon.bg %>",
+                            "iconColor": "<%= icon.color %>"
+                        }
+                        </script>
+                    <% }); %>
+                </div>
+            <% } %>
+        </main>
+    </div>
+</div>
+
+<!-- Resource Detail Modal -->
+<div id="detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+    <div class="absolute inset-0 bg-slate-900/60 modal-backdrop" onclick="closeDetail()"></div>
+    <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+            <h3 id="detail-title" class="text-base font-bold text-slate-900 dark:text-white pr-4 line-clamp-1">Resource Details</h3>
+            <button onclick="closeDetail()" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors shrink-0">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1">
+            <div id="detail-banner" class="h-36 flex items-center justify-center bg-slate-50 dark:bg-slate-800">
+                <div id="detail-icon-wrap" class="p-5 rounded-2xl bg-slate-100 dark:bg-slate-700">
+                    <span id="detail-icon" class="material-symbols-outlined text-5xl text-slate-400">insert_drive_file</span>
+                </div>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <h2 id="detail-title-main" class="text-xl font-bold text-slate-900 dark:text-white"></h2>
+                    <span id="detail-category" class="inline-block mt-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600"></span>
+                </div>
+                <p id="detail-desc" class="text-sm text-slate-600 dark:text-slate-400 hidden"></p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
+                        <p class="text-xs text-slate-500 font-medium mb-0.5">File</p>
+                        <p id="detail-filename" class="text-sm font-semibold text-slate-900 dark:text-white truncate"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
+                        <p class="text-xs text-slate-500 font-medium mb-0.5">Size</p>
+                        <p id="detail-size" class="text-sm font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
+                        <p class="text-xs text-slate-500 font-medium mb-0.5">Views</p>
+                        <p id="detail-views" class="text-sm font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
+                        <p class="text-xs text-slate-500 font-medium mb-0.5">Downloads</p>
+                        <p id="detail-downloads" class="text-sm font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 bg-primary/5 dark:bg-primary/10 rounded-lg p-3">
+                    <div class="h-9 w-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold" id="detail-author-avatar"></div>
+                    <div>
+                        <p id="detail-author-name" class="text-sm font-semibold text-slate-900 dark:text-white"></p>
+                        <p id="detail-author-title" class="text-xs text-slate-500"></p>
+                    </div>
+                    <div class="ml-auto text-xs text-slate-400" id="detail-date"></div>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex gap-3">
+            <a id="detail-open-link" href="#" target="_blank"
+                class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[18px]">open_in_new</span>Preview
+            </a>
+            <a id="detail-download-link" href="#"
+                class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all active:scale-95">
+                <span class="material-symbols-outlined text-[18px]">download</span>Download
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openResourceDetail(card) {
+        var id = card.dataset.id;
+        var data = JSON.parse(document.getElementById('resource-data-' + id).textContent);
+
+        // Track view
+        fetch('/student/resources/' + id + '/view', { method: 'POST' });
+
+        document.getElementById('detail-title').textContent = data.title;
+        document.getElementById('detail-title-main').textContent = data.title;
+        document.getElementById('detail-category').textContent = data.category;
+
+        var descEl = document.getElementById('detail-desc');
+        if (data.description) { descEl.textContent = data.description; descEl.classList.remove('hidden'); }
+        else { descEl.classList.add('hidden'); }
+
+        document.getElementById('detail-filename').textContent = data.fileName;
+        document.getElementById('detail-size').textContent = data.fileSize;
+        document.getElementById('detail-views').textContent = (data.views + 1).toLocaleString();
+        document.getElementById('detail-downloads').textContent = data.downloads.toLocaleString();
+        document.getElementById('detail-date').textContent = data.createdAt;
+        document.getElementById('detail-author-name').textContent = data.authorName;
+        document.getElementById('detail-author-title').textContent = data.authorTitle;
+        document.getElementById('detail-author-avatar').textContent = data.authorName.charAt(0).toUpperCase();
+
+        document.getElementById('detail-icon').textContent = data.iconIcon;
+        document.getElementById('detail-icon-wrap').className = 'p-5 rounded-2xl ' + data.iconBg;
+        document.getElementById('detail-icon').className = 'material-symbols-outlined text-5xl text-' + data.iconColor;
+
+        var fPath = data.filePath;
+        var fname = fPath.split('/uploads/')[1];
+        document.getElementById('detail-open-link').href = '/uploads/' + fname;
+        document.getElementById('detail-download-link').href = '/student/resources/' + id + '/download';
+
+        document.getElementById('detail-modal').classList.remove('hidden');
+    }
+
+    function closeDetail() {
+        document.getElementById('detail-modal').classList.add('hidden');
+    }
+
+    // Search & Filter
+    var activeCategory = 'all';
+    var searchTerm = '';
+
+    document.getElementById('search-input').addEventListener('input', function () {
+        searchTerm = this.value.toLowerCase();
+        applyFilters();
+    });
+
+    function filterCategory(cat) {
+        activeCategory = cat;
+        document.querySelectorAll('.filter-pill').forEach(function(p) {
+            if (p.dataset.cat === cat) {
+                p.className = 'filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-all';
+            } else {
+                p.className = 'filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-all';
+            }
+        });
+        applyFilters();
+    }
+
+    function applyFilters() {
+        document.querySelectorAll('#resource-grid > div[data-id]').forEach(function(card) {
+            var matchCat = activeCategory === 'all' || card.dataset.category === activeCategory;
+            var matchSearch = card.dataset.title.includes(searchTerm);
+            card.style.display = (matchCat && matchSearch) ? '' : 'none';
+        });
+    }
+</script>
+</body>
+</html>

@@ -53,71 +53,87 @@
 <body
     class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display h-screen overflow-hidden flex">
 
-    <!-- ─── Sidebar ─────────────────────────────────────────── -->
+    <!-- Sidebar -->
     <aside
-        class="w-64 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full">
-        <a href="/" class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
-            <div class="size-8 text-primary">
-                <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_msg_mentor)">
-                        <path
-                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
-                            fill="currentColor"></path>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_msg_mentor">
-                            <rect fill="white" height="48" width="48"></rect>
-                        </clipPath>
-                    </defs>
-                </svg>
+        class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300">
+        <div class="flex flex-col h-full">
+            <div class="p-6">
+                <a href="/" class="flex items-center gap-3 mb-8">
+                    <div class="h-10 w-10 text-primary">
+                        <svg class="h-full w-full" fill="none" viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_6_319)">
+                                <path
+                                    d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                    fill="currentColor"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6_319">
+                                    <rect fill="white" height="48" width="48"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy
+                        </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Mentor Portal</p>
+                    </div>
+                </a>
+                <nav class="flex flex-col gap-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                        href="/mentor/home">
+                        <span class="material-symbols-outlined text-[20px]">home</span>
+                        <span class="text-sm">Home</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                        href="/mentor/dashboard">
+                        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        <span class="text-sm">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                        href="/mentor/requests">
+                        <span class="material-symbols-outlined text-[20px]">group</span>
+                        <span class="text-sm">My Mentees</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                        <span class="text-sm">Schedule</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors"
+                        href="/mentor/messages">
+                        <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                        <span class="text-sm">Messages</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                        <span class="text-sm">Resources</span>
+                    </a>
+                </nav>
             </div>
-            <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</span>
-        </a>
-
-        <!-- Mentor Profile snippet -->
-        <div class="p-5 border-b border-slate-200 dark:border-slate-800">
-            <div class="flex items-center gap-3">
+            <div class="p-6 border-t border-slate-200 dark:border-slate-800">
                 <div
-                    class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-                    <%= user.name.charAt(0).toUpperCase() %>
+                    class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                    <img alt="User profile picture"
+                        class="h-9 w-9 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                        data-alt="Close up portrait of a smiling man"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCURi0GaTojcEF2LvAlVhosYBXBn7NkW9YBMmZc-ttosmP92QBhveWJ2q9ZxmMSIWoIBdwk6LrFJTiEat2bVutXZmawP3uvZQlcPH7IDJCLXHp9hDTbRO94Q_GUOxuqggCj9hNQ2-VtRc7uzAO0ZukjItRTfP0CoIE3to-nQsOg154-VEJYtAcNMxKkJplCQa-Rjc_4rawckNOrzMLsOpzOmFnjjnEzV97QqVn2adXnlhLPqwdjhFZkSp153ekEAbGV6RXIrBNfqxA" />
+                    <div class="flex flex-col min-w-0">
+                        <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
+                            <%= user.name %>
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Mentor</p>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-400 text-sm ml-auto">expand_more</span>
                 </div>
-                <div class="min-w-0">
-                    <p class="font-semibold text-slate-900 dark:text-white text-sm truncate">
-                        <%= user.name %>
-                    </p>
-                    <p class="text-xs text-slate-400 truncate">
-                        <%= user.jobTitle || 'Mentor' %>
-                    </p>
-                </div>
+                <a href="/auth/logout"
+                    class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
+                    <span class="material-symbols-outlined">logout</span>
+                    Log Out
+                </a>
             </div>
-        </div>
-
-        <!-- Nav -->
-        <nav class="flex-1 p-4 space-y-1 overflow-y-auto custom-scrollbar">
-            <a href="/mentor/home"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
-                <span class="material-symbols-outlined text-[20px]">home</span> Home
-            </a>
-            <a href="/mentor/dashboard"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
-                <span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard
-            </a>
-            <a href="/mentor/requests"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm">
-                <span class="material-symbols-outlined text-[20px]">group</span> My Mentees
-            </a>
-            <a href="/mentor/messages"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold text-sm">
-                <span class="material-symbols-outlined text-[20px]">chat_bubble</span> Messages
-            </a>
-        </nav>
-
-        <!-- Logout -->
-        <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-            <a href="/auth/logout"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm font-medium">
-                <span class="material-symbols-outlined text-[20px]">logout</span> Logout
-            </a>
         </div>
     </aside>
 

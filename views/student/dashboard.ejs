@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -73,129 +73,100 @@
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200 h-screen overflow-hidden flex flex-col">
-    <!-- Top Navigation Bar -->
-    <header
-        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shrink-0 z-20">
-        <div class="flex items-center gap-8">
-            <a href="/" class="flex items-center gap-3 text-slate-900 dark:text-white">
-                <div class="size-8 text-primary">
-                    <svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased">
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2332] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 z-20">
+            <a href="/" class="flex items-center gap-3 px-6 py-8">
+                <div class="h-8 w-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_6_319)">
                             <path
                                 d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
                                 fill="currentColor"></path>
                         </g>
                         <defs>
-                            <clippath id="clip0_6_319">
+                            <clipPath id="clip0_6_319">
                                 <rect fill="white" height="48" width="48"></rect>
-                            </clippath>
+                            </clipPath>
                         </defs>
                     </svg>
                 </div>
-                <h2 class="text-xl font-bold tracking-tight">KampusLegacy</h2>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</h1>
             </a>
-            <div class="hidden md:flex items-center w-full max-w-md">
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                        <span class="material-symbols-outlined text-[20px]">search</span>
+            <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+                <!-- User Profile Summary -->
+                <div
+                    class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <img alt="Student profile photo"
+                            class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600"
+                            data-alt="Young asian female student portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQld-yO7kAq_Jb0RKvWe9vAfYzh_9HSjL54Z1_JVHPcc3-zAEAd8CEtz5opMt-Y2QYj8fUvnFf0IxhqQwGqTu5Op36fXhNlcJECkc9Xq4kp8K9sV14S0YFsswuX8O24mXsMXOTwm9ECR0aG53HrG7ij1rSO6mc8Jz0-MNuesyy3Y2JtdSpyeUbTMf3R12lS1eQ4wxLTnSyvi0mvOlxy8EREIZOTVqZewbnLwgGnNnxkMHG0PmP7SyxYZRfeM1m03UEmkoGF47mVws" />
+                        <div class="overflow-hidden">
+                            <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white">
+                                <%= user.name %>
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                        </div>
                     </div>
-                    <input
-                        class="bg-slate-100 dark:bg-slate-800 border-none text-slate-900 dark:text-slate-100 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5"
-                        placeholder="Search mentors, resources..." required="" type="text" />
                 </div>
-            </div>
-        </div>
-        <div class="flex items-center gap-4">
-            <nav class="hidden lg:flex items-center gap-6 mr-4">
-                <a class="text-primary font-semibold text-sm" href="#">Dashboard</a>
-                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
-                    href="#">Mentors</a>
-                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
-                    href="#">Resources</a>
-                <a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-colors"
-                    href="#">Jobs</a>
-            </nav>
-            <button
-                class="relative p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-                <span class="material-symbols-outlined">notifications</span>
-                <span class="absolute top-2 right-2 flex h-2 w-2">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                </span>
-            </button>
-            <button
-                class="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                <img class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 object-cover"
-                    data-alt="User profile picture of a student"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvOAoxCJWPgBn-bW8am-n7Eb_Xxj9i6dko9lFj3lNqvs5XjGKg3K8lO2tMlWeCzhif2yChjsW7MDtK0cthFTAJ3pz0xXmNbEcndNPjsgImajpvbCts-bEqFTWjtKrC2bCgYw1wpRDqWlHhtVTYPEOQGFTMpDMrglMeZD4HIELZmoEtPrVF2Z_ieN8d5suF3hON_4xTP7zS8ZF_DB9LSHGh2C7guV4WB_b6N0HU9xH5badNe_TzAEmxlNDeQv31jfEsNtp2OFjkDng" />
-                <span class="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">expand_more</span>
-            </button>
-        </div>
-    </header>
-    <!-- Main Layout -->
-    <main class="flex flex-1 overflow-hidden">
-        <!-- Left Sidebar (Collapsed on mobile, icons only/labels) -->
-        <aside
-            class="hidden md:flex w-20 lg:w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
-            <div class="p-6">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 px-2 hidden lg:block">Menu
-                </p>
-                <div class="space-y-1">
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                <!-- Nav Links -->
+                <nav class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="/student/home">
-                        <span class="material-symbols-outlined">home</span>
-                        <span class="hidden lg:block">Home</span>
+                        <span class="material-symbols-outlined fill-1">home</span>
+                        Home
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium"
                         href="/student/dashboard">
                         <span class="material-symbols-outlined">dashboard</span>
-                        <span class="hidden lg:block">Dashboard</span>
+                        Dashboard
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="/student/mentors">
                         <span class="material-symbols-outlined">group</span>
-                        <span class="hidden lg:block">Mentors</span>
+                        Mentors
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="#">
                         <span class="material-symbols-outlined">work</span>
-                        <span class="hidden lg:block">Jobs &amp; Internships</span>
+                        Jobs &amp; Internships
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="#">
                         <span class="material-symbols-outlined">calendar_month</span>
-                        <span class="hidden lg:block">Events</span>
+                        Events
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="#">
                         <span class="material-symbols-outlined">folder_open</span>
-                        <span class="hidden lg:block">Resources</span>
+                        Resources
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                         href="#">
                         <span class="material-symbols-outlined">forum</span>
-                        <span class="hidden lg:block">Community</span>
+                        Community
                     </a>
-                </div>
+                </nav>
             </div>
-            <div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
-                <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+            <div class="p-4 mt-auto">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium"
                     href="#">
                     <span class="material-symbols-outlined">settings</span>
-                    <span class="hidden lg:block">Settings</span>
+                    Settings
                 </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg font-medium transition-colors"
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors text-sm font-medium"
                     href="/auth/logout">
                     <span class="material-symbols-outlined">logout</span>
-                    <span class="hidden lg:block">Log Out</span>
+                    Log Out
                 </a>
             </div>
         </aside>
+
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+        <main class="flex-1 overflow-y-auto overflow-x-hidden bg-background-light dark:bg-background-dark relative">
             <!-- Dashboard Content Scrollable -->
             <div class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
                 <!-- Welcome & Stats Section -->
@@ -466,8 +437,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- ─── Chat JS ─────────────────────────────────────────── -->
     <script>

@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Mentor Dashboard - KampusLegacy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -22,441 +15,485 @@
                 extend: {
                     colors: {
                         "primary": "#135bec",
+                        "primary-light": "#e8effd",
                         "background-light": "#f6f6f8",
                         "background-dark": "#101622",
                     },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+        /* drag-drop zone */
+        #drop-zone.drag-over { border-color: #135bec; background: #e8effd; }
+    </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
-    <!-- Header / Navigation -->
-    <header
-        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shadow-sm">
-        <div class="flex items-center gap-8">
-            <a href="/" class="flex items-center gap-3 text-slate-900 dark:text-white">
-                <div class="size-8 text-primary">
-                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_6_319)">
-                            <path
-                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
-                                fill="currentColor"></path>
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_6_319">
-                                <rect fill="white" height="48" width="48"></rect>
-                            </clipPath>
-                        </defs>
-                    </svg>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300">
+            <div class="flex flex-col h-full">
+                <div class="p-6">
+                    <a href="/" class="flex items-center gap-3 mb-8">
+                        <div class="h-10 w-10 text-primary">
+                            <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_6_319)">
+                                    <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+                                </g>
+                                <defs><clipPath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clipPath></defs>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy</h1>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Mentor Portal</p>
+                        </div>
+                    </a>
+                    <nav class="flex flex-col gap-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/home">
+                            <span class="material-symbols-outlined text-[20px]">home</span>
+                            <span class="text-sm">Home</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="/mentor/dashboard">
+                            <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                            <span class="text-sm">Dashboard</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/requests">
+                            <span class="material-symbols-outlined text-[20px]">group</span>
+                            <span class="text-sm">My Mentees</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+                            <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                            <span class="text-sm">Schedule</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/messages">
+                            <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                            <span class="text-sm">Messages</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/resources">
+                            <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                            <span class="text-sm">Resources</span>
+                        </a>
+                    </nav>
                 </div>
-                <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">KampusLegacy</h2>
-            </a>
-            <!-- Search Bar -->
-            <label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
-                <div
-                    class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800 transition-colors focus-within:ring-2 focus-within:ring-primary/50">
-                    <div
-                        class="text-slate-500 dark:text-slate-400 flex border-none items-center justify-center pl-3 rounded-l-lg border-r-0">
-                        <span class="material-symbols-outlined text-xl">search</span>
-                    </div>
-                    <input
-                        class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg bg-transparent text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-3 pl-2 text-sm font-normal leading-normal"
-                        placeholder="Search resources..." value="" />
-                </div>
-            </label>
-        </div>
-        <div class="flex flex-1 justify-end gap-6 items-center">
-            <nav class="hidden lg:flex items-center gap-6">
-                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
-                    href="/mentor/home">Home</a>
-                <a class="text-primary font-semibold text-sm leading-normal" href="/mentor/dashboard">Dashboard</a>
-                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
-                    href="/mentor/requests">My Mentees</a>
-                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
-                    href="/mentor/messages">Messages</a>
-                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
-                    href="#">Schedule</a>
-                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal"
-                    href="#">Resources</a>
-            </nav>
-            <div class="flex gap-2 items-center">
-                <button
-                    class="flex size-10 cursor-pointer items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
-                <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
-                <button
-                    class="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 bg-slate-200 dark:bg-slate-700"
-                        data-alt="Profile picture of a mentor"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAP7Q2-zGzN3VCN64ehRyHKX_TEJUjnr44ApBQk1zJ9H0plRCZ2BeQAHy7w8KiGDY-pmJkGd1ZrHrLeaBl5VVua3v8HJdZr-oGDGjhmPGmFRp26bouX7eenN6NF4hlaKIOAa-ULngL4XLw034f6ncU8b5TnxAZ-rj_3McYIfE3Lx_0ZFr0O8fA1pabxoT5GTPWqXvsTAeMyXCmLA-4i6eAl0LZrsBxWY3kJopuTV0kjgLapI8oaD0dO0FsrR597tNJTbWJ_TCRL9Qg");'>
-                    </div>
-                    <span class="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-200">
-                        <%= user.name %>
-                    </span>
-                    <span class="material-symbols-outlined text-slate-500 text-lg">expand_more</span>
-                </button>
-                <a href="/auth/logout"
-                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
-                    <span class="material-symbols-outlined text-[20px]">logout</span>
-                    <span class="hidden sm:block">Log Out</span>
-                </a>
-            </div>
-        </div>
-    </header>
-    <main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-65px)] overflow-hidden">
-        <!-- Left Column: Main Dashboard Content -->
-        <div class="flex-1 overflow-y-auto p-6 lg:p-10 scrollbar-thin">
-            <!-- Page Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
-                <div class="flex flex-col gap-1">
-                    <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Mentor Dashboard</h1>
-                    <p class="text-slate-500 dark:text-slate-400 text-base">Manage your resources and track student
-                        progress.</p>
-                </div>
-                <button
-                    class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
-                    <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-                    <span>Upload Resource</span>
-                </button>
-            </div>
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
-                <!-- Stat Card 1 -->
-                <div
-                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex justify-between items-start">
-                        <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
-                            <span class="material-symbols-outlined">group</span>
+                <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
+                    <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                        <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                            <%= user.name.charAt(0).toUpperCase() %>
                         </div>
-                        <span
-                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
-                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
-                        </span>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Students Mentored</p>
-                    <p class="text-slate-900 dark:text-white text-2xl font-bold">12</p>
-                </div>
-                <!-- Stat Card 2 -->
-                <div
-                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex justify-between items-start">
-                        <div
-                            class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
-                            <span class="material-symbols-outlined">library_books</span>
-                        </div>
-                        <span
-                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
-                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +5%
-                        </span>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Resources</p>
-                    <p class="text-slate-900 dark:text-white text-2xl font-bold">24</p>
-                </div>
-                <!-- Stat Card 3 -->
-                <div
-                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex justify-between items-start">
-                        <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
-                            <span class="material-symbols-outlined">visibility</span>
-                        </div>
-                        <span
-                            class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full">
-                            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +15%
-                        </span>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Views</p>
-                    <p class="text-slate-900 dark:text-white text-2xl font-bold">1.2k</p>
-                </div>
-                <!-- Stat Card 4 -->
-                <div
-                    class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex justify-between items-start">
-                        <div
-                            class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
-                            <span class="material-symbols-outlined">download</span>
-                        </div>
-                        <span
-                            class="flex items-center text-slate-500 dark:text-slate-400 text-xs font-medium bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
-                            <span class="material-symbols-outlined text-sm mr-1">remove</span> 0%
-                        </span>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Downloads</p>
-                    <p class="text-slate-900 dark:text-white text-2xl font-bold">450</p>
-                </div>
-            </div>
-            <!-- Resource Table Section -->
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between px-1">
-                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">My Uploaded Resources</h2>
-                    <button class="text-primary text-sm font-medium hover:underline">View All</button>
-                </div>
-                <div
-                    class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr
-                                    class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
-                                    <th class="px-6 py-4 min-w-[240px]">Resource Title</th>
-                                    <th class="px-6 py-4 min-w-[140px]">Date Uploaded</th>
-                                    <th class="px-6 py-4 min-w-[140px]">Category</th>
-                                    <th class="px-6 py-4 text-center">Views</th>
-                                    <th class="px-6 py-4 text-center">Downloads</th>
-                                    <th class="px-6 py-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="bg-red-50 dark:bg-red-900/20 p-2 rounded text-red-600 dark:text-red-400">
-                                                <span class="material-symbols-outlined text-xl">picture_as_pdf</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Intro to
-                                                    Python.pdf</p>
-                                                <p class="text-xs text-slate-500">2.4 MB</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 24, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/20 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-300">
-                                            Programming
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">340
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">120
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <span class="material-symbols-outlined text-xl">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded text-blue-600 dark:text-blue-400">
-                                                <span class="material-symbols-outlined text-xl">description</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Career
-                                                    Roadmap 2024.docx</p>
-                                                <p class="text-xs text-slate-500">1.1 MB</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Nov 01, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-purple-50 dark:bg-purple-900/20 px-2.5 py-0.5 text-xs font-medium text-purple-700 dark:text-purple-300">
-                                            Career Advice
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">210
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">85</td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <span class="material-symbols-outlined text-xl">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="bg-amber-50 dark:bg-amber-900/20 p-2 rounded text-amber-600 dark:text-amber-400">
-                                                <span class="material-symbols-outlined text-xl">folder_zip</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-slate-900 dark:text-white">Resume
-                                                    Template.sketch</p>
-                                                <p class="text-xs text-slate-500">14 MB</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Nov 15, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-900/20 px-2.5 py-0.5 text-xs font-medium text-orange-700 dark:text-orange-300">
-                                            Design
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">150
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">45</td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <span class="material-symbols-outlined text-xl">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="bg-red-50 dark:bg-red-900/20 p-2 rounded text-red-600 dark:text-red-400">
-                                                <span class="material-symbols-outlined text-xl">picture_as_pdf</span>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium text-slate-900 dark:text-white">System
-                                                    Design Basics.pdf</p>
-                                                <p class="text-xs text-slate-500">5.8 MB</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Dec 05, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-cyan-50 dark:bg-cyan-900/20 px-2.5 py-0.5 text-xs font-medium text-cyan-700 dark:text-cyan-300">
-                                            Engineering
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">500
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">190
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="text-slate-400 hover:text-primary transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <span class="material-symbols-outlined text-xl">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Pagination -->
-                    <div
-                        class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3 bg-slate-50 dark:bg-slate-900">
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Showing 1-4 of 24 resources</span>
-                        <div class="flex gap-2">
-                            <button
-                                class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50"
-                                disabled="">
-                                <span class="material-symbols-outlined text-lg">chevron_left</span>
-                            </button>
-                            <button
-                                class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700">
-                                <span class="material-symbols-outlined text-lg">chevron_right</span>
-                            </button>
+                        <div class="flex flex-col min-w-0">
+                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Mentor</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Right Column: Chat & Messages -->
-        <aside
-            class="w-full lg:w-96 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shadow-sm z-10">
-            <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-                <h3 class="font-bold text-slate-900 dark:text-white text-lg">Messages</h3>
-                <button class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors">
-                    <span class="material-symbols-outlined text-xl">edit_square</span>
-                </button>
-            </div>
-            <!-- Active Chat Area -->
-            <div class="flex-1 flex flex-col h-[500px] lg:h-auto">
-                <!-- Chat History / List -->
-                <div class="overflow-y-auto flex-1 p-2 space-y-1">
-                    <!-- Chat Item: Active -->
-                    <div
-                        class="flex items-center gap-3 p-3 rounded-lg bg-primary/5 hover:bg-primary/10 cursor-pointer transition-colors border-l-4 border-primary">
-                        <div class="relative">
-                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of Sarah J"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClCYlj_OQouT55wgPtxBsOjgJMBGfqTXNtY1uT7gkTLpC99Ty-OuszT-DAwe6YGxaIFLt-mDdMxvIddUvvLF6g8ElL1HBBaydCzHd4HkNTSTM6bLjvAyvo84Wtj5n2D93alI5mJM-AvT3nsSBd5OX78QPnUdvGnzjs9-aKhM4hHqLZ7jAMSVfhyFbA3i3h8qX7AznpMneeI8nuQRmVrjh92gYYtAePUShvqhqMv-8IoOJUHyQ-Px03-nKxkr7_ln4cFrHQ9q8-7Gw')">
-                            </div>
-                            <span
-                                class="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 border-2 border-white dark:border-slate-900"></span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-baseline mb-0.5">
-                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Sarah Jenkins
-                                </p>
-                                <span class="text-[10px] text-slate-400">10:42 AM</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Thanks for the resume review!
-                                It was super helpful.</p>
-                        </div>
-                    </div>
-                    <!-- Chat Item -->
-                    <div
-                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-l-4 border-transparent">
-                        <div class="relative">
-                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of Michael C"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2KXvs7u6EbgxZkZvd5G3nWBfSOWtK-sqNzH3WlOGIWF-LvYIhbKBi37NacBhVo3dBEjiL4fmMrfSF7BFxDYXotDN3UfHj1ZrP2dhfOtEWDEOpgGx25c-ufI5ZjQiMkMaYiVoBePdTBjy5aZNh-8gph8qQSKNA7ZpRrh8TQSaVMtWEOQNinpSlbGqwN2TfKbpmbOc7bTdPrZDiMAy2TFMW6xh9gsZpWxV6-xFvNFrG1SVXFbPYN23HK4Q68MoSxfARIw_rC7ux3cE')">
-                            </div>
-                            <span
-                                class="absolute bottom-0 right-0 size-3 rounded-full bg-slate-300 border-2 border-white dark:border-slate-900"></span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-baseline mb-0.5">
-                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Michael Chen
-                                </p>
-                                <span class="text-[10px] text-slate-400">Yesterday</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">When is our next session
-                                scheduled?</p>
-                        </div>
-                        <div
-                            class="size-5 flex items-center justify-center bg-primary rounded-full text-[10px] text-white font-bold">
-                            1</div>
-                    </div>
-                    <!-- Chat Item -->
-                    <div
-                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-l-4 border-transparent">
-                        <div class="relative">
-                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of David K"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmco282d1WK8EolRGD36UwLJygo8XnqfFJwJ978bjxeNkHqJEunQRIGiuucgXk2tqmq0S_wNXczuQ6xzG870uuYwaistlQTEGgaptNvm8HoBniQHLgjv-C5Ybg6x0GR8wpSDM56mJpjKeIyZy2fn-w0ZZWkrCm3CX9f7MQ1IzmzeC7p7z9_TLDmUshdmiorBbn7vzVVVw15mag_B7K-svAQe00eH2VES14hkoE6Z7lAqCopREo_0KbV4nJVRbAfeu249vgZAruStU')">
-                            </div>
-                            <span
-                                class="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 border-2 border-white dark:border-slate-900"></span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-baseline mb-0.5">
-                                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">David Kim</p>
-                                <span class="text-[10px] text-slate-400">Tue</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">I've uploaded the assignment.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Chat Input Area (Mini) -->
-                <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-                    <div class="flex flex-col gap-2">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Current Chat: Sarah
-                            Jenkins</div>
-                        <div class="relative">
-                            <input
-                                class="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none shadow-sm"
-                                placeholder="Type a message..." type="text" />
-                            <button
-                                class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:text-primary/80 p-1.5 rounded-full hover:bg-primary/10 transition-all">
-                                <span class="material-symbols-outlined text-xl">send</span>
-                            </button>
-                        </div>
-                    </div>
+                    <a href="/auth/logout" class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
+                        <span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </a>
                 </div>
             </div>
         </aside>
-    </main>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-10">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Dashboard</h2>
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6 lg:p-8 scrollbar-thin">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
+                    <div>
+                        <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Mentor Dashboard</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-base mt-1">Manage your resources and track student engagement.</p>
+                    </div>
+                    <button id="open-upload-btn"
+                        class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
+                        <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+                        <span>Upload Resource</span>
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+                                <span class="material-symbols-outlined">group</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Students Mentored</p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.students %></p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
+                                <span class="material-symbols-outlined">library_books</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Resources</p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalResources %></p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Views</p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalViews.toLocaleString() %></p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+                                <span class="material-symbols-outlined">download</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Downloads</p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalDownloads.toLocaleString() %></p>
+                    </div>
+                </div>
+
+                <!-- Resource Table Section -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between px-1">
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">My Uploaded Resources</h2>
+                        <a href="/mentor/resources" class="text-primary text-sm font-medium hover:underline">View All</a>
+                    </div>
+
+                    <div class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+                                        <th class="px-6 py-4 min-w-[240px]">Resource Title</th>
+                                        <th class="px-6 py-4 min-w-[140px]">Date Uploaded</th>
+                                        <th class="px-6 py-4 min-w-[140px]">Category</th>
+                                        <th class="px-6 py-4 text-center">Views</th>
+                                        <th class="px-6 py-4 text-center">Downloads</th>
+                                        <th class="px-6 py-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <% if (resources.length === 0) { %>
+                                        <tr>
+                                            <td colspan="6" class="px-6 py-16 text-center text-slate-400">
+                                                <span class="material-symbols-outlined text-5xl mb-3 block opacity-40">folder_open</span>
+                                                <p class="font-medium">No resources uploaded yet.</p>
+                                                <p class="text-xs mt-1">Click "Upload Resource" to add your first one.</p>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                    <% resources.forEach(r => { %>
+                                        <% const icon = getFileIcon(r.mimeType, r.fileName); %>
+                                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors" id="row-<%= r._id %>">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="<%= icon.bg %> p-2 rounded text-<%= icon.color %>">
+                                                        <span class="material-symbols-outlined text-xl"><%= icon.icon %></span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm font-medium text-slate-900 dark:text-white"><%= r.title %></p>
+                                                        <p class="text-xs text-slate-500"><%= r.fileName %> · <%= formatSize(r.fileSize) %></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400"><%= new Date(r.createdAt).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) %></td>
+                                            <td class="px-6 py-4">
+                                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= getCategoryStyle(r.category) %>">
+                                                    <%= r.category %>
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300"><%= r.views %></td>
+                                            <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300"><%= r.downloads %></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <button onclick="deleteResource('<%= r._id %>')" class="text-slate-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20" title="Delete">
+                                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3 bg-slate-50 dark:bg-slate-900">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Showing <%= resources.length %> of <%= stats.totalResources %> resources</span>
+                            <% if (stats.totalResources > 4) { %>
+                                <a href="/mentor/resources" class="text-xs text-primary font-medium hover:underline">View all <%= stats.totalResources %> →</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ─── Upload Resource Modal ──────────────────────────────────── -->
+    <div id="upload-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 modal-backdrop" id="modal-bg"></div>
+        <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Upload Resource</h3>
+                <button id="close-modal-btn" class="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 space-y-4">
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
+                    <span class="material-symbols-outlined text-4xl text-slate-400 mb-2 block">cloud_upload</span>
+                    <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Drag & drop your file here, or <span class="text-primary">browse</span></p>
+                    <p class="text-xs text-slate-500 mt-1">PDF, DOC, DOCX, PPTX, XLSX, MP4, JPG, PNG, ZIP — up to 100MB</p>
+                    <input type="file" id="file-input" class="hidden"
+                        accept=".pdf,.doc,.docx,.pptx,.ppt,.xlsx,.xls,.mp4,.mov,.avi,.jpg,.jpeg,.png,.gif,.zip,.rar,.txt,.csv" />
+                    <div id="file-preview" class="hidden mt-3 flex items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-lg px-3 py-2 text-left">
+                        <span class="material-symbols-outlined text-primary">insert_drive_file</span>
+                        <div class="flex-1 min-w-0">
+                            <p id="file-name-preview" class="text-sm font-medium text-slate-900 dark:text-white truncate"></p>
+                            <p id="file-size-preview" class="text-xs text-slate-500"></p>
+                        </div>
+                        <button onclick="clearFile()" class="text-slate-400 hover:text-red-500">
+                            <span class="material-symbols-outlined text-lg">close</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Title -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label>
+                    <input id="upload-title" type="text" placeholder="e.g. Intro to Python Guide"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                </div>
+                <!-- Category -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Category <span class="text-red-500">*</span></label>
+                    <select id="upload-category" class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
+                        <% categories.forEach(cat => { %>
+                            <option value="<%= cat %>"><%= cat %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <!-- Description -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Description</label>
+                    <textarea id="upload-desc" rows="2" placeholder="Brief description of the resource..."
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition resize-none"></textarea>
+                </div>
+                <!-- Progress -->
+                <div id="upload-progress-wrap" class="hidden">
+                    <div class="flex justify-between text-xs text-slate-500 mb-1">
+                        <span>Uploading...</span>
+                        <span id="upload-pct">0%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div id="upload-bar" class="h-full bg-primary rounded-full transition-all" style="width:0%"></div>
+                    </div>
+                </div>
+                <div id="upload-error" class="hidden text-sm text-red-600 font-medium px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="px-6 pb-6 flex gap-3 justify-end">
+                <button id="cancel-upload-btn" class="px-5 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">Cancel</button>
+                <button id="submit-upload-btn"
+                    class="px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all active:scale-95 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                    <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── Helper Functions (server-side equivalents rendered here) ─
+        // (EJS already rendered the table via server helpers below)
+
+        // ─── Modal Logic ──────────────────────────────────────────────
+        const modal = document.getElementById('upload-modal');
+        const openBtn = document.getElementById('open-upload-btn');
+        const closeBtn = document.getElementById('close-modal-btn');
+        const cancelBtn = document.getElementById('cancel-upload-btn');
+        const modalBg = document.getElementById('modal-bg');
+
+        [openBtn].forEach(b => b.addEventListener('click', () => modal.classList.remove('hidden')));
+        [closeBtn, cancelBtn, modalBg].forEach(b => b.addEventListener('click', closeModal));
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            clearFile();
+            document.getElementById('upload-title').value = '';
+            document.getElementById('upload-desc').value = '';
+            document.getElementById('upload-error').classList.add('hidden');
+            document.getElementById('upload-progress-wrap').classList.add('hidden');
+        }
+
+        // ─── File Drag & Drop ─────────────────────────────────────────
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) setFile(file);
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files[0]) setFile(fileInput.files[0]);
+        });
+
+        function setFile(file) {
+            document.getElementById('file-name-preview').textContent = file.name;
+            document.getElementById('file-size-preview').textContent = formatBytes(file.size);
+            document.getElementById('file-preview').classList.remove('hidden');
+            // Auto-fill title if empty
+            if (!document.getElementById('upload-title').value) {
+                document.getElementById('upload-title').value = file.name.replace(/\.[^/.]+$/, '');
+            }
+        }
+
+        function clearFile() {
+            fileInput.value = '';
+            document.getElementById('file-preview').classList.add('hidden');
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // ─── Upload Submission ────────────────────────────────────────
+        document.getElementById('submit-upload-btn').addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            const title = document.getElementById('upload-title').value.trim();
+            const category = document.getElementById('upload-category').value;
+            const desc = document.getElementById('upload-desc').value.trim();
+            const errEl = document.getElementById('upload-error');
+            const progressWrap = document.getElementById('upload-progress-wrap');
+            const bar = document.getElementById('upload-bar');
+            const pct = document.getElementById('upload-pct');
+
+            errEl.classList.add('hidden');
+            if (!file) { errEl.textContent = 'Please select a file.'; errEl.classList.remove('hidden'); return; }
+            if (!title) { errEl.textContent = 'Please enter a title.'; errEl.classList.remove('hidden'); return; }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('title', title);
+            formData.append('category', category);
+            formData.append('description', desc);
+
+            progressWrap.classList.remove('hidden');
+            document.getElementById('submit-upload-btn').disabled = true;
+
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/mentor/resources/upload');
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const pctVal = Math.round((e.loaded / e.total) * 100);
+                        bar.style.width = pctVal + '%';
+                        pct.textContent = pctVal + '%';
+                    }
+                };
+
+                xhr.onload = () => {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.success) {
+                        closeModal();
+                        location.reload();
+                    } else {
+                        errEl.textContent = data.error || 'Upload failed.';
+                        errEl.classList.remove('hidden');
+                        progressWrap.classList.add('hidden');
+                        document.getElementById('submit-upload-btn').disabled = false;
+                    }
+                };
+
+                xhr.onerror = () => {
+                    errEl.textContent = 'Network error. Please try again.';
+                    errEl.classList.remove('hidden');
+                    progressWrap.classList.add('hidden');
+                    document.getElementById('submit-upload-btn').disabled = false;
+                };
+
+                xhr.send(formData);
+            } catch (e) {
+                errEl.textContent = 'Upload failed.';
+                errEl.classList.remove('hidden');
+                progressWrap.classList.add('hidden');
+                document.getElementById('submit-upload-btn').disabled = false;
+            }
+        });
+
+        // ─── Delete Resource ──────────────────────────────────────────
+        async function deleteResource(id) {
+            if (!confirm('Delete this resource? This cannot be undone.')) return;
+            try {
+                const res = await fetch('/mentor/resources/' + id, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('row-' + id)?.remove();
+                    location.reload();
+                }
+            } catch (e) {
+                alert('Failed to delete.');
+            }
+        }
+    </script>
 </body>
 
 </html>
+
+<%
+function getFileIcon(mime, name) {
+    const ext = (name || '').split('.').pop().toLowerCase();
+    if (mime && mime.includes('pdf') || ext === 'pdf') return { icon: 'picture_as_pdf', bg: 'bg-red-50 dark:bg-red-900/20', color: 'red-600 dark:text-red-400' };
+    if (['doc','docx'].includes(ext)) return { icon: 'description', bg: 'bg-blue-50 dark:bg-blue-900/20', color: 'blue-600 dark:text-blue-400' };
+    if (['ppt','pptx'].includes(ext)) return { icon: 'slideshow', bg: 'bg-orange-50 dark:bg-orange-900/20', color: 'orange-600 dark:text-orange-400' };
+    if (['xls','xlsx','csv'].includes(ext)) return { icon: 'table_chart', bg: 'bg-green-50 dark:bg-green-900/20', color: 'green-600 dark:text-green-400' };
+    if (['mp4','mov','avi','mkv'].includes(ext) || (mime && mime.startsWith('video'))) return { icon: 'play_circle', bg: 'bg-purple-50 dark:bg-purple-900/20', color: 'purple-600 dark:text-purple-400' };
+    if (['jpg','jpeg','png','gif','webp'].includes(ext) || (mime && mime.startsWith('image'))) return { icon: 'image', bg: 'bg-pink-50 dark:bg-pink-900/20', color: 'pink-600 dark:text-pink-400' };
+    if (['zip','rar','7z'].includes(ext)) return { icon: 'folder_zip', bg: 'bg-amber-50 dark:bg-amber-900/20', color: 'amber-600 dark:text-amber-400' };
+    return { icon: 'insert_drive_file', bg: 'bg-slate-100 dark:bg-slate-800', color: 'slate-600 dark:text-slate-400' };
+}
+
+function formatSize(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function getCategoryStyle(cat) {
+    const map = {
+        'Programming': 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
+        'Career Advice': 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300',
+        'Design': 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
+        'Engineering': 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300',
+        'Data Science': 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300',
+        'Product Management': 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300',
+        'Interview Prep': 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300',
+        'Soft Skills': 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300',
+        'Finance': 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300',
+        'Entrepreneurship': 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300',
+    };
+    return map[cat] || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+}
+%>

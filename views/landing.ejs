@@ -68,14 +68,14 @@
                 <h2 class="text-text-main text-lg font-bold leading-tight tracking-tight">KampusLegacy</h2>
             </a>
             <div class="hidden flex-1 justify-end gap-8 md:flex">
-                <nav class="flex items-center gap-6">
+                <!-- <nav class="flex items-center gap-6">
                     <a class="text-text-main hover:text-primary text-sm font-medium transition-colors" href="#">Home</a>
                     <a class="text-text-main hover:text-primary text-sm font-medium transition-colors"
                         href="#">Mentors</a>
                     <a class="text-text-main hover:text-primary text-sm font-medium transition-colors"
                         href="#">Events</a>
                     <a class="text-text-main hover:text-primary text-sm font-medium transition-colors" href="#">Jobs</a>
-                </nav>
+                </nav> -->
                 <div class="flex gap-3">
                     <a href="/login"
                         class="flex h-10 cursor-pointer items-center justify-center rounded-lg border border-border-light bg-background-light px-4 text-sm font-bold text-text-main transition-colors hover:bg-background-off-white">
@@ -111,15 +111,19 @@
                             community of ambitous students and industry leaders today.
                         </p>
                         <div class="flex flex-wrap justify-center gap-4 lg:justify-start">
-                            <button
-                                class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-6 text-base font-bold text-white transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20">
-                                <span class="material-symbols-outlined text-[20px]">search</span>
-                                Find a Mentor
-                            </button>
-                            <button
-                                class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-border-light bg-white px-6 text-base font-bold text-text-main transition-colors hover:bg-background-off-white hover:text-primary">
-                                Become a Mentor
-                            </button>
+                            <a href="/student/home">
+                                <button
+                                    class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-6 text-base font-bold text-white transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20">
+                                    <span class="material-symbols-outlined text-[20px]">search</span>
+                                    Find a Mentor
+                                </button>
+                            </a>
+                            <a href="/mentor/home">
+                                <button
+                                    class="flex h-12 min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-border-light bg-white px-6 text-base font-bold text-text-main transition-colors hover:bg-background-off-white hover:text-primary">
+                                    Become a Mentor
+                                </button>
+                            </a>
                         </div>
                         <div
                             class="mt-4 flex items-center justify-center gap-4 text-sm font-medium text-text-muted lg:justify-start">
@@ -146,7 +150,7 @@
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBexCDJ1BCAlFKKeMKQrqnnSKvwCx-ZefHRyl8eiWTfPmflpVZozftsw6DeNZ_Q6LEso10iZxqmwDF0w8VqyhH2AFh54LMIFCQLtGQvWhaHeQXVv_rkpMJsXKrQyFW8-5vHc-LBBpkYLScvnp9MHlCvRjvwAFR5Y5DH2yS0AY9UftYJWLVLxf2U2_JyyZkO7qiEzHebdn3brMNRSpQTcr5te-APb541Rcq604En9dyTJCUXiglVf-u9-4I0DQ7enJmdbXv9Mui1eHs" />
                             <!-- Floating Card -->
                             <div
-                                class="absolute -bottom-4 -left-4 hidden w-auto animate-bounce rounded-xl bg-white p-4 shadow-xl shadow-primary/10 md:block lg:bottom-8 lg:-left-8">
+                                class="absolute z-100 -bottom-4 -left-4 hidden w-auto animate-bounce rounded-xl bg-white p-4 shadow-xl shadow-primary/10 md:block lg:bottom-8 lg:-left-8">
                                 <div class="flex items-center gap-3">
                                     <div
                                         class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
@@ -266,11 +270,13 @@
                                         <span>Unlock hidden job opportunities</span>
                                     </li>
                                 </ul>
-                                <button
-                                    class="mt-4 flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
-                                    Start Learning <span
-                                        class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                                </button>
+                                <a href="/student/home">
+                                    <button
+                                        class="mt-4 flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
+                                        Start Learning <span
+                                            class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <!-- For Mentors -->
@@ -298,11 +304,13 @@
                                         <span>Exclusive networking with other leaders</span>
                                     </li>
                                 </ul>
-                                <button
-                                    class="mt-4 flex items-center gap-2 font-bold text-purple-600 hover:text-purple-800">
-                                    Start Mentoring <span
-                                        class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                                </button>
+                                <a href="/mentor/home">
+                                    <button
+                                        class="mt-4 flex items-center gap-2 font-bold text-purple-600 hover:text-purple-800">
+                                        Start Mentoring <span
+                                            class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -316,7 +324,8 @@
                             <h2 class="text-3xl font-black text-text-main">Meet Our Top Mentors</h2>
                             <p class="mt-2 text-text-muted">Learn from the best in the industry.</p>
                         </div>
-                        <a class="flex items-center gap-1 font-bold text-primary hover:underline" href="#">
+                        <a class="flex items-center gap-1 font-bold text-primary hover:underline"
+                            href="/student/mentors">
                             View All Mentors <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span>
                         </a>
                     </div>
@@ -399,10 +408,10 @@
                             class="flex h-12 w-full min-w-[160px] cursor-pointer items-center justify-center rounded-lg bg-white px-6 font-bold text-primary transition-transform hover:scale-105 hover:shadow-lg sm:w-auto">
                             Sign Up Now
                         </a>
-                        <button
+                        <!-- <button
                             class="flex h-12 w-full min-w-[160px] cursor-pointer items-center justify-center rounded-lg border-2 border-primary-light/30 bg-transparent px-6 font-bold text-white transition-colors hover:bg-primary-dark sm:w-auto">
                             View Demo
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </section>

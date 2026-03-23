@@ -12,340 +12,413 @@
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
-                    colors: { "primary": "#135bec" },
-                    fontFamily: { "sans": ["Inter", "sans-serif"] }
-                }
-            }
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-content": "#ffffff",
+                        "primary-dark": "#0e4bce",
+                        "primary-light": "#e8effd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
         }
     </script>
+    <style>
+        /* Custom scrollbar for chat area */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50 font-sans text-slate-900 antialiased flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside class="hidden md:flex w-20 lg:w-64 flex-col border-r border-slate-200 bg-white shrink-0">
-        <a href="/" class="p-4 lg:p-6 flex items-center gap-3 border-b border-slate-100">
-            <div class="h-9 w-9 text-primary">
-                <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_6_319)">
-                        <path
-                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
-                            fill="currentColor"></path>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_6_319">
-                            <rect fill="white" height="48" width="48"></rect>
-                        </clipPath>
-                    </defs>
-                </svg>
-            </div>
-            <span class="hidden lg:block text-lg font-bold tracking-tight">KampusLegacy</span>
-        </a>
-        <div class="flex-1 p-4 lg:p-6 overflow-y-auto">
-            <p class="hidden lg:block text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3 px-2">Menu
-            </p>
-            <nav class="space-y-1">
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="/student/home">
-                    <span class="material-symbols-outlined">home</span><span class="hidden lg:block">Home</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="/student/dashboard">
-                    <span class="material-symbols-outlined">dashboard</span><span
-                        class="hidden lg:block">Dashboard</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium">
-                    <span class="material-symbols-outlined">group</span><span class="hidden lg:block">Mentors</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="#">
-                    <span class="material-symbols-outlined">work</span><span class="hidden lg:block">Jobs &amp;
-                        Internships</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="#">
-                    <span class="material-symbols-outlined">calendar_month</span><span
-                        class="hidden lg:block">Events</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="#">
-                    <span class="material-symbols-outlined">folder_open</span><span
-                        class="hidden lg:block">Resources</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors font-medium"
-                    href="#">
-                    <span class="material-symbols-outlined">forum</span><span class="hidden lg:block">Community</span>
-                </a>
-            </nav>
-        </div>
-        <div class="p-4 lg:p-6 border-t border-slate-100 space-y-1">
-            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors font-medium"
-                href="#">
-                <span class="material-symbols-outlined">settings</span><span class="hidden lg:block">Settings</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased">
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2332] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 z-20">
+            <a href="/" class="flex items-center gap-3 px-6 py-8">
+                <div class="h-8 w-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_319)">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                fill="currentColor"></path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6_319">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</h1>
             </a>
-            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors font-medium"
-                href="/auth/logout">
-                <span class="material-symbols-outlined">logout</span><span class="hidden lg:block">Log Out</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Header -->
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0">
-            <div>
-                <h1 class="text-2xl font-bold text-slate-900">Find Mentors</h1>
-                <p class="text-sm text-slate-500 mt-0.5">Connect with experienced professionals in your field</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="text-sm font-medium text-slate-700 hidden sm:block">
-                    <%= user.name %>
-                </span>
+            <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+                <!-- User Profile Summary -->
                 <div
-                    class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                    <%= user.name.charAt(0).toUpperCase() %>
+                    class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <img alt="Student profile photo"
+                            class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600"
+                            data-alt="Young asian female student portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQld-yO7kAq_Jb0RKvWe9vAfYzh_9HSjL54Z1_JVHPcc3-zAEAd8CEtz5opMt-Y2QYj8fUvnFf0IxhqQwGqTu5Op36fXhNlcJECkc9Xq4kp8K9sV14S0YFsswuX8O24mXsMXOTwm9ECR0aG53HrG7ij1rSO6mc8Jz0-MNuesyy3Y2JtdSpyeUbTMf3R12lS1eQ4wxLTnSyvi0mvOlxy8EREIZOTVqZewbnLwgGnNnxkMHG0PmP7SyxYZRfeM1m03UEmkoGF47mVws" />
+                        <div class="overflow-hidden">
+                            <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white">
+                                <%= user.name %>
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nav Links -->
+                <nav class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="/student/home">
+                        <span class="material-symbols-outlined fill-1">home</span>
+                        Home
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="/student/dashboard">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium"
+                        href="/student/mentors">
+                        <span class="material-symbols-outlined">group</span>
+                        Mentors
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">work</span>
+                        Jobs &amp; Internships
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        Events
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">folder_open</span>
+                        Resources
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">forum</span>
+                        Community
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 mt-auto">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors text-sm font-medium"
+                    href="/auth/logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    Log Out
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+            <!-- Header -->
+            <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">Find Mentors</h1>
+                    <p class="text-sm text-slate-500 mt-0.5">Connect with experienced professionals in your field</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-medium text-slate-700 hidden sm:block">
+                        <%= user.name %>
+                    </span>
+                    <div
+                        class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab Filter -->
+            <div class="bg-white border-b border-slate-200 px-6">
+                <div class="flex gap-1" id="tab-bar">
+                    <button onclick="showTab('available')" id="tab-available"
+                        class="tab-btn px-4 py-3 text-sm font-semibold text-primary border-b-2 border-primary transition-colors">
+                        Available
+                    </button>
+                    <button onclick="showTab('pending')" id="tab-pending"
+                        class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors">
+                        Pending
+                        <% const pendingCount=mentors.filter(m=> m.connection && m.connection.status ===
+                            'pending').length;
+                            %>
+                            <% if (pendingCount> 0) { %>
+                                <span
+                                    class="ml-1 bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                    <%= pendingCount %>
+                                </span>
+                                <% } %>
+                    </button>
+                    <button onclick="showTab('connected')" id="tab-connected"
+                        class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors">
+                        Connected
+                        <% const connectedCount=mentors.filter(m=> m.connection && m.connection.status ===
+                            'accepted').length; %>
+                            <% if (connectedCount> 0) { %>
+                                <span
+                                    class="ml-1 bg-emerald-100 text-emerald-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                    <%= connectedCount %>
+                                </span>
+                                <% } %>
+                    </button>
                 </div>
             </div>
-        </header>
 
-        <!-- Tab Filter -->
-        <div class="bg-white border-b border-slate-200 px-6">
-            <div class="flex gap-1" id="tab-bar">
-                <button onclick="showTab('available')" id="tab-available"
-                    class="tab-btn px-4 py-3 text-sm font-semibold text-primary border-b-2 border-primary transition-colors">
-                    Available
-                </button>
-                <button onclick="showTab('pending')" id="tab-pending"
-                    class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors">
-                    Pending
-                    <% const pendingCount=mentors.filter(m=> m.connection && m.connection.status === 'pending').length;
+            <!-- Cards Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+
+                <!-- Available Tab -->
+                <div id="panel-available">
+                    <% const availableMentors=mentors.filter(m=> !m.connection || m.connection.status === 'rejected');
                         %>
-                        <% if (pendingCount> 0) { %>
-                            <span class="ml-1 bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
-                                <%= pendingCount %>
-                            </span>
-                            <% } %>
-                </button>
-                <button onclick="showTab('connected')" id="tab-connected"
-                    class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors">
-                    Connected
-                    <% const connectedCount=mentors.filter(m=> m.connection && m.connection.status ===
-                        'accepted').length; %>
-                        <% if (connectedCount> 0) { %>
-                            <span
-                                class="ml-1 bg-emerald-100 text-emerald-700 text-xs font-bold px-1.5 py-0.5 rounded-full">
-                                <%= connectedCount %>
-                            </span>
-                            <% } %>
-                </button>
-            </div>
-        </div>
-
-        <!-- Cards Area -->
-        <div class="flex-1 overflow-y-auto p-6">
-
-            <!-- Available Tab -->
-            <div id="panel-available">
-                <% const availableMentors=mentors.filter(m=> !m.connection || m.connection.status === 'rejected'); %>
-                    <% if (availableMentors.length===0) { %>
-                        <div class="text-center py-20 text-slate-400">
-                            <span class="material-symbols-outlined text-5xl mb-3">search_off</span>
-                            <p class="font-medium">No mentors available right now</p>
-                        </div>
-                        <% } else { %>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                <% availableMentors.forEach(mentor=> { %>
-                                    <div
-                                        class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="h-12 w-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-bold text-lg shrink-0">
-                                                <%= mentor.name.charAt(0).toUpperCase() %>
+                        <% if (availableMentors.length===0) { %>
+                            <div class="text-center py-20 text-slate-400">
+                                <span class="material-symbols-outlined text-5xl mb-3">search_off</span>
+                                <p class="font-medium">No mentors available right now</p>
+                            </div>
+                            <% } else { %>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                                    <% availableMentors.forEach(mentor=> { %>
+                                        <div
+                                            class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="h-12 w-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-bold text-lg shrink-0">
+                                                    <%= mentor.name.charAt(0).toUpperCase() %>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h3 class="font-semibold text-slate-900 truncate">
+                                                        <%= mentor.name %>
+                                                    </h3>
+                                                    <% if (mentor.jobTitle && mentor.company) { %>
+                                                        <p class="text-xs text-primary font-medium truncate">
+                                                            <%= mentor.jobTitle %> @ <%= mentor.company %>
+                                                        </p>
+                                                        <% } else if (mentor.jobTitle) { %>
+                                                            <p class="text-xs text-primary font-medium truncate">
+                                                                <%= mentor.jobTitle %>
+                                                            </p>
+                                                            <% } %>
+                                                </div>
                                             </div>
-                                            <div class="min-w-0">
-                                                <h3 class="font-semibold text-slate-900 truncate">
-                                                    <%= mentor.name %>
-                                                </h3>
-                                                <% if (mentor.jobTitle && mentor.company) { %>
-                                                    <p class="text-xs text-primary font-medium truncate">
-                                                        <%= mentor.jobTitle %> @ <%= mentor.company %>
-                                                    </p>
-                                                    <% } else if (mentor.jobTitle) { %>
+                                            <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+                                                <% if (mentor.university) { %>
+                                                    <div class="flex items-center gap-1.5">
+                                                        <span
+                                                            class="material-symbols-outlined text-[14px]">school</span>
+                                                        <span class="truncate">
+                                                            <%= mentor.university %>
+                                                                <% if (mentor.graduationYear) { %>· <%=
+                                                                        mentor.graduationYear %>
+                                                                        <% } %>
+                                                        </span>
+                                                    </div>
+                                                    <% } %>
+                                                        <% if (mentor.domain) { %>
+                                                            <div class="flex items-center gap-1.5">
+                                                                <span
+                                                                    class="material-symbols-outlined text-[14px]">category</span>
+                                                                <span class="truncate">
+                                                                    <%= mentor.domain %>
+                                                                </span>
+                                                            </div>
+                                                            <% } %>
+                                            </div>
+                                            <% if (mentor.bio) { %>
+                                                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                                    <%= mentor.bio %>
+                                                </p>
+                                                <% } %>
+                                                    <form method="POST" action="/student/connect/<%= mentor._id %>"
+                                                        class="mt-auto">
+                                                        <button type="submit"
+                                                            class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary text-white py-2.5 text-sm font-semibold hover:bg-primary/90 transition-colors">
+                                                            <span
+                                                                class="material-symbols-outlined text-[16px]">person_add</span>
+                                                            Connect
+                                                        </button>
+                                                    </form>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                                <% } %>
+                </div>
+
+                <!-- Pending Tab -->
+                <div id="panel-pending" class="hidden">
+                    <% const pendingMentors=mentors.filter(m=> m.connection && m.connection.status === 'pending'); %>
+                        <% if (pendingMentors.length===0) { %>
+                            <div class="text-center py-20 text-slate-400">
+                                <span class="material-symbols-outlined text-5xl mb-3">hourglass_empty</span>
+                                <p class="font-medium">No pending requests</p>
+                            </div>
+                            <% } else { %>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                                    <% pendingMentors.forEach(mentor=> { %>
+                                        <div
+                                            class="bg-white rounded-2xl border border-amber-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="h-12 w-12 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-amber-700 font-bold text-lg shrink-0">
+                                                    <%= mentor.name.charAt(0).toUpperCase() %>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h3 class="font-semibold text-slate-900 truncate">
+                                                        <%= mentor.name %>
+                                                    </h3>
+                                                    <% if (mentor.jobTitle) { %>
                                                         <p class="text-xs text-primary font-medium truncate">
                                                             <%= mentor.jobTitle %>
+                                                                <% if (mentor.company) { %> @ <%= mentor.company %>
+                                                                        <% } %>
                                                         </p>
                                                         <% } %>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col gap-1.5 text-xs text-slate-500">
-                                            <% if (mentor.university) { %>
-                                                <div class="flex items-center gap-1.5">
-                                                    <span class="material-symbols-outlined text-[14px]">school</span>
-                                                    <span class="truncate">
-                                                        <%= mentor.university %>
-                                                            <% if (mentor.graduationYear) { %>· <%=
-                                                                    mentor.graduationYear %>
-                                                                    <% } %>
-                                                    </span>
                                                 </div>
-                                                <% } %>
-                                                    <% if (mentor.domain) { %>
-                                                        <div class="flex items-center gap-1.5">
-                                                            <span
-                                                                class="material-symbols-outlined text-[14px]">category</span>
-                                                            <span class="truncate">
-                                                                <%= mentor.domain %>
-                                                            </span>
-                                                        </div>
-                                                        <% } %>
-                                        </div>
-                                        <% if (mentor.bio) { %>
-                                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                                                <%= mentor.bio %>
-                                            </p>
-                                            <% } %>
-                                                <form method="POST" action="/student/connect/<%= mentor._id %>"
-                                                    class="mt-auto">
-                                                    <button type="submit"
-                                                        class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary text-white py-2.5 text-sm font-semibold hover:bg-primary/90 transition-colors">
-                                                        <span
-                                                            class="material-symbols-outlined text-[16px]">person_add</span>
-                                                        Connect
-                                                    </button>
-                                                </form>
-                                    </div>
-                                    <% }) %>
-                            </div>
-                            <% } %>
-            </div>
-
-            <!-- Pending Tab -->
-            <div id="panel-pending" class="hidden">
-                <% const pendingMentors=mentors.filter(m=> m.connection && m.connection.status === 'pending'); %>
-                    <% if (pendingMentors.length===0) { %>
-                        <div class="text-center py-20 text-slate-400">
-                            <span class="material-symbols-outlined text-5xl mb-3">hourglass_empty</span>
-                            <p class="font-medium">No pending requests</p>
-                        </div>
-                        <% } else { %>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                <% pendingMentors.forEach(mentor=> { %>
-                                    <div
-                                        class="bg-white rounded-2xl border border-amber-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="h-12 w-12 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-amber-700 font-bold text-lg shrink-0">
-                                                <%= mentor.name.charAt(0).toUpperCase() %>
                                             </div>
-                                            <div class="min-w-0">
-                                                <h3 class="font-semibold text-slate-900 truncate">
-                                                    <%= mentor.name %>
-                                                </h3>
-                                                <% if (mentor.jobTitle) { %>
-                                                    <p class="text-xs text-primary font-medium truncate">
-                                                        <%= mentor.jobTitle %>
-                                                            <% if (mentor.company) { %> @ <%= mentor.company %>
-                                                                    <% } %>
-                                                    </p>
+                                            <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+                                                <% if (mentor.university) { %>
+                                                    <div class="flex items-center gap-1.5"><span
+                                                            class="material-symbols-outlined text-[14px]">school</span><span
+                                                            class="truncate">
+                                                            <%= mentor.university %>
+                                                        </span></div>
                                                     <% } %>
+                                                        <% if (mentor.domain) { %>
+                                                            <div class="flex items-center gap-1.5"><span
+                                                                    class="material-symbols-outlined text-[14px]">category</span><span
+                                                                    class="truncate">
+                                                                    <%= mentor.domain %>
+                                                                </span></div>
+                                                            <% } %>
+                                            </div>
+                                            <div
+                                                class="mt-auto flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200 px-3 py-2.5">
+                                                <span
+                                                    class="material-symbols-outlined text-amber-500 text-[16px]">schedule</span>
+                                                <span class="text-sm font-medium text-amber-700">Request Pending</span>
                                             </div>
                                         </div>
-                                        <div class="flex flex-col gap-1.5 text-xs text-slate-500">
-                                            <% if (mentor.university) { %>
-                                                <div class="flex items-center gap-1.5"><span
-                                                        class="material-symbols-outlined text-[14px]">school</span><span
-                                                        class="truncate">
-                                                        <%= mentor.university %>
-                                                    </span></div>
-                                                <% } %>
-                                                    <% if (mentor.domain) { %>
-                                                        <div class="flex items-center gap-1.5"><span
-                                                                class="material-symbols-outlined text-[14px]">category</span><span
-                                                                class="truncate">
-                                                                <%= mentor.domain %>
-                                                            </span></div>
-                                                        <% } %>
-                                        </div>
+                                        <% }) %>
+                                </div>
+                                <% } %>
+                </div>
+
+                <!-- Connected Tab -->
+                <div id="panel-connected" class="hidden">
+                    <% const connectedMentors=mentors.filter(m=> m.connection && m.connection.status === 'accepted'); %>
+                        <% if (connectedMentors.length===0) { %>
+                            <div class="text-center py-20 text-slate-400">
+                                <span class="material-symbols-outlined text-5xl mb-3">diversity_3</span>
+                                <p class="font-medium">No connections yet — send some requests!</p>
+                            </div>
+                            <% } else { %>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                                    <% connectedMentors.forEach(mentor=> { %>
                                         <div
-                                            class="mt-auto flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200 px-3 py-2.5">
-                                            <span
-                                                class="material-symbols-outlined text-amber-500 text-[16px]">schedule</span>
-                                            <span class="text-sm font-medium text-amber-700">Request Pending</span>
-                                        </div>
-                                    </div>
-                                    <% }) %>
-                            </div>
-                            <% } %>
-            </div>
-
-            <!-- Connected Tab -->
-            <div id="panel-connected" class="hidden">
-                <% const connectedMentors=mentors.filter(m=> m.connection && m.connection.status === 'accepted'); %>
-                    <% if (connectedMentors.length===0) { %>
-                        <div class="text-center py-20 text-slate-400">
-                            <span class="material-symbols-outlined text-5xl mb-3">diversity_3</span>
-                            <p class="font-medium">No connections yet — send some requests!</p>
-                        </div>
-                        <% } else { %>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                <% connectedMentors.forEach(mentor=> { %>
-                                    <div
-                                        class="bg-white rounded-2xl border border-emerald-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="h-12 w-12 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center text-emerald-700 font-bold text-lg shrink-0">
-                                                <%= mentor.name.charAt(0).toUpperCase() %>
-                                            </div>
-                                            <div class="min-w-0">
-                                                <h3 class="font-semibold text-slate-900 truncate">
-                                                    <%= mentor.name %>
-                                                </h3>
-                                                <% if (mentor.jobTitle) { %>
-                                                    <p class="text-xs text-primary font-medium truncate">
-                                                        <%= mentor.jobTitle %>
-                                                            <% if (mentor.company) { %> @ <%= mentor.company %>
-                                                                    <% } %>
-                                                    </p>
-                                                    <% } %>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col gap-1.5 text-xs text-slate-500">
-                                            <% if (mentor.university) { %>
-                                                <div class="flex items-center gap-1.5"><span
-                                                        class="material-symbols-outlined text-[14px]">school</span><span
-                                                        class="truncate">
-                                                        <%= mentor.university %>
-                                                    </span></div>
-                                                <% } %>
-                                                    <% if (mentor.domain) { %>
-                                                        <div class="flex items-center gap-1.5"><span
-                                                                class="material-symbols-outlined text-[14px]">category</span><span
-                                                                class="truncate">
-                                                                <%= mentor.domain %>
-                                                            </span></div>
-                                                        <% } %>
-                                        </div>
-                                        <% if (mentor.bio) { %>
-                                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                                                <%= mentor.bio %>
-                                            </p>
-                                            <% } %>
+                                            class="bg-white rounded-2xl border border-emerald-200 p-5 flex flex-col gap-4 hover:shadow-md transition-all duration-200">
+                                            <div class="flex items-center gap-3">
                                                 <div
-                                                    class="mt-auto flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2.5">
-                                                    <span
-                                                        class="material-symbols-outlined text-emerald-500 text-[16px]">check_circle</span>
-                                                    <span class="text-sm font-medium text-emerald-700">Connected</span>
+                                                    class="h-12 w-12 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center text-emerald-700 font-bold text-lg shrink-0">
+                                                    <%= mentor.name.charAt(0).toUpperCase() %>
                                                 </div>
-                                    </div>
-                                    <% }) %>
-                            </div>
-                            <% } %>
-            </div>
+                                                <div class="min-w-0">
+                                                    <h3 class="font-semibold text-slate-900 truncate">
+                                                        <%= mentor.name %>
+                                                    </h3>
+                                                    <% if (mentor.jobTitle) { %>
+                                                        <p class="text-xs text-primary font-medium truncate">
+                                                            <%= mentor.jobTitle %>
+                                                                <% if (mentor.company) { %> @ <%= mentor.company %>
+                                                                        <% } %>
+                                                        </p>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+                                                <% if (mentor.university) { %>
+                                                    <div class="flex items-center gap-1.5"><span
+                                                            class="material-symbols-outlined text-[14px]">school</span><span
+                                                            class="truncate">
+                                                            <%= mentor.university %>
+                                                        </span></div>
+                                                    <% } %>
+                                                        <% if (mentor.domain) { %>
+                                                            <div class="flex items-center gap-1.5"><span
+                                                                    class="material-symbols-outlined text-[14px]">category</span><span
+                                                                    class="truncate">
+                                                                    <%= mentor.domain %>
+                                                                </span></div>
+                                                            <% } %>
+                                            </div>
+                                            <% if (mentor.bio) { %>
+                                                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                                    <%= mentor.bio %>
+                                                </p>
+                                                <% } %>
+                                                    <div
+                                                        class="mt-auto flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2.5">
+                                                        <span
+                                                            class="material-symbols-outlined text-emerald-500 text-[16px]">check_circle</span>
+                                                        <span
+                                                            class="text-sm font-medium text-emerald-700">Connected</span>
+                                                    </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                                <% } %>
+                </div>
 
-        </div>
+        </main>
     </div>
 
     <script>

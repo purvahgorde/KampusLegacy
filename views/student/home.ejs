@@ -179,105 +179,73 @@
                             Available Mentors
                         </h3>
                         <a class="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1"
-                            href="#">
+                            href="/student/mentors">
                             View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </a>
                     </div>
                     <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x">
-                        <!-- Mentor Card 1 -->
-                        <div
-                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
-                            <div class="flex flex-col items-center text-center">
-                                <div class="relative mb-3">
-                                    <img alt="Professional woman in business attire"
-                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
-                                        data-alt="Portrait of Sarah Jenkins"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkgwiJtHtag0W-zOSpncdJl_HF_qVuyLF8gYqAYpCEL2c39sq21okLcK3iP3W7H9LzOBe4_MLdYaHRKpqTKiz-j_IZZ-GPq0TxgFk2HW-leIiPYJm1Ylib3RpH28tYSD8ZXjwa7F2zsHCuwcOHoKiY9g7zwbA5w43o-BpKAoOsD-EFm15w9qzc5mpOd_SWaU92W7ez_6EwOQl3DcCzzC1CFtINQjSSnGJsdKYa-P_RjjtGHKXKb7m9uxKmOfNpOXD5xJL64ZYAkfQ" />
-                                    <div
-                                        class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800">
+                        <% if (mentors && mentors.length> 0) { %>
+                            <% mentors.forEach(mentor=> { %>
+                                <div
+                                    class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start flex flex-col">
+                                    <div class="flex flex-col items-center text-center w-full flex-1">
+                                        <div class="relative mb-3">
+                                            <% if (mentor.profilePicture) { %>
+                                                <img alt="Portrait of <%= mentor.name %>"
+                                                    class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
+                                                    src="<%= mentor.profilePicture %>" />
+                                                <% } else { %>
+                                                    <div
+                                                        class="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-bold text-2xl shadow-sm border-2 border-white dark:border-slate-600">
+                                                        <%= mentor.name.charAt(0).toUpperCase() %>
+                                                    </div>
+                                                    <% } %>
+                                                        <div
+                                                            class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800">
+                                                        </div>
+                                        </div>
+                                        <h4 class="font-bold text-slate-900 dark:text-white truncate w-full px-2">
+                                            <%= mentor.name %>
+                                        </h4>
+                                        <p class="text-xs text-primary font-medium mb-1 w-full line-clamp-2 px-2">
+                                            <%= mentor.jobTitle || 'Mentor' %>
+                                                <%= mentor.company ? ' @ ' + mentor.company : '' %>
+                                        </p>
+                                        <div
+                                            class="flex gap-1 mt-2 mb-4 flex-wrap justify-center h-[24px] overflow-hidden">
+                                            <% if (mentor.skills && mentor.skills.length> 0) { %>
+                                                <% mentor.skills.slice(0, 2).forEach(skill=> { %>
+                                                    <span
+                                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                                        <%= skill %>
+                                                    </span>
+                                                    <% }) %>
+                                                        <% } else if (mentor.domain) { %>
+                                                            <span
+                                                                class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                                                <%= mentor.domain %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                <span
+                                                                    class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">General</span>
+                                                                <% } %>
+                                        </div>
+                                        <form method="POST" action="/student/connect/<%= mentor._id %>"
+                                            class="w-full mt-auto">
+                                            <button type="submit"
+                                                class="w-full py-1.5 px-3 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">Connect</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <h4 class="font-bold text-slate-900 dark:text-white">Sarah Jenkins</h4>
-                                <p class="text-xs text-primary font-medium mb-1">Product Manager @ Google</p>
-                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">UX/UI</span>
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Strategy</span>
-                                </div>
-                                <button
-                                    class="w-full py-1.5 px-3 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">Connect</button>
-                            </div>
-                        </div>
-                        <!-- Mentor Card 2 -->
-                        <div
-                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
-                            <div class="flex flex-col items-center text-center">
-                                <div class="relative mb-3">
-                                    <img alt="Professional man in suit"
-                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
-                                        data-alt="Portrait of Michael Chen"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2FwzIxfv0QEzMhdDMOqNzIhWVaLVILVCIQyqPW4GB2ieSL4PtoFQp7zzRQ1-YLDwTgreIrU_SLbdfMbSP_WCR2Sq1lmqvgxudTUVWgX52WmaPCAWTSNqn-AF0HGRXI3nP11ISdnErw1ziGXeg5JZO2yWlNjwYPVO31e50D_TCHmsoDC59U5TyG3_Ih8GKcNt-M8niJs-o6c8e_AOehwj0I51EOs55CKNYwdJenUldoGL4kwnvpRvjF0-5KsX3S6N3UnaP9ht3f48" />
-                                </div>
-                                <h4 class="font-bold text-slate-900 dark:text-white">Michael Chen</h4>
-                                <p class="text-xs text-primary font-medium mb-1">Sr. Developer @ Netflix</p>
-                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">React</span>
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Node.js</span>
-                                </div>
-                                <button
-                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
-                            </div>
-                        </div>
-                        <!-- Mentor Card 3 -->
-                        <div
-                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
-                            <div class="flex flex-col items-center text-center">
-                                <div class="relative mb-3">
-                                    <img alt="Smiling woman looking at camera"
-                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
-                                        data-alt="Portrait of Emily Davis"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNnG65I1ZtJqD1B3r61wTQ2Q8PlHM2siHwGDJiRYbZB6Vsywrahvt5g0HgGfqGly6np85qpduZoHeTCCuhR2Ca4CKhMxN7NZBeVmU1OoyJucW1O-1T1vTFzy6fRociLbkcsa79D2s1Qbp-uqmNhkGBm4_NsN97Dum-EAuV9SEepfJ52abJ312KVzhBDcos4BX2WZvro_uxVxiAt0mu0PKoALO-42Zf5KQwuejOhGC7V5GcuGCU7wesbZVva7rXO5EDipM_YAQpkRQ" />
-                                    <div
-                                        class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800">
-                                    </div>
-                                </div>
-                                <h4 class="font-bold text-slate-900 dark:text-white">Emily Davis</h4>
-                                <p class="text-xs text-primary font-medium mb-1">Data Scientist @ Spotify</p>
-                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Python</span>
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">ML</span>
-                                </div>
-                                <button
-                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
-                            </div>
-                        </div>
-                        <!-- Mentor Card 4 -->
-                        <div
-                            class="min-w-[240px] bg-white dark:bg-[#1e293b] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow snap-start">
-                            <div class="flex flex-col items-center text-center">
-                                <div class="relative mb-3">
-                                    <img alt="Man with glasses in office"
-                                        class="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm"
-                                        data-alt="Portrait of David Kim"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZuL8AUNoYcAuP870cdB9fCSOhk9MnrudX7eEkRWl2WOuaci1_E-FvACPtIpBihKL2G9CVj-A25xXP8Sz8n5VFmhGKaDlyMnv9jFQ1xSKrPL9QoEGFqX8ULdIidzR-jvl3Kta8qMX-8YI_wOxhLxy_b_8B0Li-0vOAGMqvlDJxcXFF5Pyi57nCidxDKL6Q0EKB5e4ID9_fqYi6AeiBj24vV_sUh7kZrWfWmfkiaNa_2Z_8ND1OBD4XnEu-T42-JHm4xEeGRb7rusk" />
-                                </div>
-                                <h4 class="font-bold text-slate-900 dark:text-white">David Kim</h4>
-                                <p class="text-xs text-primary font-medium mb-1">Founder @ TechStart</p>
-                                <div class="flex gap-1 mt-2 mb-4 flex-wrap justify-center">
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Startup</span>
-                                    <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Pitching</span>
-                                </div>
-                                <button
-                                    class="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">Connect</button>
-                            </div>
-                        </div>
+                                <% }) %>
+                                    <% } else { %>
+                                        <div
+                                            class="w-full py-8 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+                                            <span
+                                                class="material-symbols-outlined text-4xl mb-2 opacity-50">search_off</span>
+                                            <p class="text-sm font-medium">No mentors available right now.</p>
+                                        </div>
+                                        <% } %>
                     </div>
                 </section>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -531,7 +499,7 @@
                             </div>
                         </section>
                         <!-- Suggested Connections (Mini List) -->
-                        <section
+                        <!-- <section
                             class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 p-5">
                             <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4">People you may know</h3>
                             <div class="space-y-4">
@@ -571,7 +539,7 @@
                             <button
                                 class="w-full mt-4 text-xs font-medium text-slate-500 hover:text-primary transition-colors">See
                                 all suggestions</button>
-                        </section>
+                        </section> -->
                     </div>
                 </div>
                 <footer class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700 text-center pb-8">
