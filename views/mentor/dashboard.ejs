@@ -5,8 +5,10 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Mentor Dashboard - KampusLegacy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -26,73 +28,114 @@
         }
     </script>
     <style>
-        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
-        .modal-backdrop { backdrop-filter: blur(4px); }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 99px;
+        }
+
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+
         /* drag-drop zone */
-        #drop-zone.drag-over { border-color: #135bec; background: #e8effd; }
+        #drop-zone.drag-over {
+            border-color: #135bec;
+            background: #e8effd;
+        }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
     <div class="flex h-screen w-full">
         <!-- Sidebar -->
-        <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300">
+        <aside
+            class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300">
             <div class="flex flex-col h-full">
                 <div class="p-6">
                     <a href="/" class="flex items-center gap-3 mb-8">
                         <div class="h-10 w-10 text-primary">
-                            <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="h-full w-full" fill="none" viewBox="0 0 48 48"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_6_319)">
-                                    <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+                                    <path
+                                        d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                        fill="currentColor"></path>
                                 </g>
-                                <defs><clipPath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clipPath></defs>
+                                <defs>
+                                    <clipPath id="clip0_6_319">
+                                        <rect fill="white" height="48" width="48"></rect>
+                                    </clipPath>
+                                </defs>
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy</h1>
+                            <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy
+                            </h1>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Mentor Portal</p>
                         </div>
                     </a>
                     <nav class="flex flex-col gap-1">
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/home">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/home">
                             <span class="material-symbols-outlined text-[20px]">home</span>
                             <span class="text-sm">Home</span>
                         </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="/mentor/dashboard">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors"
+                            href="/mentor/dashboard">
                             <span class="material-symbols-outlined text-[20px]">dashboard</span>
                             <span class="text-sm">Dashboard</span>
                         </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/requests">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/requests">
                             <span class="material-symbols-outlined text-[20px]">group</span>
                             <span class="text-sm">My Mentees</span>
                         </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/opportunities">
+                            <span class="material-symbols-outlined text-[20px]">work</span>
+                            <span class="text-sm">Opportunities</span>
+                        </a>
+                        <!-- <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
                             <span class="material-symbols-outlined text-[20px]">calendar_month</span>
                             <span class="text-sm">Schedule</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/messages">
+                        </a> -->
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/messages">
                             <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
                             <span class="text-sm">Messages</span>
                         </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/resources">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/resources">
                             <span class="material-symbols-outlined text-[20px]">menu_book</span>
                             <span class="text-sm">Resources</span>
                         </a>
                     </nav>
                 </div>
                 <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
-                    <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-                        <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                    <div
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                        <div
+                            class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
                             <%= user.name.charAt(0).toUpperCase() %>
                         </div>
                         <div class="flex flex-col min-w-0">
-                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
+                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
+                                <%= user.name %>
+                            </p>
                             <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Mentor</p>
                         </div>
                     </div>
-                    <a href="/auth/logout" class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
+                    <a href="/auth/logout"
+                        class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
                         <span class="material-symbols-outlined">logout</span>
                         Log Out
                     </a>
@@ -102,12 +145,15 @@
 
         <!-- Main Content -->
         <div class="flex-1 flex flex-col h-full overflow-hidden relative">
-            <header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-10">
+            <header
+                class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-10">
                 <h2 class="text-lg font-bold text-slate-900 dark:text-white">Dashboard</h2>
                 <div class="flex items-center gap-4">
-                    <button class="relative p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+                    <button
+                        class="relative p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
                         <span class="material-symbols-outlined">notifications</span>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+                        <span
+                            class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
                     </button>
                 </div>
             </header>
@@ -116,8 +162,10 @@
                 <!-- Page Header -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
                     <div>
-                        <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Mentor Dashboard</h1>
-                        <p class="text-slate-500 dark:text-slate-400 text-base mt-1">Manage your resources and track student engagement.</p>
+                        <h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Mentor Dashboard
+                        </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-base mt-1">Manage your resources and track
+                            student engagement.</p>
                     </div>
                     <button id="open-upload-btn"
                         class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
@@ -128,41 +176,56 @@
 
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
-                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div
+                        class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <div class="flex justify-between items-start">
                             <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
                                 <span class="material-symbols-outlined">group</span>
                             </div>
                         </div>
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Students Mentored</p>
-                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.students %></p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold">
+                            <%= stats.students %>
+                        </p>
                     </div>
-                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div
+                        class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <div class="flex justify-between items-start">
-                            <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
+                            <div
+                                class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
                                 <span class="material-symbols-outlined">library_books</span>
                             </div>
                         </div>
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Resources</p>
-                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalResources %></p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold">
+                            <%= stats.totalResources %>
+                        </p>
                     </div>
-                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div
+                        class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <div class="flex justify-between items-start">
-                            <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
+                            <div
+                                class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
                                 <span class="material-symbols-outlined">visibility</span>
                             </div>
                         </div>
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Views</p>
-                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalViews.toLocaleString() %></p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold">
+                            <%= stats.totalViews.toLocaleString() %>
+                        </p>
                     </div>
-                    <div class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div
+                        class="flex flex-col gap-1 rounded-xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <div class="flex justify-between items-start">
-                            <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+                            <div
+                                class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
                                 <span class="material-symbols-outlined">download</span>
                             </div>
                         </div>
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-3">Total Downloads</p>
-                        <p class="text-slate-900 dark:text-white text-2xl font-bold"><%= stats.totalDownloads.toLocaleString() %></p>
+                        <p class="text-slate-900 dark:text-white text-2xl font-bold">
+                            <%= stats.totalDownloads.toLocaleString() %>
+                        </p>
                     </div>
                 </div>
 
@@ -170,14 +233,17 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center justify-between px-1">
                         <h2 class="text-slate-900 dark:text-white text-xl font-bold">My Uploaded Resources</h2>
-                        <a href="/mentor/resources" class="text-primary text-sm font-medium hover:underline">View All</a>
+                        <a href="/mentor/resources" class="text-primary text-sm font-medium hover:underline">View
+                            All</a>
                     </div>
 
-                    <div class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                    <div
+                        class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
-                                    <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+                                    <tr
+                                        class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
                                         <th class="px-6 py-4 min-w-[240px]">Resource Title</th>
                                         <th class="px-6 py-4 min-w-[140px]">Date Uploaded</th>
                                         <th class="px-6 py-4 min-w-[140px]">Category</th>
@@ -187,52 +253,82 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                    <% if (resources.length === 0) { %>
+                                    <% if (resources.length===0) { %>
                                         <tr>
                                             <td colspan="6" class="px-6 py-16 text-center text-slate-400">
-                                                <span class="material-symbols-outlined text-5xl mb-3 block opacity-40">folder_open</span>
+                                                <span
+                                                    class="material-symbols-outlined text-5xl mb-3 block opacity-40">folder_open</span>
                                                 <p class="font-medium">No resources uploaded yet.</p>
-                                                <p class="text-xs mt-1">Click "Upload Resource" to add your first one.</p>
+                                                <p class="text-xs mt-1">Click "Upload Resource" to add your first one.
+                                                </p>
                                             </td>
                                         </tr>
-                                    <% } %>
-                                    <% resources.forEach(r => { %>
-                                        <% const icon = getFileIcon(r.mimeType, r.fileName); %>
-                                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors" id="row-<%= r._id %>">
-                                            <td class="px-6 py-4">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="<%= icon.bg %> p-2 rounded text-<%= icon.color %>">
-                                                        <span class="material-symbols-outlined text-xl"><%= icon.icon %></span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="text-sm font-medium text-slate-900 dark:text-white"><%= r.title %></p>
-                                                        <p class="text-xs text-slate-500"><%= r.fileName %> · <%= formatSize(r.fileSize) %></p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400"><%= new Date(r.createdAt).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) %></td>
-                                            <td class="px-6 py-4">
-                                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= getCategoryStyle(r.category) %>">
-                                                    <%= r.category %>
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300"><%= r.views %></td>
-                                            <td class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300"><%= r.downloads %></td>
-                                            <td class="px-6 py-4 text-right">
-                                                <button onclick="deleteResource('<%= r._id %>')" class="text-slate-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20" title="Delete">
-                                                    <span class="material-symbols-outlined text-xl">delete</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <% }) %>
+                                        <% } %>
+                                            <% resources.forEach(r=> { %>
+                                                <% const icon=getFileIcon(r.mimeType, r.fileName); %>
+                                                    <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                                                        id="row-<%= r._id %>">
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center gap-3">
+                                                                <div
+                                                                    class="<%= icon.bg %> p-2 rounded text-<%= icon.color %>">
+                                                                    <span class="material-symbols-outlined text-xl">
+                                                                        <%= icon.icon %>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <p
+                                                                        class="text-sm font-medium text-slate-900 dark:text-white">
+                                                                        <%= r.title %>
+                                                                    </p>
+                                                                    <p class="text-xs text-slate-500">
+                                                                        <%= r.fileName %> · <%= formatSize(r.fileSize)
+                                                                                %>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">
+                                                            <%= new Date(r.createdAt).toLocaleDateString('en-US',
+                                                                {month:'short', day:'numeric', year:'numeric'}) %>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <span
+                                                                class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= getCategoryStyle(r.category) %>">
+                                                                <%= r.category %>
+                                                            </span>
+                                                        </td>
+                                                        <td
+                                                            class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">
+                                                            <%= r.views %>
+                                                        </td>
+                                                        <td
+                                                            class="px-6 py-4 text-sm text-center text-slate-600 dark:text-slate-300">
+                                                            <%= r.downloads %>
+                                                        </td>
+                                                        <td class="px-6 py-4 text-right">
+                                                            <button onclick="deleteResource('<%= r._id %>')"
+                                                                class="text-slate-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20"
+                                                                title="Delete">
+                                                                <span
+                                                                    class="material-symbols-outlined text-xl">delete</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3 bg-slate-50 dark:bg-slate-900">
-                            <span class="text-xs text-slate-500 dark:text-slate-400">Showing <%= resources.length %> of <%= stats.totalResources %> resources</span>
-                            <% if (stats.totalResources > 4) { %>
-                                <a href="/mentor/resources" class="text-xs text-primary font-medium hover:underline">View all <%= stats.totalResources %> →</a>
-                            <% } %>
+                        <div
+                            class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3 bg-slate-50 dark:bg-slate-900">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Showing <%= resources.length %> of
+                                    <%= stats.totalResources %> resources</span>
+                            <% if (stats.totalResources> 4) { %>
+                                <a href="/mentor/resources"
+                                    class="text-xs text-primary font-medium hover:underline">View all <%=
+                                        stats.totalResources %> →</a>
+                                <% } %>
                         </div>
                     </div>
                 </div>
@@ -247,23 +343,29 @@
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
                 <h3 class="text-lg font-bold text-slate-900 dark:text-white">Upload Resource</h3>
-                <button id="close-modal-btn" class="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <button id="close-modal-btn"
+                    class="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <!-- Modal Body -->
             <div class="p-6 space-y-4">
                 <!-- Drop Zone -->
-                <div id="drop-zone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
+                <div id="drop-zone"
+                    class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
                     <span class="material-symbols-outlined text-4xl text-slate-400 mb-2 block">cloud_upload</span>
-                    <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Drag & drop your file here, or <span class="text-primary">browse</span></p>
-                    <p class="text-xs text-slate-500 mt-1">PDF, DOC, DOCX, PPTX, XLSX, MP4, JPG, PNG, ZIP — up to 100MB</p>
+                    <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Drag & drop your file here, or
+                        <span class="text-primary">browse</span></p>
+                    <p class="text-xs text-slate-500 mt-1">PDF, DOC, DOCX, PPTX, XLSX, MP4, JPG, PNG, ZIP — up to 100MB
+                    </p>
                     <input type="file" id="file-input" class="hidden"
                         accept=".pdf,.doc,.docx,.pptx,.ppt,.xlsx,.xls,.mp4,.mov,.avi,.jpg,.jpeg,.png,.gif,.zip,.rar,.txt,.csv" />
-                    <div id="file-preview" class="hidden mt-3 flex items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-lg px-3 py-2 text-left">
+                    <div id="file-preview"
+                        class="hidden mt-3 flex items-center gap-2 bg-slate-50 dark:bg-slate-800 rounded-lg px-3 py-2 text-left">
                         <span class="material-symbols-outlined text-primary">insert_drive_file</span>
                         <div class="flex-1 min-w-0">
-                            <p id="file-name-preview" class="text-sm font-medium text-slate-900 dark:text-white truncate"></p>
+                            <p id="file-name-preview"
+                                class="text-sm font-medium text-slate-900 dark:text-white truncate"></p>
                             <p id="file-size-preview" class="text-xs text-slate-500"></p>
                         </div>
                         <button onclick="clearFile()" class="text-slate-400 hover:text-red-500">
@@ -273,22 +375,30 @@
                 </div>
                 <!-- Title -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label>
+                    <label
+                        class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Title
+                        <span class="text-red-500">*</span></label>
                     <input id="upload-title" type="text" placeholder="e.g. Intro to Python Guide"
                         class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
                 </div>
                 <!-- Category -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Category <span class="text-red-500">*</span></label>
-                    <select id="upload-category" class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
-                        <% categories.forEach(cat => { %>
-                            <option value="<%= cat %>"><%= cat %></option>
-                        <% }) %>
+                    <label
+                        class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Category
+                        <span class="text-red-500">*</span></label>
+                    <select id="upload-category"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
+                        <% categories.forEach(cat=> { %>
+                            <option value="<%= cat %>">
+                                <%= cat %>
+                            </option>
+                            <% }) %>
                     </select>
                 </div>
                 <!-- Description -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Description</label>
+                    <label
+                        class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Description</label>
                     <textarea id="upload-desc" rows="2" placeholder="Brief description of the resource..."
                         class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition resize-none"></textarea>
                 </div>
@@ -299,14 +409,18 @@
                         <span id="upload-pct">0%</span>
                     </div>
                     <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div id="upload-bar" class="h-full bg-primary rounded-full transition-all" style="width:0%"></div>
+                        <div id="upload-bar" class="h-full bg-primary rounded-full transition-all" style="width:0%">
+                        </div>
                     </div>
                 </div>
-                <div id="upload-error" class="hidden text-sm text-red-600 font-medium px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
+                <div id="upload-error"
+                    class="hidden text-sm text-red-600 font-medium px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                </div>
             </div>
             <!-- Modal Footer -->
             <div class="px-6 pb-6 flex gap-3 justify-end">
-                <button id="cancel-upload-btn" class="px-5 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">Cancel</button>
+                <button id="cancel-upload-btn"
+                    class="px-5 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">Cancel</button>
                 <button id="submit-upload-btn"
                     class="px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all active:scale-95 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                     <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
@@ -461,39 +575,30 @@
 
 </html>
 
-<%
-function getFileIcon(mime, name) {
-    const ext = (name || '').split('.').pop().toLowerCase();
-    if (mime && mime.includes('pdf') || ext === 'pdf') return { icon: 'picture_as_pdf', bg: 'bg-red-50 dark:bg-red-900/20', color: 'red-600 dark:text-red-400' };
-    if (['doc','docx'].includes(ext)) return { icon: 'description', bg: 'bg-blue-50 dark:bg-blue-900/20', color: 'blue-600 dark:text-blue-400' };
-    if (['ppt','pptx'].includes(ext)) return { icon: 'slideshow', bg: 'bg-orange-50 dark:bg-orange-900/20', color: 'orange-600 dark:text-orange-400' };
-    if (['xls','xlsx','csv'].includes(ext)) return { icon: 'table_chart', bg: 'bg-green-50 dark:bg-green-900/20', color: 'green-600 dark:text-green-400' };
-    if (['mp4','mov','avi','mkv'].includes(ext) || (mime && mime.startsWith('video'))) return { icon: 'play_circle', bg: 'bg-purple-50 dark:bg-purple-900/20', color: 'purple-600 dark:text-purple-400' };
-    if (['jpg','jpeg','png','gif','webp'].includes(ext) || (mime && mime.startsWith('image'))) return { icon: 'image', bg: 'bg-pink-50 dark:bg-pink-900/20', color: 'pink-600 dark:text-pink-400' };
-    if (['zip','rar','7z'].includes(ext)) return { icon: 'folder_zip', bg: 'bg-amber-50 dark:bg-amber-900/20', color: 'amber-600 dark:text-amber-400' };
-    return { icon: 'insert_drive_file', bg: 'bg-slate-100 dark:bg-slate-800', color: 'slate-600 dark:text-slate-400' };
-}
-
-function formatSize(bytes) {
-    if (!bytes) return '—';
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
-function getCategoryStyle(cat) {
-    const map = {
-        'Programming': 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
-        'Career Advice': 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300',
-        'Design': 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
-        'Engineering': 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300',
-        'Data Science': 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300',
-        'Product Management': 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300',
-        'Interview Prep': 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300',
-        'Soft Skills': 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300',
-        'Finance': 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300',
-        'Entrepreneurship': 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300',
-    };
-    return map[cat] || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
-}
-%>
+<% function getFileIcon(mime, name) { const ext=(name || '' ).split('.').pop().toLowerCase(); if (mime &&
+    mime.includes('pdf') || ext==='pdf' ) return { icon: 'picture_as_pdf' , bg: 'bg-red-50 dark:bg-red-900/20' ,
+    color: 'red-600 dark:text-red-400' }; if (['doc','docx'].includes(ext)) return { icon: 'description' ,
+    bg: 'bg-blue-50 dark:bg-blue-900/20' , color: 'blue-600 dark:text-blue-400' }; if (['ppt','pptx'].includes(ext))
+    return { icon: 'slideshow' , bg: 'bg-orange-50 dark:bg-orange-900/20' , color: 'orange-600 dark:text-orange-400' };
+    if (['xls','xlsx','csv'].includes(ext)) return { icon: 'table_chart' , bg: 'bg-green-50 dark:bg-green-900/20' ,
+    color: 'green-600 dark:text-green-400' }; if (['mp4','mov','avi','mkv'].includes(ext) || (mime &&
+    mime.startsWith('video'))) return { icon: 'play_circle' , bg: 'bg-purple-50 dark:bg-purple-900/20' ,
+    color: 'purple-600 dark:text-purple-400' }; if (['jpg','jpeg','png','gif','webp'].includes(ext) || (mime &&
+    mime.startsWith('image'))) return { icon: 'image' , bg: 'bg-pink-50 dark:bg-pink-900/20' ,
+    color: 'pink-600 dark:text-pink-400' }; if (['zip','rar','7z'].includes(ext)) return { icon: 'folder_zip' ,
+    bg: 'bg-amber-50 dark:bg-amber-900/20' , color: 'amber-600 dark:text-amber-400' }; return {
+    icon: 'insert_drive_file' , bg: 'bg-slate-100 dark:bg-slate-800' , color: 'slate-600 dark:text-slate-400' }; }
+    function formatSize(bytes) { if (!bytes) return '—' ; if (bytes < 1024) return bytes + ' B' ; if (bytes < 1024 *
+    1024) return (bytes / 1024).toFixed(1) + ' KB' ; return (bytes / (1024 * 1024)).toFixed(1) + ' MB' ; } function
+    getCategoryStyle(cat) { const map={ 'Programming'
+    : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' , 'Career Advice'
+    : 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300' , 'Design'
+    : 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300' , 'Engineering'
+    : 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300' , 'Data Science'
+    : 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' , 'Product Management'
+    : 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300' , 'Interview Prep'
+    : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300' , 'Soft Skills'
+    : 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300' , 'Finance'
+    : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300' , 'Entrepreneurship'
+    : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300' , }; return map[cat]
+    || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300' ; } %>

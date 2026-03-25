@@ -1,0 +1,594 @@
+<% function getCategoryStyle(cat) { var m={ 'Job' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+    , 'Internship' : 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300' , 'Part-time'
+    : 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300' , 'Freelance'
+    : 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300' , 'Volunteer'
+    : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300' }; return m[cat]
+    || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300' ; } function getStatusBadge(status) { if
+    (status==='pending' )
+    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Under Review</span>'
+    ; if (status==='reviewed' )
+    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Reviewed</span>'
+    ; if (status==='shortlisted' )
+    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border border-green-200 dark:border-green-800/50"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Shortlisted</span>'
+    ; if (status==='rejected' )
+    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800/50"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Not Selected</span>'
+    ; return '' ; } %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Opportunities - KampusLegacy</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+            rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script>
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: { "primary": "#135bec", "primary-light": "#e8effd", "background-light": "#f6f6f8", "background-dark": "#101622" },
+                        fontFamily: { "display": ["Inter", "sans-serif"] },
+                    },
+                },
+            }
+        </script>
+        <style>
+            .scrollbar-thin::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .scrollbar-thin::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .scrollbar-thin::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 99px;
+            }
+
+            .modal-backdrop {
+                backdrop-filter: blur(4px);
+            }
+        </style>
+    </head>
+
+    <body
+        class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+        <div class="flex h-screen w-full">
+
+            <!-- Sidebar Navigation -->
+            <aside
+                class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2332] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 z-20">
+                <a href="/" class="flex items-center gap-3 px-6 py-8">
+                    <div class="h-8 w-8 text-primary">
+                        <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_6_319)">
+                                <path
+                                    d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                    fill="currentColor"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6_319">
+                                    <rect fill="white" height="48" width="48"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</h1>
+                </a>
+                <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+                    <!-- User Profile Summary -->
+                    <div
+                        class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                        <div class="flex items-center gap-3">
+                            <img alt="Student profile photo"
+                                class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600"
+                                data-alt="Young asian female student portrait"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQld-yO7kAq_Jb0RKvWe9vAfYzh_9HSjL54Z1_JVHPcc3-zAEAd8CEtz5opMt-Y2QYj8fUvnFf0IxhqQwGqTu5Op36fXhNlcJECkc9Xq4kp8K9sV14S0YFsswuX8O24mXsMXOTwm9ECR0aG53HrG7ij1rSO6mc8Jz0-MNuesyy3Y2JtdSpyeUbTMf3R12lS1eQ4wxLTnSyvi0mvOlxy8EREIZOTVqZewbnLwgGnNnxkMHG0PmP7SyxYZRfeM1m03UEmkoGF47mVws" />
+                            <div class="overflow-hidden">
+                                <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white">
+                                    <%= user.name %>
+                                </h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Nav Links -->
+                    <nav class="space-y-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="/student/home">
+                            <span class="material-symbols-outlined fill-1">home</span>
+                            Home
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="/student/dashboard">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            Dashboard
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="/student/mentors">
+                            <span class="material-symbols-outlined">group</span>
+                            Mentors
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium"
+                            href="/student/opportunities">
+                            <span class="material-symbols-outlined">work</span>
+                            Jobs &amp; Internships
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="#">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            Events
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="/student/resources">
+                            <span class="material-symbols-outlined">folder_open</span>
+                            Resources
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                            href="#">
+                            <span class="material-symbols-outlined">forum</span>
+                            Community
+                        </a>
+                    </nav>
+                </div>
+                <div class="p-4 mt-auto">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium"
+                        href="#">
+                        <span class="material-symbols-outlined">settings</span>
+                        Settings
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors text-sm font-medium"
+                        href="/auth/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main -->
+            <div class="flex-1 flex flex-col h-full overflow-hidden">
+                <header
+                    class="h-16 flex items-center px-6 lg:px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Mentor Opportunities</h2>
+                </header>
+
+                <main class="flex-1 overflow-y-auto p-6 lg:p-8 scrollbar-thin">
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4 mb-8">
+                        <div
+                            class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                            <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600">
+                                <span class="material-symbols-outlined">work</span>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Available from Mentors</p>
+                                <p class="text-xl font-bold text-slate-900 dark:text-white">
+                                    <%= stats.available %>
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                            <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600">
+                                <span class="material-symbols-outlined">description</span>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Total Applications</p>
+                                <p class="text-xl font-bold text-slate-900 dark:text-white">
+                                    <%= stats.applied %>
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                            <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600">
+                                <span class="material-symbols-outlined">hourglass_empty</span>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Pending Review</p>
+                                <p class="text-xl font-bold text-slate-900 dark:text-white">
+                                    <%= stats.pending %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Header + Search -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button
+                                class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-colors"
+                                data-filter="All">All Types</button>
+                            <button
+                                class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors"
+                                data-filter="Job">Jobs</button>
+                            <button
+                                class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors"
+                                data-filter="Internship">Internships</button>
+                            <button
+                                class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors"
+                                data-filter="Volunteer">Volunteering</button>
+                        </div>
+                        <div class="relative w-full sm:w-64">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                            <input type="text" id="search-opps" placeholder="Search role, company..."
+                                class="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-primary focus:border-primary placeholder-slate-400 text-slate-900 dark:text-white outline-none">
+                        </div>
+                    </div>
+
+                    <!-- List -->
+                    <% if (opportunities.length===0) { %>
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-16 flex flex-col items-center justify-center text-center">
+                            <span
+                                class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-700 mb-4">work_off</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No opportunities available
+                            </h3>
+                            <p class="text-slate-500 max-w-sm">Connect with more mentors to unlock hidden job and
+                                internship opportunities they share exclusively with their mentees.</p>
+                        </div>
+                        <% } else { %>
+                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-5" id="opps-grid">
+                                <% opportunities.forEach(function(opp) { %>
+                                    <div class="opp-card rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col cursor-pointer hover:shadow-md hover:border-primary/50 transition-all overflow-hidden"
+                                        data-type="<%= opp.type %>"
+                                        data-search="<%= (opp.title + ' ' + opp.company + ' ' + (opp.author?.name || '')).toLowerCase() %>"
+                                        onclick="openDetailModal('<%= escape(JSON.stringify(opp)) %>')">
+
+                                        <div class="p-5 flex-1 relative">
+                                            <!-- Status Badge Corner -->
+                                            <% if (opp.hasApplied) { %>
+                                                <div class="absolute top-5 right-5 z-10">
+                                                    <%- getStatusBadge(opp.application.status) %>
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="flex items-start gap-4 mb-4">
+                                                        <div
+                                                            class="h-12 w-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                                                            <span
+                                                                class="material-symbols-outlined text-2xl text-slate-400">domain</span>
+                                                        </div>
+                                                        <div class="min-w-0 pr-20">
+                                                            <!-- padding right for the absolute badge -->
+                                                            <h3
+                                                                class="text-lg font-bold text-slate-900 dark:text-white mb-1 leading-tight">
+                                                                <%= opp.title %>
+                                                            </h3>
+                                                            <p
+                                                                class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                                                                <%= opp.company %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex flex-wrap gap-2 mb-4">
+                                                        <span
+                                                            class="inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium <%= getCategoryStyle(opp.type) %>">
+                                                            <%= opp.type %>
+                                                        </span>
+                                                        <span
+                                                            class="inline-flex items-center gap-1 rounded bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+                                                            <span
+                                                                class="material-symbols-outlined text-[14px]">location_on</span>
+                                                            <%= opp.location %>
+                                                        </span>
+                                                        <% if (opp.salary) { %>
+                                                            <span
+                                                                class="inline-flex items-center gap-1 rounded bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+                                                                <span
+                                                                    class="material-symbols-outlined text-[14px]">payments</span>
+                                                                <%= opp.salary %>
+                                                            </span>
+                                                            <% } %>
+                                                    </div>
+
+                                                    <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+                                                        <%= opp.description %>
+                                                    </p>
+                                        </div>
+
+                                        <div
+                                            class="border-t border-slate-100 dark:border-slate-800 px-5 py-3 bg-slate-50/50 dark:bg-slate-800/50 flex flex-wrap gap-y-2 items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <% if (opp.author?.profilePicture) { %>
+                                                    <img src="<%= opp.author.profilePicture %>"
+                                                        class="w-5 h-5 rounded-full object-cover">
+                                                    <% } else { %>
+                                                        <div
+                                                            class="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold">
+                                                            <%= (opp.author?.name || 'M' ).charAt(0) %>
+                                                        </div>
+                                                        <% } %>
+                                                            <span class="text-xs text-slate-500 font-medium">via <%=
+                                                                    opp.author?.name %></span>
+                                            </div>
+                                            <% if (opp.deadline) { %>
+                                                <div class="text-xs text-slate-500 flex items-center gap-1">
+                                                    <span class="material-symbols-outlined text-[14px]">event</span>
+                                                    Deadline: <%= new Date(opp.deadline).toLocaleDateString() %>
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="text-xs text-slate-400 flex items-center gap-1">
+                                                        <span
+                                                            class="material-symbols-outlined text-[14px]">event_available</span>
+                                                        No deadline
+                                                    </div>
+                                                    <% } %>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                        <div id="no-results"
+                                            class="col-span-1 xl:col-span-2 hidden py-12 text-center text-slate-500">
+                                            <span
+                                                class="material-symbols-outlined text-4xl mb-2 opacity-50">search_off</span>
+                                            <p>No opportunities match your filters/search.</p>
+                                        </div>
+                            </div>
+                            <% } %>
+                </main>
+            </div>
+        </div>
+
+        <!-- Opportunity Detail / Apply Modal -->
+        <div id="detail-modal"
+            class="fixed inset-0 z-50 hidden flex flex-col items-center justify-end sm:justify-center p-0 sm:p-4">
+            <div class="absolute inset-0 bg-slate-900/60 modal-backdrop transition-opacity opacity-0" id="detail-bg">
+            </div>
+
+            <div class="relative bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col transform transition-transform translate-y-full sm:translate-y-0 sm:scale-95 opacity-0"
+                id="detail-panel">
+                <button id="close-detail-btn"
+                    class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-white/50 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-500">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+
+                <div class="overflow-y-auto scrollbar-thin">
+                    <!-- Header section -->
+                    <div
+                        class="p-6 md:p-8 bg-slate-50/50 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800 relative">
+                        <!-- Data populated via JS -->
+                        <div id="modal-header-content"></div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800">
+                        <h4 class="text-base font-bold text-slate-900 dark:text-white mb-3">About the Role</h4>
+                        <p id="modal-desc"
+                            class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed"></p>
+
+                        <div id="modal-reqs-wrap" class="mt-6 hidden">
+                            <h4 class="text-base font-bold text-slate-900 dark:text-white mb-3">Requirements</h4>
+                            <p id="modal-reqs"
+                                class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Application Section -->
+                    <div class="p-6 md:p-8 bg-slate-50 dark:bg-slate-900/50" id="modal-apply-section">
+                        <!-- Content injected based on state -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Filtering logic
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('search-opps');
+            const cards = document.querySelectorAll('.opp-card');
+            const noResults = document.getElementById('no-results');
+            let currentFilter = 'All';
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-primary', 'text-white');
+                        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                    });
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                    currentFilter = btn.dataset.filter;
+                    runFilters();
+                });
+            });
+
+            searchInput?.addEventListener('input', runFilters);
+
+            function runFilters() {
+                const query = (searchInput?.value || '').toLowerCase();
+                let visible = 0;
+
+                cards.forEach(card => {
+                    const matchesFilter = currentFilter === 'All' || card.dataset.type === currentFilter;
+                    const matchesSearch = !query || card.dataset.search.includes(query);
+                    if (matchesFilter && matchesSearch) {
+                        card.style.display = 'flex';
+                        visible++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+            }
+
+            // Modal Logic
+            const modal = document.getElementById('detail-modal');
+            const bg = document.getElementById('detail-bg');
+            const panel = document.getElementById('detail-panel');
+            let currentOpp = null;
+
+            function escapeHtml(unsafe) {
+                return (unsafe || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
+
+            window.openDetailModal = function (encodedOpp) {
+                const opp = JSON.parse(unescape(encodedOpp));
+                currentOpp = opp;
+
+                // Track view
+                fetch(`/student/opportunities/${opp._id}/view`, { method: 'POST' });
+
+                const headerStr = `
+            <div class="mb-4">
+                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-200/50 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                    ${escapeHtml(opp.type)}
+                </span>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">${escapeHtml(opp.title)}</h3>
+            <p class="text-base font-medium text-slate-700 dark:text-slate-300 mb-5">${escapeHtml(opp.company)}</p>
+            
+            <div class="flex flex-wrap gap-y-3 gap-x-6 text-sm text-slate-600 dark:text-slate-400">
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">location_on</span> ${escapeHtml(opp.location)}</div>
+                ${opp.salary ? `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">payments</span> ${escapeHtml(opp.salary)}</div>` : ''}
+                ${opp.deadline ? `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">event</span> Deadline: ${new Date(opp.deadline).toLocaleDateString()}</div>` : ''}
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">person</span> 
+                    Posted by <span class="font-medium text-slate-900 dark:text-slate-200 ml-1">${escapeHtml(opp.author?.name)}</span>
+                </div>
+            </div>
+        `;
+                document.getElementById('modal-header-content').innerHTML = headerStr;
+
+                document.getElementById('modal-desc').textContent = opp.description;
+
+                if (opp.requirements) {
+                    document.getElementById('modal-reqs-wrap').classList.remove('hidden');
+                    document.getElementById('modal-reqs').textContent = opp.requirements;
+                } else {
+                    document.getElementById('modal-reqs-wrap').classList.add('hidden');
+                }
+
+                const applySection = document.getElementById('modal-apply-section');
+
+                if (opp.hasApplied) {
+                    applySection.innerHTML = `
+                <div class="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-xl p-5 flex items-start gap-4">
+                    <div class="bg-blue-100 dark:bg-blue-900/40 p-2 rounded-full text-blue-600 dark:text-blue-400 shrink-0">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Application Submitted</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">You applied to this position on ${new Date(opp.application.appliedAt).toLocaleDateString()}.</p>
+                        ${opp.application.status === 'pending' ? getStatusBadge('pending') :
+                            opp.application.status === 'reviewed' ? getStatusBadge('reviewed') :
+                                opp.application.status === 'shortlisted' ? getStatusBadge('shortlisted') : getStatusBadge('rejected')}
+                    </div>
+                </div>
+            `;
+                } else if (opp.applicationMode === 'external') {
+                    applySection.innerHTML = `
+                <div class="text-center py-4">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white mb-2">Apply on Company Website</h4>
+                    <p class="text-sm text-slate-500 mb-6">You will be redirected to an external page to complete your application.</p>
+                    <a href="${opp.externalLink}" target="_blank" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-xl transition-all shadow-md active:scale-95">
+                        Apply externally <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                    </a>
+                </div>
+            `;
+                } else {
+                    // Direct apply form
+                    applySection.innerHTML = `
+                <h4 class="text-base font-bold text-slate-900 dark:text-white mb-4">Submit Application</h4>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Resume <span class="text-red-500">*</span></label>
+                        <div class="flex items-center gap-4">
+                            <label class="px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-colors shadow-sm text-slate-700 dark:text-slate-300">
+                                Choose File
+                                <input type="file" id="resume-input" accept=".pdf,.doc,.docx" class="hidden" onchange="document.getElementById('resume-name').textContent = this.files[0]?.name || 'No file chosen'">
+                            </label>
+                            <span id="resume-name" class="text-sm text-slate-500 flex-1 truncate">No file chosen</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">PDF or DOCX max 5MB</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Cover Letter (Optional)</label>
+                        <textarea id="cover-letter" rows="3" placeholder="Tell the mentor why you are a good fit..." class="w-full px-4 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition resize-none"></textarea>
+                    </div>
+                    <div id="apply-error" class="hidden text-sm text-red-600 font-medium p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-200 dark:border-red-900/50"></div>
+                    <button id="submit-apply-btn" onclick="submitApplication()" class="w-full sm:w-auto px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl text-sm font-semibold transition-all shadow-md active:scale-95 flex justify-center items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">send</span> Submit Application
+                    </button>
+                </div>
+            `;
+                }
+
+                // Show modal animation
+                modal.classList.remove('hidden');
+                // trigger reflow
+                void modal.offsetWidth;
+                bg.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'translate-y-full', 'sm:scale-95');
+            };
+
+            function closeDetailModal() {
+                bg.classList.add('opacity-0');
+                panel.classList.add('opacity-0', 'translate-y-full', 'sm:scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    currentOpp = null;
+                }, 300);
+            }
+
+            document.getElementById('close-detail-btn').addEventListener('click', closeDetailModal);
+            bg.addEventListener('click', closeDetailModal);
+
+            window.submitApplication = async function () {
+                if (!currentOpp) return;
+
+                const fileInput = document.getElementById('resume-input');
+                const errEl = document.getElementById('apply-error');
+                const btn = document.getElementById('submit-apply-btn');
+                const coverLetter = document.getElementById('cover-letter').value;
+
+                errEl.classList.add('hidden');
+
+                if (!fileInput.files[0]) {
+                    errEl.textContent = 'Please attach your resume.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('resume', fileInput.files[0]);
+                formData.append('coverLetter', coverLetter);
+
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">refresh</span> Submitting...';
+                btn.classList.add('opacity-70');
+
+                try {
+                    const res = await fetch(`/student/opportunities/${currentOpp._id}/apply`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Success!';
+                        btn.classList.replace('bg-primary', 'bg-green-600');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        throw new Error(data.error || 'Failed to apply');
+                    }
+                } catch (e) {
+                    errEl.textContent = e.message;
+                    errEl.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">send</span> Submit Application';
+                    btn.classList.remove('opacity-70');
+                }
+            };
+        </script>
+    </body>
+
+    </html>

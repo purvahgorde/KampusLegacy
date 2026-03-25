@@ -1,0 +1,418 @@
+<%
+function getCategoryStyle(cat) {
+    var m = {
+        'Job': 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
+        'Internship': 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300',
+        'Part-time': 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
+        'Freelance': 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300',
+        'Volunteer': 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300'
+    };
+    return m[cat] || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+}
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Opportunities - KampusLegacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#135bec", "primary-light": "#e8effd", "background-light": "#f6f6f8", "background-dark": "#101622" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+
+    <!-- Sidebar -->
+    <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between">
+        <div class="flex flex-col h-full">
+            <div class="p-6">
+                <a href="/" class="flex items-center gap-3 mb-8">
+                    <div class="h-10 w-10 text-primary">
+                        <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_mres)">
+                                <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+                            </g>
+                            <defs><clipPath id="clip0_mres"><rect fill="white" height="48" width="48"></rect></clipPath></defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">KampusLegacy</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Mentor Portal</p>
+                    </div>
+                </a>
+                <nav class="flex flex-col gap-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/home">
+                        <span class="material-symbols-outlined text-[20px]">home</span>
+                        <span class="text-sm">Home</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/dashboard">
+                        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        <span class="text-sm">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/requests">
+                        <span class="material-symbols-outlined text-[20px]">group</span>
+                        <span class="text-sm">My Mentees</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="/mentor/opportunities">
+                        <span class="material-symbols-outlined text-[20px]">work</span>
+                        <span class="text-sm">Opportunities</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/messages">
+                        <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                        <span class="text-sm">Messages</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="/mentor/resources">
+                        <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                        <span class="text-sm">Resources</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
+                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
+                    <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
+                        <p class="text-xs text-slate-500">Mentor</p>
+                    </div>
+                </div>
+                <a href="/auth/logout" class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors text-sm font-medium">
+                    <span class="material-symbols-outlined">logout</span>Log Out
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Posted Opportunities</h2>
+            <button id="open-post-btn" class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg px-4 py-2 text-sm font-semibold shadow-md transition-all active:scale-95">
+                <span class="material-symbols-outlined text-[18px]">add</span>Post Opportunity
+            </button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 lg:p-8 scrollbar-thin">
+            <!-- Stats -->
+            <div class="grid grid-cols-4 gap-4 mb-8">
+                <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                    <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600">
+                        <span class="material-symbols-outlined">work</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Total Posted</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.totalPosted %></p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                    <div class="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-600">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Active Opportunities</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.activeCount %></p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                    <div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Total Views</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.totalViews.toLocaleString() %></p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                    <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600">
+                        <span class="material-symbols-outlined">description</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Total Applications</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.totalApplications.toLocaleString() %></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List -->
+            <% if (opportunities.length === 0) { %>
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-16 flex flex-col items-center justify-center text-center">
+                    <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-700 mb-4">work_off</span>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No opportunities posted</h3>
+                    <p class="text-slate-500 mb-6 max-w-sm">Help your mentees and fellow students by posting jobs, internships, or volunteer roles.</p>
+                    <button onclick="document.getElementById('upload-modal').classList.remove('hidden')" class="bg-primary text-white rounded-lg px-6 py-2.5 font-semibold text-sm shadow hover:bg-primary/90 transition-colors">
+                        Post Your First Opportunity
+                    </button>
+                </div>
+            <% } else { %>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <% opportunities.forEach(function(opp) { %>
+                        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative flex flex-col overflow-hidden group">
+                            <!-- Toggle switch corner -->
+                            <div class="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur rounded-full px-2 py-1 shadow-sm border border-slate-100 dark:border-slate-700">
+                                <span class="text-[10px] font-bold uppercase tracking-wider <%= opp.isActive ? 'text-green-600' : 'text-slate-500' %>" id="status-label-<%= opp._id %>">
+                                    <%= opp.isActive ? 'OPEN' : 'CLOSED' %>
+                                </span>
+                                <button onclick="toggleOppStatus('<%= opp._id %>')" class="w-8 h-4 bg-slate-200 dark:bg-slate-700 rounded-full relative transition-colors focus:outline-none <%= opp.isActive ? '!bg-green-500' : '' %>" id="toggle-bg-<%= opp._id %>">
+                                    <div class="absolute w-3 h-3 bg-white rounded-full top-0.5 left-0.5 transition-transform shadow-sm <%= opp.isActive ? 'translate-x-4' : '' %>" id="toggle-knob-<%= opp._id %>"></div>
+                                </button>
+                            </div>
+
+                            <a href="/mentor/opportunities/<%= opp._id %>" class="flex-1 p-5 block">
+                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= getCategoryStyle(opp.type) %> mb-3">
+                                    <%= opp.type %>
+                                </span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors line-clamp-2"><%= opp.title %></h3>
+                                <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3"><%= opp.company %></p>
+                                
+                                <div class="space-y-1.5 mb-5">
+                                    <div class="flex items-center text-xs text-slate-500 gap-2">
+                                        <span class="material-symbols-outlined text-[14px]">location_on</span> <%= opp.location %>
+                                    </div>
+                                    <div class="flex items-center text-xs text-slate-500 gap-2">
+                                        <span class="material-symbols-outlined text-[14px]">payments</span> <%= opp.salary || 'Not specified' %>
+                                    </div>
+                                    <div class="flex items-center text-xs text-slate-500 gap-2">
+                                        <span class="material-symbols-outlined text-[14px]">groups</span> <%= opp.applicationMode === 'direct' ? 'Collecting Resumes' : 'External Link' %>
+                                    </div>
+                                </div>
+                            </a>
+                            
+                            <!-- Card footer -->
+                            <div class="border-t border-slate-100 dark:border-slate-800 px-5 py-3 bg-slate-50/50 dark:bg-slate-800/20 flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                                    <span class="flex items-center gap-1.5" title="Views">
+                                        <span class="material-symbols-outlined text-[16px]">visibility</span> <%= opp.views %>
+                                    </span>
+                                    <span class="flex items-center gap-1.5 <%= opp.totalApplications > 0 ? 'text-primary' : '' %>" title="Applications">
+                                        <span class="material-symbols-outlined text-[16px]">description</span> <%= opp.totalApplications %>
+                                    </span>
+                                </div>
+                                <div class="text-[10px] text-slate-400">
+                                    <%= new Date(opp.createdAt).toLocaleDateString() %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </main>
+    </div>
+</div>
+
+<!-- Post Opportunity Modal -->
+<div id="upload-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 modal-backdrop" id="modal-bg"></div>
+    <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Post New Opportunity</h3>
+            <button id="close-modal-btn" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto scrollbar-thin">
+            <div class="grid grid-cols-2 gap-5">
+                <!-- Row 1 -->
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Job Title <span class="text-red-500">*</span></label>
+                    <input id="post-title" type="text" placeholder="e.g. Frontend Developer Intern"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Company <span class="text-red-500">*</span></label>
+                    <input id="post-company" type="text" placeholder="e.g. Google or Acme Corp"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                </div>
+                <!-- Row 2 -->
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Type <span class="text-red-500">*</span></label>
+                    <select id="post-type" class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
+                        <% types.forEach(function(t) { %>
+                            <option value="<%= t %>" <%= t==='Internship'?'selected':'' %>><%= t %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Location</label>
+                    <input id="post-location" type="text" placeholder="e.g. Remote, Bangalore, London"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                </div>
+                <!-- Row 3 -->
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Salary/Stipend</label>
+                    <input id="post-salary" type="text" placeholder="e.g. ₹15k/mo, $60k/yr, Unpaid"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Deadline</label>
+                    <input id="post-deadline" type="date"
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition text-slate-500" />
+                </div>
+                <!-- App Mode -->
+                <div class="col-span-2 border-y border-slate-100 dark:border-slate-800 py-4 my-2">
+                    <label class="block text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Application Mode</label>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="appMode" value="direct" checked class="text-primary focus:ring-primary w-4 h-4 border-slate-300" onchange="toggleAppMode()" />
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">I'll collect resumes here</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="appMode" value="external" class="text-primary focus:ring-primary w-4 h-4 border-slate-300" onchange="toggleAppMode()" />
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Redirect to external link</span>
+                        </label>
+                    </div>
+                    <div id="external-link-wrap" class="hidden mt-4">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">External Link <span class="text-red-500">*</span></label>
+                        <input id="post-link" type="url" placeholder="https://careers.google.com/..."
+                            class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
+                    </div>
+                </div>
+                <!-- Details -->
+                <div class="col-span-2">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Full Description <span class="text-red-500">*</span></label>
+                    <textarea id="post-desc" rows="4" placeholder="Describe the role, responsibilities, culture..."
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition"></textarea>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Requirements / Skills</label>
+                    <textarea id="post-reqs" rows="3" placeholder="React, Node.js, 1+ year experience..."
+                        class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition"></textarea>
+                </div>
+            </div>
+            <div id="upload-error" class="hidden mt-4 text-sm text-red-600 font-medium px-3 py-2 bg-red-50 rounded-lg"></div>
+        </div>
+        
+        <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex gap-3 justify-end shrink-0">
+            <button id="cancel-upload-btn" class="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-600 rounded-lg transition-colors">Cancel</button>
+            <button id="submit-upload-btn" class="px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all active:scale-95 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">publish</span>Post Opportunity
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Post Opportunity flow ---
+    const modal = document.getElementById('upload-modal');
+    document.getElementById('open-post-btn').addEventListener('click', () => modal.classList.remove('hidden'));
+    
+    [document.getElementById('close-modal-btn'), document.getElementById('cancel-upload-btn'), document.getElementById('modal-bg')].forEach(b => {
+        b.addEventListener('click', () => modal.classList.add('hidden'));
+    });
+
+    function toggleAppMode() {
+        const mode = document.querySelector('input[name="appMode"]:checked').value;
+        const linkWrap = document.getElementById('external-link-wrap');
+        if (mode === 'external') {
+            linkWrap.classList.remove('hidden');
+        } else {
+            linkWrap.classList.add('hidden');
+        }
+    }
+
+    document.getElementById('submit-upload-btn').addEventListener('click', async () => {
+        const btn = document.getElementById('submit-upload-btn');
+        const errEl = document.getElementById('upload-error');
+        errEl.classList.add('hidden');
+
+        const payload = {
+            title: document.getElementById('post-title').value,
+            company: document.getElementById('post-company').value,
+            type: document.getElementById('post-type').value,
+            location: document.getElementById('post-location').value,
+            salary: document.getElementById('post-salary').value,
+            deadline: document.getElementById('post-deadline').value || null,
+            applicationMode: document.querySelector('input[name="appMode"]:checked').value,
+            externalLink: document.getElementById('post-link').value,
+            description: document.getElementById('post-desc').value,
+            requirements: document.getElementById('post-reqs').value,
+        };
+
+        if (!payload.title || !payload.company || !payload.description) {
+            errEl.textContent = "Title, Company, and Description are required.";
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        if (payload.applicationMode === 'external' && !payload.externalLink) {
+            errEl.textContent = "External link is required for external application mode.";
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Posting...';
+
+        try {
+            const res = await fetch('/mentor/opportunities/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data.success) {
+                location.reload();
+            } else {
+                throw new Error(data.error || 'Failed to post opportunity');
+            }
+        } catch (e) {
+            errEl.textContent = e.message;
+            errEl.classList.remove('hidden');
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">publish</span>Post Opportunity';
+        }
+    });
+
+    // --- Status Toggle flow ---
+    async function toggleOppStatus(id) {
+        const toggleBtn = document.getElementById('toggle-bg-' + id);
+        const knob = document.getElementById('toggle-knob-' + id);
+        const label = document.getElementById('status-label-' + id);
+        
+        try {
+            const res = await fetch(`/mentor/opportunities/${id}/toggle`, { method: 'PATCH' });
+            const data = await res.json();
+            if (data.success) {
+                if (data.isActive) {
+                    toggleBtn.classList.add('!bg-green-500');
+                    knob.classList.add('translate-x-4');
+                    label.textContent = "OPEN";
+                    label.classList.remove('text-slate-500');
+                    label.classList.add('text-green-600');
+                } else {
+                    toggleBtn.classList.remove('!bg-green-500');
+                    knob.classList.remove('translate-x-4');
+                    label.textContent = "CLOSED";
+                    label.classList.remove('text-green-600');
+                    label.classList.add('text-slate-500');
+                }
+            } else {
+                alert('Failed to update status');
+            }
+        } catch (e) {
+            alert('Network error');
+        }
+    }
+</script>
+</body>
+</html>

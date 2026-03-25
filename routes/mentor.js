@@ -5,9 +5,11 @@ const multer = require('multer');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const Connection = require('../models/Connection');
 const Resource = require('../models/Resource');
+const Opportunity = require('../models/Opportunity');
+const Application = require('../models/Application');
 const router = express.Router();
 
-// ─── Multer file upload config ─────────────────────────────────
+// ─── Multer: resource uploads ──────────────────────────────────
 const uploadDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 const storage = multer.diskStorage({
@@ -20,6 +22,26 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB
+});
+
+// ─── Multer: resume uploads ─────────────────────────────────────
+const resumeDir = path.join(__dirname, '../public/uploads/resumes');
+if (!fs.existsSync(resumeDir)) fs.mkdirSync(resumeDir, { recursive: true });
+const resumeStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, resumeDir),
+    filename: (req, file, cb) => {
+        const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, unique + path.extname(file.originalname));
+    },
+});
+const resumeUpload = multer({
+    storage: resumeStorage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+    fileFilter: (req, file, cb) => {
+        const allowed = ['.pdf', '.doc', '.docx'];
+        if (allowed.includes(path.extname(file.originalname).toLowerCase())) cb(null, true);
+        else cb(new Error('Only PDF, DOC, and DOCX files are allowed'));
+    },
 });
 // ─── Mentor Community Home ──────────────────────────────────────
 router.get('/home', requireAuth, requireRole('mentor'), (req, res) => {
@@ -177,4 +199,145 @@ router.post('/requests/:id/reject', requireAuth, requireRole('mentor'), async (r
         res.redirect('/mentor/requests');
     }
 });
+
+// ═══════════════════════════════════════════════════════════════
+// ─── OPPORTUNITIES ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+
+// GET /mentor/opportunities — list all + stats
+router.get('/opportunities', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const opportunities = await Opportunity.find({ author: req.user._id })
+            .sort({ createdAt: -1 })
+            .lean();
+        const totalViews = opportunities.reduce((s, o) => s + o.views, 0);
+        const totalApplications = opportunities.reduce((s, o) => s + o.totalApplications, 0);
+        res.render('mentor/opportunities', {
+            user: req.user,
+            opportunities,
+            stats: {
+                totalPosted: opportunities.length,
+                totalViews,
+                totalApplications,
+                activeCount: opportunities.filter(o => o.isActive).length,
+            },
+            types: Opportunity.TYPES,
+        });
+    } catch (err) {
+        console.error('Mentor opportunities error:', err);
+        res.render('mentor/opportunities', {
+            user: req.user,
+            opportunities: [],
+            stats: { totalPosted: 0, totalViews: 0, totalApplications: 0, activeCount: 0 },
+            types: Opportunity.TYPES,
+        });
+    }
+});
+
+// POST /mentor/opportunities/create
+router.post('/opportunities/create', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const { title, company, type, location, salary, description, requirements, deadline, applicationMode, externalLink } = req.body;
+        if (!title || !company || !description) return res.json({ success: false, error: 'Title, company and description are required.' });
+        if (applicationMode === 'external' && !externalLink) return res.json({ success: false, error: 'Please provide the external application link.' });
+        await Opportunity.create({
+            title: title.trim(),
+            company: company.trim(),
+            type: type || 'Internship',
+            location: location ? location.trim() : 'Remote',
+            salary: salary ? salary.trim() : '',
+            description: description.trim(),
+            requirements: requirements ? requirements.trim() : '',
+            deadline: deadline || null,
+            applicationMode: applicationMode || 'direct',
+            externalLink: applicationMode === 'external' ? externalLink.trim() : '',
+            author: req.user._id,
+        });
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Create opportunity error:', err);
+        res.json({ success: false, error: 'Failed to create opportunity.' });
+    }
+});
+
+// GET /mentor/opportunities/:id — detail + applicants
+router.get('/opportunities/:id', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const opportunity = await Opportunity.findOne({ _id: req.params.id, author: req.user._id }).lean();
+        if (!opportunity) return res.redirect('/mentor/opportunities');
+        const applications = await Application.find({ opportunity: req.params.id })
+            .populate('student', 'name email profilePicture')
+            .sort({ appliedAt: -1 })
+            .lean();
+        res.render('mentor/opportunity-detail', { user: req.user, opportunity, applications });
+    } catch (err) {
+        console.error('Opportunity detail error:', err);
+        res.redirect('/mentor/opportunities');
+    }
+});
+
+// PATCH /mentor/opportunities/:id/toggle — open/close
+router.patch('/opportunities/:id/toggle', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const opp = await Opportunity.findOne({ _id: req.params.id, author: req.user._id });
+        if (!opp) return res.json({ success: false, error: 'Not found' });
+        opp.isActive = !opp.isActive;
+        await opp.save();
+        res.json({ success: true, isActive: opp.isActive });
+    } catch (err) {
+        res.json({ success: false, error: 'Toggle failed' });
+    }
+});
+
+// DELETE /mentor/opportunities/:id
+router.delete('/opportunities/:id', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const opp = await Opportunity.findOne({ _id: req.params.id, author: req.user._id });
+        if (!opp) return res.json({ success: false, error: 'Not found' });
+        // Delete associated applications & their resume files
+        const apps = await Application.find({ opportunity: req.params.id });
+        apps.forEach(app => {
+            if (app.resumePath) {
+                const fp = path.join(__dirname, '../public', app.resumePath);
+                if (fs.existsSync(fp)) fs.unlinkSync(fp);
+            }
+        });
+        await Application.deleteMany({ opportunity: req.params.id });
+        await opp.deleteOne();
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Delete opportunity error:', err);
+        res.json({ success: false, error: 'Delete failed' });
+    }
+});
+
+// PATCH /mentor/opportunities/applications/:appId/status — update applicant status
+router.patch('/opportunities/applications/:appId/status', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ['pending', 'reviewed', 'shortlisted', 'rejected'];
+        if (!validStatuses.includes(status)) return res.json({ success: false, error: 'Invalid status' });
+        const app = await Application.findById(req.params.appId).populate('opportunity');
+        if (!app || app.opportunity.author.toString() !== req.user._id.toString()) return res.json({ success: false, error: 'Not found' });
+        app.status = status;
+        await app.save();
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false, error: 'Status update failed' });
+    }
+});
+
+// GET /mentor/opportunities/applications/:appId/resume — download resume
+router.get('/opportunities/applications/:appId/resume', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const app = await Application.findById(req.params.appId).populate('opportunity');
+        if (!app || !app.resumePath) return res.status(404).send('Not found');
+        if (app.opportunity.author.toString() !== req.user._id.toString()) return res.status(403).send('Forbidden');
+        const filePath = path.join(__dirname, '../public', app.resumePath);
+        res.download(filePath, app.resumeFileName);
+    } catch (err) {
+        res.status(500).send('Download failed');
+    }
+});
+
 module.exports = router;

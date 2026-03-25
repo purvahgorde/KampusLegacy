@@ -90,36 +90,40 @@
                             <span class="text-sm">My Mentees</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+                            href="/mentor/opportunities">
+                            <span class="material-symbols-outlined text-[20px]">work</span>
+                            <span class="text-sm">Opportunities</span>
+                        </a>
+                        <!-- <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                             href="#">
                             <span class="material-symbols-outlined text-[20px]">calendar_month</span>
                             <span class="text-sm">Schedule</span>
-                        </a>
+                        </a> -->
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                             href="/mentor/messages">
                             <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
                             <span class="text-sm">Messages</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
-                            href="#">
+                            href="/mentor/resources">
                             <span class="material-symbols-outlined text-[20px]">menu_book</span>
                             <span class="text-sm">Resources</span>
                         </a>
                     </nav>
                 </div>
-                <div class="p-6 border-t border-slate-200 dark:border-slate-800">
+                <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
                     <div
                         class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-                        <img alt="User profile picture"
-                            class="h-9 w-9 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-                            data-alt="Close up portrait of a smiling man"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCURi0GaTojcEF2LvAlVhosYBXBn7NkW9YBMmZc-ttosmP92QBhveWJ2q9ZxmMSIWoIBdwk6LrFJTiEat2bVutXZmawP3uvZQlcPH7IDJCLXHp9hDTbRO94Q_GUOxuqggCj9hNQ2-VtRc7uzAO0ZukjItRTfP0CoIE3to-nQsOg154-VEJYtAcNMxKkJplCQa-Rjc_4rawckNOrzMLsOpzOmFnjjnEzV97QqVn2adXnlhLPqwdjhFZkSp153ekEAbGV6RXIrBNfqxA" />
+                        <div
+                            class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                            <%= user.name.charAt(0).toUpperCase() %>
+                        </div>
                         <div class="flex flex-col min-w-0">
                             <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
                                 <%= user.name %>
                             </p>
                             <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Mentor</p>
                         </div>
-                        <span class="material-symbols-outlined text-slate-400 text-sm ml-auto">expand_more</span>
                     </div>
                     <a href="/auth/logout"
                         class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-sm font-medium">
@@ -136,13 +140,13 @@
                 class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-10">
                 <h2 class="text-lg font-bold text-slate-900 dark:text-white">Home</h2>
                 <div class="flex items-center gap-6">
-                    <div class="relative w-80">
+                    <!-- <div class="relative w-80">
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
                         <input
                             class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-900 transition-all"
                             placeholder="Search mentees, resources..." type="text" />
-                    </div>
+                    </div> -->
                     <div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-700 pl-6">
                         <button
                             class="relative p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
