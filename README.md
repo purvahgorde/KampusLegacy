@@ -1,39 +1,43 @@
 # KampusLegacy 🚀
 
-**KampusLegacy** is a comprehensive mentorship platform designed to bridge the gap between academic theory and career reality. It connects students with experienced industry mentors to foster growth, guidance, and career development.
+**KampusLegacy** is a comprehensive mentorship platform designed to bridge the gap between academic theory and career reality. It connects students with experienced industry mentors to foster growth, guidance, and career development through real-time interaction, structured learning resources, and career-advancement opportunities.
 
 ## 🌟 Key Features
 
-### 👤 User Roles
-- **Students**: Can explore mentors, send connection requests, and manage their learning journey.
-- **Mentors**: Can review student requests, accept mentees, and share industry insights.
+### 👤 User Roles & Dashboards
+- **Students**: 
+  - Dynamic **Home Hub** with upcoming events and fresh job/internship opportunities from connected mentors.
+  - **Career Dashboard** featuring a full-width real-time messaging interface with mentors.
+  - **AI Career Counselor**: A persistent, Gemini-powered chat companion for instant career guidance, resume advice, and skill-building tips.
+- **Mentors**:
+  - **Advanced Dashboard** with statistical summaries of mentees, resources, events, and opportunities.
+  - **Opportunity Pipeline**: Tools to post jobs and internships, either taking direct applications (with resume uploads) or external links.
+  - **Event Management**: Create and manage workshops, seminars, and hackathons with custom banners and registration tracking.
 
-### 🔐 Authentication
-- Secure JWT-based authentication system.
-- Password hashing using `bcryptjs`.
-- Role-based access control for student and mentor dashboards.
+### 🔐 Authentication & Security
+- Secure JWT-based authentication with role-based access control.
+- Protected routes and middleware for secure data handling.
+- Resume/Banner uploads secured via specialized Multer storage.
 
-### 🤝 Connection System
-- Real-time connection request flow.
-- "Pending," "Accepted," and "Rejected" status management.
-- Dynamic dashboards reflecting connection status.
+### 🤝 Mentorship Ecosystem
+- **Connection System**: Real-time request/approval flow for building student-mentor relationships.
+- **Messaging**: Professional, AJAX-powered chat for direct communication.
+- **Resource Sharing**: Mentors can upload specialized learning materials (PDF/Docs) for their mentees.
 
-### 💬 Messaging System
-- Seamless, AJAX-powered real-time chat between connected students and mentors.
-- Message history retrieval and instant delivery simulation via smart polling.
-
-### 📊 Dashboards
-- **Student Dashboard**: Quick access to connected mentors, enrolled resources, and trending courses.
-- **Mentor Dashboard**: Overview of mentee count, student requests, and active messages.
+### 🧠 AI Integration
+- Built-in **AI Career Counselor** using Google's `gemini-1.5-flash` model.
+- Context-aware responses based on established career counseling best practices.
+- Persistent session storage ensures your career discussions are never lost.
 
 ## 🛠️ Tech Stack
 
 - **Backend**: Node.js & Express.js
 - **Database**: MongoDB with Mongoose ODM
+- **AI Engine**: Google Generative AI (Gemini)
 - **Frontend**: EJS (Embedded JavaScript Templates)
-- **Styling**: Tailwind CSS (Mobile-responsive design)
-- **Icons**: Google Material Symbols
-- **Auth**: JSON Web Tokens (JWT) & Cookies
+- **Styling**: Vanilla CSS & Tailwind CSS (Modern, Responsive Design)
+- **Auth**: JWT & Cookie-parser
+- **Storage**: Local Multer-based file management for resumes and event banners
 
 ## ⚙️ Installation & Setup
 
@@ -49,11 +53,12 @@
    ```
 
 3. **Environment Setup**:
-   Create a `.env` file in the root directory and add the following:
+   Create a `.env` file in the root directory:
    ```env
    PORT=3000
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_secret_key
+   GEMINI_API_KEY=your_gemini_api_key
    ```
 
 4. **Run the application**:
@@ -64,11 +69,11 @@
 
 ## 📁 Project Structure
 
-- `models/`: Mongoose schemas (User, Connection, Message)
-- `routes/`: Express route handlers (Auth, Student, Mentor, API)
-- `views/`: EJS templates for all pages
-- `middleware/`: Authentication and role-based guards
-- `server.js`: Main application entry point
+- `models/`: Mongoose schemas (User, Connection, Message, Event, Opportunity, AIChatSession)
+- `routes/`: Express route handlers (Auth, Student, Mentor)
+- `views/`: EJS templates (Student portal, Mentor portal, Auth)
+- `public/`: Static assets (CSS, Uploads, Icons)
+- `middleware/`: Auth and role-based guards
 
 ---
-*Built with ❤️ for KampusLegacy.*
+*Built with ❤️ for KampusLegacy — Empowering the next generation of professionals.*
