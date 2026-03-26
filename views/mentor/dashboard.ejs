@@ -234,6 +234,31 @@
                     </div>
                 </div>
 
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Categories Breakdown -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-4">Resource Categories</h3>
+                        <div class="relative h-64 w-full flex items-center justify-center">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Event Engagement Breakdown -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm lg:col-span-2">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-4">Event Engagement Overview</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="eventsChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Mentorship Growth -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm lg:col-span-3">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-4">Mentees Joined Over Time</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="menteeGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Resource Table Section -->
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center justify-between px-1">
@@ -576,8 +601,134 @@
             }
         }
     </script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartData = <%- chartData %>;
+            
+            // Shared styling for Dark Mode compatibility
+            const isDark = document.documentElement.classList.contains('dark');
+            const gridColor = isDark ? '#334155' : '#e2e8f0'; // slate-700 / slate-200
+            const textColor = isDark ? '#94a3b8' : '#64748b'; // slate-400 / slate-500
+            Chart.defaults.color = textColor;
+            Chart.defaults.font.family = "'Inter', sans-serif";
 
+            // 1. Resource Categories Doughnut
+            if (document.getElementById('categoryChart')) {
+                new Chart(document.getElementById('categoryChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: chartData.categories,
+                        datasets: [{
+                            data: chartData.categoryValues,
+                            backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981', '#ef4444', '#06b6d4'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '65%',
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15 } }
+                        }
+                    }
+                });
+            }
+
+            // 2. Event Engagement Bar Chart
+            if (document.getElementById('eventsChart')) {
+                new Chart(document.getElementById('eventsChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.events.labels.length > 0 ? chartData.events.labels : ['No Events'],
+                        datasets: [
+                            {
+                                label: 'Views',
+                                data: chartData.events.views.length > 0 ? chartData.events.views : [0],
+                                backgroundColor: '#3b82f6', // primary
+                                borderRadius: 4,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            },
+                            {
+                                label: 'Registrations',
+                                data: chartData.events.registrations.length > 0 ? chartData.events.registrations : [0],
+                                backgroundColor: '#10b981', // green-500
+                                borderRadius: 4,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: gridColor, drawBorder: false },
+                                ticks: { precision: 0 }
+                            },
+                            x: { 
+                                grid: { display: false } 
+                            }
+                        },
+                        plugins: {
+                            legend: { position: 'top', align: 'end' }
+                        }
+                    }
+                });
+            }
+
+            // 3. Mentorship Growth Line Chart
+            if (document.getElementById('menteeGrowthChart')) {
+                new Chart(document.getElementById('menteeGrowthChart'), {
+                    type: 'line',
+                    data: {
+                        labels: chartData.menteeGrowth.labels.length > 0 ? chartData.menteeGrowth.labels : ['No Mentees'],
+                        datasets: [{
+                            label: 'New Mentees',
+                            data: chartData.menteeGrowth.values.length > 0 ? chartData.menteeGrowth.values : [0],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: gridColor, drawBorder: false },
+                                ticks: { precision: 0 }
+                            },
+                            x: { 
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 </html>
 
 <% function getFileIcon(mime, name) { const ext=(name || '' ).split('.').pop().toLowerCase(); if (mime &&

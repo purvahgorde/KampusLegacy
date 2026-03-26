@@ -130,11 +130,11 @@
                             <span class="material-symbols-outlined">folder_open</span>
                             Resources
                         </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
+                        <!-- <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
                             href="#">
                             <span class="material-symbols-outlined">forum</span>
                             Community
-                        </a>
+                        </a> -->
                     </nav>
                 </div>
                 <div class="p-4 mt-auto">
@@ -238,6 +238,7 @@
                             <div class="grid grid-cols-1 xl:grid-cols-2 gap-5" id="opps-grid">
                                 <% opportunities.forEach(function(opp) { %>
                                     <div class="opp-card rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col cursor-pointer hover:shadow-md hover:border-primary/50 transition-all overflow-hidden"
+                                        data-id="<%= opp._id %>"
                                         data-type="<%= opp.type %>"
                                         data-search="<%= (opp.title + ' ' + opp.company + ' ' + (opp.author?.name || '')).toLowerCase() %>"
                                         onclick="openDetailModal('<%= escape(JSON.stringify(opp)) %>')">
@@ -588,7 +589,15 @@
                     btn.classList.remove('opacity-70');
                 }
             };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const params = new URLSearchParams(window.location.search);
+                const jobId = params.get('jobId');
+                if (jobId) {
+                    const card = document.querySelector(`.opp-card[data-id="${jobId}"]`);
+                    if (card) card.click();
+                }
+            });
         </script>
     </body>
-
     </html>

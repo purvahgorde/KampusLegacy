@@ -150,6 +150,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="events-grid">
                         <% events.forEach(function(ev) { %>
                             <div class="event-card rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col cursor-pointer hover:shadow-md hover:border-primary/50 transition-all overflow-hidden relative group"
+                                data-id="<%= ev._id %>"
                                 data-mode="<%= ev.mode %>"
                                 data-search="<%= (ev.title + ' ' + ev.location + ' ' + (ev.author?.name || '')).toLowerCase() %>"
                                 onclick="openEventModal('<%= escape(JSON.stringify(ev)) %>')">
@@ -429,6 +430,15 @@
                 btn.classList.remove('opacity-70');
             }
         };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const eventId = params.get('eventId');
+            if (eventId) {
+                const card = document.querySelector(`.event-card[data-id="${eventId}"]`);
+                if (card) card.click();
+            }
+        });
     </script>
 </body>
 </html>

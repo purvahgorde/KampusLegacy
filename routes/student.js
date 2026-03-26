@@ -45,7 +45,35 @@ router.get('/home', requireAuth, requireRole('student'), async (req, res) => {
 
         const availableMentors = mentors.filter(m => !connectedMentorIds.includes(m._id.toString())).slice(0, 4);
 
-        res.render('student/home', { user: req.user, mentors: availableMentors });
+        // Fetch dynamic content from accepted mentors
+        const acceptedIds = connections.filter(c => c.status === 'accepted').map(c => c.mentor);
+        
+        const upcomingEventsRaw = await Event.find({ author: { $in: acceptedIds }, isActive: true, date: { $gte: new Date(new Date().setHours(0,0,0,0)) } })
+            .sort({ date: 1 })
+            .limit(2)
+            .populate('author', 'name profilePicture')
+            .lean();
+
+        const studentRegs = await EventRegistration.find({ student: req.user._id }).lean();
+        const regSet = new Set(studentRegs.map(r => r.event.toString()));
+        
+        const upcomingEvents = upcomingEventsRaw.map(e => ({
+            ...e,
+            isRegistered: regSet.has(e._id.toString())
+        }));
+
+        const freshOpportunities = await Opportunity.find({ author: { $in: acceptedIds }, isActive: true })
+            .sort({ createdAt: -1 })
+            .limit(3)
+            .populate('author', 'name profilePicture company')
+            .lean();
+
+        res.render('student/home', { 
+            user: req.user, 
+            mentors: availableMentors,
+            upcomingEvents,
+            freshOpportunities
+        });
     } catch (err) {
         console.error('Home error:', err);
         res.render('student/home', { user: req.user, mentors: [] });

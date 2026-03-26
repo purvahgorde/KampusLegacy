@@ -184,17 +184,12 @@
                                 class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
                                 <div
                                     class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <span class="material-symbols-outlined text-6xl text-primary">timer</span>
+                                    <span class="material-symbols-outlined text-6xl text-primary">event</span>
                                 </div>
-                                <p class="text-sm font-medium text-slate-500 dark:text-slate-400 z-10">Total Mentoring
-                                    Hours</p>
+                                <p class="text-sm font-medium text-slate-500 dark:text-slate-400 z-10">Total Events Hosted
+                                    </p>
                                 <div class="flex items-end gap-2 z-10">
-                                    <span class="text-3xl font-bold text-slate-900 dark:text-white">42h</span>
-                                    <span
-                                        class="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/30 px-1.5 py-0.5 rounded mb-1 flex items-center">
-                                        <span class="material-symbols-outlined text-[14px] mr-0.5">arrow_upward</span>
-                                        12%
-                                    </span>
+                                    <span class="text-3xl font-bold text-slate-900 dark:text-white"><%= stats.totalEventsPosted %></span>
                                 </div>
                             </div>
                             <div
@@ -206,27 +201,28 @@
                                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400 z-10">Active Mentees
                                 </p>
                                 <div class="flex items-end gap-2 z-10">
-                                    <span class="text-3xl font-bold text-slate-900 dark:text-white">5</span>
+                                    <span class="text-3xl font-bold text-slate-900 dark:text-white"><%= stats.activeMentees %></span>
+                                    <% if (stats.newMenteesToday > 0) { %>
                                     <span
                                         class="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/30 px-1.5 py-0.5 rounded mb-1 flex items-center">
                                         <span class="material-symbols-outlined text-[14px] mr-0.5">add</span>
-                                        1 New
+                                        <%= stats.newMenteesToday %> New
                                     </span>
+                                    <% } %>
                                 </div>
                             </div>
                             <div
                                 class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
                                 <div
                                     class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <span class="material-symbols-outlined text-6xl text-primary">event</span>
+                                    <span class="material-symbols-outlined text-6xl text-primary">calendar_clock</span>
                                 </div>
                                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400 z-10">Upcoming Sessions
                                 </p>
                                 <div class="flex items-end gap-2 z-10">
-                                    <span class="text-3xl font-bold text-slate-900 dark:text-white">3</span>
+                                    <span class="text-3xl font-bold text-slate-900 dark:text-white"><%= stats.upcomingSessionsCount %></span>
                                     <span
-                                        class="text-xs font-medium text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded mb-1">This
-                                        week</span>
+                                        class="text-xs font-medium text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded mb-1">Next 7 days</span>
                                 </div>
                             </div>
                         </div>
@@ -236,6 +232,7 @@
                         <!-- Left Column: Action Items & Admin -->
                         <div class="lg:col-span-2 space-y-8">
                             <!-- Action Required -->
+                            <% if (actionRequired.pendingRequestsCount > 0 || actionRequired.urgentEvents.length > 0) { %>
                             <div
                                 class="bg-white dark:bg-slate-900 rounded-xl border border-red-100 dark:border-red-900/30 shadow-sm overflow-hidden">
                                 <div
@@ -246,52 +243,51 @@
                                         <h3 class="font-semibold text-slate-900 dark:text-white">Action Required</h3>
                                     </div>
                                     <span
-                                        class="text-xs font-medium bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">2
-                                        Pending</span>
+                                        class="text-xs font-medium bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">
+                                        <%= actionRequired.pendingRequestsCount + actionRequired.urgentEvents.length %> Pending</span>
                                 </div>
                                 <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <% actionRequired.urgentEvents.forEach(evt => { %>
                                     <div class="p-5 flex items-start sm:items-center gap-4 flex-col sm:flex-row">
-                                        <img alt="Mentee Sarah" class="h-12 w-12 rounded-full object-cover"
-                                            data-alt="Portrait of a young woman smiling"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA00e_u0zL5Qv_GADRVNOavHUaquFEJ9psqhPLBQBscQvGJmx06jVh7sc5152n8exqd300mouNGxSDkHUR-i8P1Rh2ZzRvLxx5hlZAVopR9W725201R7mqMJdRg1orLSFpTCIetIfsmqoNFFNTbsU5kMS0oIGqqZ3ChehTUs_HKdaeqAqMkroe3zaQ4MyNQfAX1OhyF62x_IuMkRv7-V1wNnfaBhyArcHSUu3zL1BsTCt73zDZZ4B1BIzG-J0tIMW1Psm8SWZKcnnA" />
+                                        <div class="h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+                                            <span class="material-symbols-outlined">event_available</span>
+                                        </div>
                                         <div class="flex-1">
-                                            <p class="font-medium text-slate-900 dark:text-white">Session with Sarah
-                                                Jenkins</p>
+                                            <p class="font-medium text-slate-900 dark:text-white">Upcoming: <%= evt.title %></p>
                                             <p
                                                 class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
                                                 <span class="material-symbols-outlined text-[16px]">schedule</span>
-                                                Starts in 15 mins • 4:00 PM Today
+                                                Today at <%= evt.time %> • <%= evt.mode === 'online' ? 'Online' : evt.location %>
                                             </p>
                                         </div>
-                                        <button
-                                            class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium transition-colors shadow-sm shadow-blue-500/20">
-                                            Join Session
-                                        </button>
+                                        <a href="/mentor/events/<%= evt._id %>"
+                                            class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium transition-colors shadow-sm shadow-blue-500/20 text-center">
+                                            View Event
+                                        </a>
                                     </div>
+                                    <% }) %>
+
+                                    <% if (actionRequired.pendingRequestsCount > 0) { %>
                                     <div class="p-5 flex items-start sm:items-center gap-4 flex-col sm:flex-row">
                                         <div
                                             class="h-12 w-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                             <span class="material-symbols-outlined">person_add</span>
                                         </div>
                                         <div class="flex-1">
-                                            <p class="font-medium text-slate-900 dark:text-white">Mentorship Request:
-                                                David Chen</p>
-                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Interested in
-                                                Software Engineering &amp; Career Growth.</p>
+                                            <p class="font-medium text-slate-900 dark:text-white">Mentorship Requests</p>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">You have <%= actionRequired.pendingRequestsCount %> pending requests. Accept to get connected.</p>
                                         </div>
                                         <div class="flex gap-2 w-full sm:w-auto">
-                                            <button
-                                                class="flex-1 sm:flex-none px-3 py-2 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-sm font-medium transition-colors">
-                                                Decline
-                                            </button>
-                                            <button
-                                                class="flex-1 sm:flex-none px-3 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg text-sm font-medium transition-colors">
-                                                Review Profile
-                                            </button>
+                                            <a href="/mentor/requests"
+                                                class="flex-1 sm:flex-none px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg text-sm font-medium transition-colors text-center">
+                                                My Mentees
+                                            </a>
                                         </div>
                                     </div>
+                                    <% } %>
                                 </div>
                             </div>
+                            <% } %>
                             <!-- Community Feed -->
                             <div>
                                 <div class="flex items-center justify-between mb-4">
@@ -335,75 +331,61 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Event Card -->
-                                    <div
-                                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-shadow">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <span
-                                                class="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 flex items-center gap-1">
-                                                <span class="material-symbols-outlined text-[14px]">event</span> Event
-                                            </span>
-                                            <span class="text-xs text-slate-400">Student View</span>
-                                        </div>
-                                        <div class="flex items-start gap-4">
-                                            <div
-                                                class="flex-shrink-0 w-14 h-14 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex flex-col items-center justify-center border border-orange-100 dark:border-orange-800 text-orange-700 dark:text-orange-400">
-                                                <span class="text-xs font-bold uppercase">Oct</span>
-                                                <span class="text-xl font-bold">24</span>
+                                    <% highlights.forEach(item => { %>
+                                        <% if (item.highlightType === 'event') { %>
+                                        <!-- Event Card -->
+                                        <div
+                                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-shadow">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <span
+                                                    class="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 flex items-center gap-1">
+                                                    <span class="material-symbols-outlined text-[14px]">event</span> Event
+                                                </span>
+                                                <span class="text-xs text-slate-400">By <%= item.author?.name || 'Mentor' %></span>
                                             </div>
-                                            <div>
-                                                <h4 class="text-base font-semibold text-slate-900 dark:text-white mb-1">
-                                                    Resume Workshop: Mastering the ATS</h4>
-                                                <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">A guide for
-                                                    students on how to optimize their resumes for Applicant Tracking
-                                                    Systems.</p>
+                                            <div class="flex items-start gap-4">
                                                 <div
-                                                    class="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-                                                    <span class="flex items-center gap-1"><span
-                                                            class="material-symbols-outlined text-[14px]">videocam</span>
-                                                        Online</span>
-                                                    <span class="flex items-center gap-1"><span
-                                                            class="material-symbols-outlined text-[14px]">schedule</span>
-                                                        2:00 PM EST</span>
+                                                    class="flex-shrink-0 w-14 h-14 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex flex-col items-center justify-center border border-orange-100 dark:border-orange-800 text-orange-700 dark:text-orange-400 overflow-hidden relative">
+                                                    <% if (item.bannerImage) { %>
+                                                        <img src="<%= item.bannerImage %>" class="absolute inset-0 w-full h-full object-cover">
+                                                    <% } else { %>
+                                                        <span class="material-symbols-outlined">event</span>
+                                                    <% } %>
+                                                </div>
+                                                <div>
+                                                    <h4 class="text-base font-semibold text-slate-900 dark:text-white mb-1">
+                                                        <%= item.title %></h4>
+                                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-2 truncate max-w-[200px] sm:max-w-xs"><%= item.description %></p>
+                                                    <div
+                                                        class="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+                                                        <span class="flex items-center gap-1"><span
+                                                                class="material-symbols-outlined text-[14px]"><%= item.mode === 'online' ? 'videocam' : 'location_on' %></span>
+                                                            <%= item.mode === 'online' ? 'Online' : item.location %></span>
+                                                        <span class="flex items-center gap-1"><span
+                                                                class="material-symbols-outlined text-[14px]">schedule</span>
+                                                            <%= item.time %></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- Job Market Teaser -->
-                                    <div
-                                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-shadow opacity-90">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <span
-                                                class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 flex items-center gap-1">
-                                                <span class="material-symbols-outlined text-[14px]">work</span> Job
-                                                Market
-                                            </span>
-                                            <span class="text-xs text-slate-400 italic">Student View • FYI Only</span>
-                                        </div>
-                                        <div class="flex flex-col gap-2">
-                                            <h4 class="text-base font-medium text-slate-900 dark:text-white">New
-                                                Internships Posted This Week</h4>
-                                            <div class="flex -space-x-2 overflow-hidden py-1">
-                                                <img alt="Spotify"
-                                                    class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900"
-                                                    data-alt="Spotify Logo"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtjoFOUdSLHFir9mvS_c3fnt3Qaus11zZtZb8LkAeXR1zaSmPz5nzXt6sqTJ-yiJolv-2AgfMi83ZZe5z2G_sTPfQLN4afeEVj8vhGArTPZpjJ4p1DrDgQPdQMyiLDyzMPZzeHTwvDC6d-xXHpy5gbxKTPTvdBVQ8nqUmaoGVqUBExKepaD5gC0sBi5AKyggxlRZgTYifah4Sir8Vmr1DWXDHQOIYgnswPzcdgbefjfcBH4_poI73yAvVdYWKSYgX-hiR7WsXBXBY" />
-                                                <img alt="Airbnb"
-                                                    class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900"
-                                                    data-alt="Airbnb Logo"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoGFdFHMQrWOZXJ8i2sHDx3WAsq3pLmAvFUrVK7zPlIjBpK5Ox19XGuxwA8MfTF2Yiwd_tYHH92trw30hyC53jjtM1OmerCvXpmNe0L7JQs3Kx1SxTWmsncfTO8SqiNuPuSxFWghRbIUj70yeWZmIbE-OFYVlH78Zl2hH32B5TsMwqIRt2mm-W4XCYYmvL_OursjGUsW3CqjRThKZePfdYiH9bKkx9MHdNzUcSAjBtf4_5KdLV3a0-6d3J49w3bnflyPbOfFqS9QI" />
-                                                <img alt="Stripe"
-                                                    class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900"
-                                                    data-alt="Stripe Logo"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ErAwT8BbR0gyMtkCwDwBB-WocHJ1fue9zDvsEMJVBVNLEWeuYe3X0GEah_PyCRkaj_s8ml0R3g1uGajzGkiGdrM4TgeeXZ-oEqpps3fggYV7jwIRO69XajSIFRBZ160ajlQXGdtdPCanNFGSkF4xo5S-YTKjD2DLz3kgrnABL3ro_kHLnfH-NJlBfJg3BhlnnkKoWhTqWbeEcWgvVsc4wRFDKCFfQnVL_VF9lZaJI5mUB8LufiUpk6uCMukplKfQ6JwwyQwBqeg" />
-                                                <div
-                                                    class="h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-medium text-slate-600 dark:text-slate-400">
-                                                    +12</div>
+                                        <% } else { %>
+                                        <!-- Job Market Teaser -->
+                                        <div onclick="openMentorOpportunitiesModal('<%= item.author?._id %>', '<%= item.author?.name %>')"
+                                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <span
+                                                    class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 flex items-center gap-1">
+                                                    <span class="material-symbols-outlined text-[14px]">work</span> Opportunity
+                                                </span>
+                                                <span class="text-xs text-slate-400 flex items-center gap-1 group-hover:text-primary transition-colors">By <%= item.author?.name || 'Mentor' %> <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
                                             </div>
-                                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">15 new
-                                                engineering internships added. Encourage your mentees to apply!</p>
+                                            <div class="flex flex-col gap-2">
+                                                <h4 class="text-base font-medium text-slate-900 dark:text-white"><%= item.title %> at <%= item.company %></h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1"><span class="material-symbols-outlined text-[14px] align-middle mr-1">location_on</span> <%= item.location %></p>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <% } %>
+                                    <% }) %>
                                 </div>
                             </div>
                         </div>
@@ -437,48 +419,29 @@
                                     Schedule
                                 </h3>
                                 <div class="space-y-4">
+                                    <% if (upcomingEvents.length === 0) { %>
+                                        <p class="text-sm text-slate-500">No upcoming events scheduled.</p>
+                                    <% } %>
+                                    <% upcomingEvents.forEach((evt, idx) => { %>
                                     <div
                                         class="flex gap-3 relative pb-4 border-l-2 border-slate-100 dark:border-slate-800 pl-4 last:border-0 last:pb-0">
                                         <div
-                                            class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900">
+                                            class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full <%= idx === 0 ? 'bg-primary ring-4 ring-white dark:ring-slate-900' : 'bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-slate-900' %>">
                                         </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-semibold text-primary mb-0.5">Today, 4:00 PM</p>
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white">1:1 with Sarah
-                                                J.</p>
-                                            <p class="text-xs text-slate-500 mt-1">Video Call</p>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex gap-3 relative pb-4 border-l-2 border-slate-100 dark:border-slate-800 pl-4 last:border-0 last:pb-0">
-                                        <div
-                                            class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-slate-900">
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-semibold text-slate-500 mb-0.5">Tomorrow, 10:00 AM
+                                        <div class="flex-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-lg -mt-2 transition-colors" onclick="window.location.href='/mentor/events/<%= evt._id %>'">
+                                            <p class="text-xs font-semibold <%= idx === 0 ? 'text-primary' : 'text-slate-500' %> mb-0.5">
+                                                <%= new Date(evt.date).toLocaleDateString() %>, <%= evt.time %>
                                             </p>
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white">Group Sync:
-                                                Career Goals</p>
-                                            <p class="text-xs text-slate-500 mt-1">Zoom Meeting</p>
+                                            <p class="text-sm font-medium text-slate-900 dark:text-white"><%= evt.title %></p>
+                                            <p class="text-xs text-slate-500 mt-1"><%= evt.mode === 'online' ? 'Online' : evt.location %></p>
                                         </div>
                                     </div>
-                                    <div
-                                        class="flex gap-3 relative pb-4 border-l-2 border-slate-100 dark:border-slate-800 pl-4 last:border-0 last:pb-0">
-                                        <div
-                                            class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-slate-900">
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-semibold text-slate-500 mb-0.5">Fri, Oct 27</p>
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white">Resume Review
-                                                with David</p>
-                                            <p class="text-xs text-slate-500 mt-1">Google Docs</p>
-                                        </div>
-                                    </div>
+                                    <% }) %>
                                 </div>
-                                <button
-                                    class="w-full mt-5 py-2 text-primary text-sm font-medium hover:bg-primary/5 rounded-lg transition-colors">
+                                <a href="/mentor/events"
+                                    class="w-full mt-5 py-2 text-primary block text-center text-sm font-medium hover:bg-primary/5 rounded-lg transition-colors">
                                     View Full Calendar
-                                </button>
+                                </a>
                             </div>
                             <!-- Active Students List -->
                             <div
@@ -488,54 +451,28 @@
                                     <button class="text-xs text-primary font-medium hover:underline">View All</button>
                                 </div>
                                 <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="relative">
-                                            <img alt="Sarah" class="w-9 h-9 rounded-full object-cover"
-                                                data-alt="Portrait of a woman"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgGNdp2sOw-gUc0xNx9eN4wgxkzqq11QfXvX3uK14Q90Zp73bTgyRYXq-3rYBKheGWPGyjCg-uI5HayaNOGDCpEthz9gwzSiWaZ3Zd51ACDKjWABb2hbDuM34Ekrq4EA5G9zy6mVUqp27jx7rAkDJquzazU2v_z4yXetjDopdNc6V02iFvbJwbXkt_QULw4qG_2Dp1QUBtMtL3PvvIflsKixF8w6t2NbCmb_Apq4Ajdgg7DIOfjo8apNZqwZVJil_qD5rpe3o5xTo" />
-                                            <span
-                                                class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">Sarah
-                                                Jenkins</p>
-                                            <p class="text-xs text-slate-500 truncate">Product Design</p>
-                                        </div>
-                                        <button class="text-slate-400 hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[20px]">chat</span>
-                                        </button>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div class="relative">
-                                            <img alt="David" class="w-9 h-9 rounded-full object-cover"
-                                                data-alt="Portrait of a man"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuClhShwrjGMLab5ds7ldrtHUzc2csq8HR-PFhAOc14oYqrqril1ibT8OgAYNTXIzXGEMKkTBfrV7VBQ6kBlaE0KpjJsMDsx1V1pjBxbrr3dAIGxQU-ZSviQZcmROdOtJlAbfwLoolJCmHQsZj5j_GMILs8-b_PlWeHRmk37uLkBhEPfXAMuFCHaQ35ZbbyBrYclDebnxgD4DYBdNA2kZF_iyKmoKGfwJlZE4EalQ-8t3nup9iscQ1Y-PNAtBpKWE-u1ToF_f92F4Ew" />
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">David
-                                                Chen</p>
-                                            <p class="text-xs text-slate-500 truncate">Computer Science</p>
-                                        </div>
-                                        <button class="text-slate-400 hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[20px]">chat</span>
-                                        </button>
-                                    </div>
-                                    <div class="flex items-center gap-3">
+                                    <% if (recentMentees.length === 0) { %>
+                                        <p class="text-sm text-slate-500 text-center py-4">No active mentees yet.</p>
+                                    <% } %>
+                                    <% recentMentees.forEach(conn => { %>
+                                        <% const stu = conn.student %>
+                                    <div class="flex items-center gap-3 group">
                                         <div class="relative">
                                             <div
-                                                class="w-9 h-9 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-300 flex items-center justify-center text-xs font-bold border border-purple-200 dark:border-purple-800">
-                                                MJ
+                                                class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-300 flex items-center justify-center text-xs font-bold border border-indigo-200 dark:border-indigo-800">
+                                                <%= stu.name ? stu.name.substring(0,2).toUpperCase() : 'ST' %>
                                             </div>
+                                            <% if (new Date(conn.updatedAt).toDateString() === new Date().toDateString()) { %>
+                                            <span
+                                                class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+                                            <% } %>
                                         </div>
                                         <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
-                                                Michael Jordan</p>
-                                            <p class="text-xs text-slate-500 truncate">Marketing</p>
+                                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= stu.name %></p>
+                                            <p class="text-xs text-slate-500 truncate"><%= stu.institution || 'Student' %></p>
                                         </div>
-                                        <button class="text-slate-400 hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[20px]">chat</span>
-                                        </button>
                                     </div>
+                                    <% }) %>
                                 </div>
                             </div>
                         </div>
@@ -544,6 +481,84 @@
             </div>
         </main>
     </div>
-</body>
 
+    <!-- Mentor Opportunities Modal -->
+    <div id="mentor-opportunities-modal"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div
+            class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-transform duration-300">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">work</span>
+                    Opportunities by <span id="modal-mentor-name" class="text-primary font-bold ml-1">...</span>
+                </h3>
+                <button onclick="closeMentorOpportunitiesModal()"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+            </div>
+            <div class="max-h-[60vh] overflow-y-auto p-6 scrollbar-thin">
+                <div id="modal-opportunities-list" class="space-y-4">
+                    <!-- Opportunities will be injected here via Fetch -->
+                    <div class="flex justify-center py-8">
+                        <span class="material-symbols-outlined animate-spin text-primary text-3xl">autorenew</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality for Mentor Highlights
+        const modal = document.getElementById('mentor-opportunities-modal');
+        const listContainer = document.getElementById('modal-opportunities-list');
+        const nameSpan = document.getElementById('modal-mentor-name');
+        
+        async function openMentorOpportunitiesModal(authorId, authorName) {
+            nameSpan.textContent = authorName;
+            listContainer.innerHTML = '<div class="flex justify-center py-8"><span class="material-symbols-outlined animate-spin text-primary text-3xl">autorenew</span></div>';
+            
+            // Show modal
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+            modal.firstElementChild.classList.add('scale-100');
+            
+            try {
+                const response = await fetch(`/mentor/api/opportunities/author/${authorId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.opportunities.length === 0) {
+                        listContainer.innerHTML = '<p class="text-slate-500 text-center py-4">No public opportunities found.</p>';
+                    } else {
+                        listContainer.innerHTML = data.opportunities.map(opp => `
+                            <div class="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-slate-900 dark:text-white">${opp.title}</h4>
+                                    <span class="text-xs font-semibold px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">${opp.type || 'Job'}</span>
+                                </div>
+                                <p class="text-sm text-slate-700 dark:text-slate-300 font-medium mb-1">${opp.company}</p>
+                                <div class="flex items-center gap-4 text-xs text-slate-500 mt-2">
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">location_on</span> ${opp.location}</span>
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">payments</span> ${opp.salary || 'Unpaid'}</span>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            } catch (err) {
+                console.error(err);
+                listContainer.innerHTML = '<p class="text-red-500 text-center py-4">Could not load opportunities at this time.</p>';
+            }
+        }
+        
+        function closeMentorOpportunitiesModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-100');
+            modal.firstElementChild.classList.add('scale-95');
+        }
+    </script>
+</body>
 </html>

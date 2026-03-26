@@ -177,7 +177,7 @@
 
                             <a href="/mentor/events/<%= ev._id %>" class="flex-1 p-5 block">
                                 <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 mb-3">
-                                    <%= ev.mode %>
+                                    <%= ev.mode %> &bull; <%= ev.eventType || 'Workshop' %>
                                 </span>
                                 <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors line-clamp-2"><%= ev.title %></h3>
                                 
@@ -251,7 +251,7 @@
                             class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition text-slate-500" />
                     </div>
 
-                    <!-- Mode & Location -->
+                    <!-- Mode & Type -->
                     <div class="col-span-2 sm:col-span-1">
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Mode <span class="text-red-500">*</span></label>
                         <select id="post-mode" class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
@@ -260,6 +260,19 @@
                         </select>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Event Type <span class="text-red-500">*</span></label>
+                        <select id="post-type" class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition">
+                            <option value="TECH TALK">TECH TALK</option>
+                            <option value="HACKATHON">HACKATHON</option>
+                            <option value="WORKSHOP" selected>WORKSHOP</option>
+                            <option value="SEMINAR">SEMINAR</option>
+                            <option value="NETWORKING">NETWORKING</option>
+                            <option value="OTHER">OTHER</option>
+                        </select>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="col-span-2">
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Location/Platform <span class="text-red-500">*</span></label>
                         <input id="post-location" type="text" placeholder="e.g. Google Meet, New York HQ"
                             class="w-full px-4 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none transition" />
@@ -342,6 +355,7 @@
         const time = document.getElementById('post-time').value;
         const locationInput = document.getElementById('post-location').value;
         const mode = document.getElementById('post-mode').value;
+        const eventType = document.getElementById('post-type').value;
         const regMode = document.querySelector('input[name="regMode"]:checked').value;
         const externalLink = document.getElementById('post-link').value;
         const fileInput = document.getElementById('post-banner');
@@ -371,6 +385,7 @@
         formData.append('time', time);
         formData.append('location', locationInput);
         formData.append('mode', mode);
+        formData.append('eventType', eventType);
         formData.append('registrationMode', regMode);
         formData.append('externalLink', externalLink);
         formData.append('bannerImage', fileInput.files[0]);

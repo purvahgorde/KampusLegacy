@@ -66,20 +66,122 @@ const eventUpload = multer({
     },
 });
 // ─── Mentor Community Home ──────────────────────────────────────
-router.get('/home', requireAuth, requireRole('mentor'), (req, res) => {
-    res.render('mentor/home', { user: req.user });
+router.get('/home', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const mentorId = req.user._id;
+
+        // Header Stats
+        const totalEventsPosted = await Event.countDocuments({ author: mentorId });
+        
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        const activeMentees = await Connection.countDocuments({ mentor: mentorId, status: 'accepted' });
+        const newMenteesToday = await Connection.countDocuments({ 
+            mentor: mentorId, 
+            status: 'accepted',
+            updatedAt: { $gte: startOfDay }
+        });
+
+        const now = new Date();
+        const next7Days = new Date();
+        next7Days.setDate(next7Days.getDate() + 7);
+        const upcomingSessionsCount = await Event.countDocuments({
+            author: mentorId,
+            date: { $gte: now, $lte: next7Days }
+        });
+
+        // Action Required
+        const pendingRequestsCount = await Connection.countDocuments({ mentor: mentorId, status: 'pending' });
+        
+        const next24Hours = new Date();
+        next24Hours.setHours(next24Hours.getHours() + 24);
+        const urgentEvents = await Event.find({
+            author: mentorId,
+            date: { $gte: now, $lte: next24Hours }
+        }).sort({ date: 1 }).lean();
+
+        // Schedule (Next 3 upcoming)
+        const upcomingEvents = await Event.find({
+            author: mentorId,
+            date: { $gte: now }
+        }).sort({ date: 1 }).limit(3).lean();
+
+        // My Mentees (Recent 3)
+        const recentMentees = await Connection.find({ mentor: mentorId, status: 'accepted' })
+            .sort({ updatedAt: -1 })
+            .limit(3)
+            .populate('student')
+            .lean();
+
+        // Community Highlights (Latest 4 overall Events or Opportunities)
+        const latestEvents = await Event.find().sort({ createdAt: -1 }).limit(4).populate('author', 'name profilePic').lean();
+        const latestOpps = await Opportunity.find().sort({ createdAt: -1 }).limit(4).populate('author', 'name profilePic').lean();
+        
+        const highlights = [...latestEvents.map(e => ({...e, highlightType: 'event'})), 
+                            ...latestOpps.map(o => ({...o, highlightType: 'opportunity'}))]
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 4);
+
+        res.render('mentor/home', { 
+            user: req.user,
+            stats: { totalEventsPosted, activeMentees, newMenteesToday, upcomingSessionsCount },
+            actionRequired: { pendingRequestsCount, urgentEvents },
+            upcomingEvents,
+            recentMentees,
+            highlights
+        });
+    } catch (err) {
+        console.error('Mentor home error:', err);
+        res.render('mentor/home', { 
+            user: req.user,
+            stats: { totalEventsPosted: 0, activeMentees: 0, newMenteesToday: 0, upcomingSessionsCount: 0 },
+            actionRequired: { pendingRequestsCount: 0, urgentEvents: [] },
+            upcomingEvents: [],
+            recentMentees: [],
+            highlights: []
+        });
+    }
 });
 
 // ─── Mentor Dashboard ──────────────────────────────────────────
 router.get('/dashboard', requireAuth, requireRole('mentor'), async (req, res) => {
     try {
-        const resources = await Resource.find({ author: req.user._id })
-            .sort({ createdAt: -1 })
-            .lean();
+        const mentorId = req.user._id;
+
+        // Resources data
+        const resources = await Resource.find({ author: mentorId }).sort({ createdAt: -1 }).lean();
         const latest4 = resources.slice(0, 4);
-        const totalViews = resources.reduce((s, r) => s + r.views, 0);
-        const totalDownloads = resources.reduce((s, r) => s + r.downloads, 0);
-        const acceptedConnections = await Connection.countDocuments({ mentor: req.user._id, status: 'accepted' });
+        const totalViews = resources.reduce((s, r) => s + (r.views || 0), 0);
+        const totalDownloads = resources.reduce((s, r) => s + (r.downloads || 0), 0);
+        
+        // Accepted Connections
+        const connections = await Connection.find({ mentor: mentorId, status: 'accepted' }).lean();
+        const acceptedConnections = connections.length;
+
+        // Event Engagement data
+        const events = await Event.find({ author: mentorId }).lean();
+        const totalEventViews = events.reduce((s, e) => s + (e.views || 0), 0);
+        const totalEventRegistrations = events.reduce((s, e) => s + (e.totalRegistrations || 0), 0);
+
+        // Prepare chart data:
+        // 1. Resource Categories Breakdown
+        const categoryCounts = {};
+        resources.forEach(r => {
+            categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1;
+        });
+        
+        // 2. Event Engagement Breakdown
+        const eventLabels = events.map(e => e.title);
+        const eventViews = events.map(e => e.views || 0);
+        const eventRegs = events.map(e => e.totalRegistrations || 0);
+
+        // 3. Mentorship Growth (by Month-Year)
+        const menteeGrowthMap = {};
+        connections.forEach(c => {
+            const dateStr = new Date(c.updatedAt || c.createdAt).toLocaleString('default', { month: 'short', year: 'numeric' });
+            menteeGrowthMap[dateStr] = (menteeGrowthMap[dateStr] || 0) + 1;
+        });
+
         res.render('mentor/dashboard', {
             user: req.user,
             resources: latest4,
@@ -89,8 +191,24 @@ router.get('/dashboard', requireAuth, requireRole('mentor'), async (req, res) =>
                 totalResources: resources.length,
                 totalViews,
                 totalDownloads,
+                totalEvents: events.length,
+                totalEventViews,
+                totalEventRegistrations
             },
             categories: Resource.CATEGORIES,
+            chartData: JSON.stringify({
+                categories: Object.keys(categoryCounts),
+                categoryValues: Object.values(categoryCounts),
+                events: {
+                    labels: eventLabels,
+                    views: eventViews,
+                    registrations: eventRegs
+                },
+                menteeGrowth: {
+                    labels: Object.keys(menteeGrowthMap),
+                    values: Object.values(menteeGrowthMap)
+                }
+            })
         });
     } catch (err) {
         console.error('Dashboard error:', err);
@@ -98,9 +216,31 @@ router.get('/dashboard', requireAuth, requireRole('mentor'), async (req, res) =>
             user: req.user,
             resources: [],
             allResources: [],
-            stats: { students: 0, totalResources: 0, totalViews: 0, totalDownloads: 0 },
+            stats: { 
+                students: 0, totalResources: 0, totalViews: 0, totalDownloads: 0,
+                totalEvents: 0, totalEventViews: 0, totalEventRegistrations: 0
+            },
             categories: Resource.CATEGORIES,
+            chartData: JSON.stringify({
+                categories: [], categoryValues: [],
+                events: { labels: [], views: [], registrations: [] },
+                menteeGrowth: { labels: [], values: [] }
+            })
         });
+    }
+});
+
+// ─── API: Get Mentor's Opportunities ──────────────────────────
+router.get('/api/opportunities/author/:id', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const opportunities = await Opportunity.find({ author: req.params.id })
+            .sort({ createdAt: -1 })
+            .select('-__v')
+            .lean();
+        res.json({ success: true, opportunities });
+    } catch (err) {
+        console.error('API Fetch Opportunities By Author error:', err);
+        res.status(500).json({ success: false, error: 'Failed to fetch opportunities' });
     }
 });
 
@@ -397,10 +537,10 @@ router.get('/events', requireAuth, requireRole('mentor'), async (req, res) => {
 // POST /mentor/events/create
 router.post('/events/create', requireAuth, requireRole('mentor'), eventUpload.single('bannerImage'), async (req, res) => {
     try {
-        const { title, description, date, time, location, mode, registrationMode, externalLink } = req.body;
+        const { title, description, date, time, location, mode, eventType, registrationMode, externalLink } = req.body;
         const file = req.file;
 
-        if (!title || !description || !date || !time || !location || !mode) {
+        if (!title || !description || !date || !time || !location || !mode || !eventType) {
             return res.json({ success: false, error: 'Please provide all required fields.' });
         }
         if (registrationMode === 'external' && !externalLink) {
@@ -417,6 +557,7 @@ router.post('/events/create', requireAuth, requireRole('mentor'), eventUpload.si
             time: time.trim(),
             location: location.trim(),
             mode,
+            eventType,
             registrationMode: registrationMode || 'internal',
             externalLink: registrationMode === 'external' ? externalLink.trim() : '',
             bannerImage: '/uploads/events/' + file.filename,

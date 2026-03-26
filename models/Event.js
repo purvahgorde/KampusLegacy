@@ -25,6 +25,12 @@ const eventSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    eventType: {
+        type: String,
+        enum: ['TECH TALK', 'HACKATHON', 'WORKSHOP', 'SEMINAR', 'NETWORKING', 'OTHER'],
+        required: true,
+        default: 'WORKSHOP'
+    },
     mode: {
         type: String,
         enum: ['Online', 'Offline'],

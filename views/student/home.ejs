@@ -258,77 +258,51 @@
                                 Upcoming Events
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- Event Card 1 -->
-                                <div
-                                    class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
-                                    <div class="h-32 w-full bg-cover bg-center relative"
-                                        data-alt="Large conference hall with audience"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB59dJXS-mf8EoO_5exd3kqaumovik6NPPMHCrSDGnlIFhPR1bb3r38tyJc7P35Mcp0tzK531I7rFJyaL1iQuo-wOC7nmYZ5f3EjHjyZ2S6ojopR0nHPHWNtwyRpaZTlyGv-mKel_pK_4a6ROv_T8l7peHkB5oBHe-Ci7fwN8UwEK9txu28jpKh6nSNa_X6zMvV_KGUufHSZfXlo1bzAQW7LoyXolrKw0dxOnYjRmB_aC3Obh1IorPmTP4h3Dq4j_2u24qojZ2DZR4');">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
-                                        </div>
-                                        <div class="absolute bottom-3 left-3 text-white">
-                                            <span
-                                                class="bg-primary px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Tech
-                                                Talk</span>
-                                        </div>
-                                    </div>
-                                    <div class="p-4">
-                                        <div class="flex justify-between items-start mb-2">
-                                            <div>
-                                                <h4
-                                                    class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                                                    Future of AI Ethics</h4>
-                                                <p class="text-sm text-slate-500 dark:text-slate-400">Oct 24 • 2:00 PM
-                                                    EST</p>
+                                <% if (upcomingEvents && upcomingEvents.length > 0) { %>
+                                    <% upcomingEvents.forEach(ev => { %>
+                                        <div class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
+                                            <div class="h-32 w-full bg-cover bg-center relative" style="background-image: url('<%= ev.bannerImage %>');">
+                                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                                <div class="absolute bottom-3 left-3 text-white">
+                                                    <% 
+                                                        let badgeBg = 'bg-primary';
+                                                        if (ev.eventType === 'HACKATHON') badgeBg = 'bg-purple-600';
+                                                        if (ev.eventType === 'WORKSHOP') badgeBg = 'bg-green-600';
+                                                        if (ev.eventType === 'SEMINAR') badgeBg = 'bg-amber-600';
+                                                        if (ev.eventType === 'NETWORKING') badgeBg = 'bg-sky-600';
+                                                    %>
+                                                    <span class="<%= badgeBg %> px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider"><%= ev.eventType || 'Event' %></span>
+                                                </div>
                                             </div>
-                                            <div
-                                                class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
-                                                <span
-                                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">OCT</span>
-                                                <span
-                                                    class="text-lg font-bold text-slate-900 dark:text-white leading-none">24</span>
-                                            </div>
-                                        </div>
-                                        <button
-                                            class="w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register
-                                            Now</button>
-                                    </div>
-                                </div>
-                                <!-- Event Card 2 -->
-                                <div
-                                    class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
-                                    <div class="h-32 w-full bg-cover bg-center relative"
-                                        data-alt="People working on laptops at a hackathon"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCThbVz0t_WuiS4TTh7ChlgskH8GDa4qdb6U8ufFz6f6Xk4MjggnWXq9zDtfj3_hg0V-aRuaNiiTNm1-oZbzX5FWB2YcVsNRHLdNwjFRdoY98nqBKhkrV8vDD6hYlKSd0e5mhyQPRzpO7WhNIpupTKU-ROoCxhAyqeqoQZlpYjQz7SY-kwSuwChE7aHavvEu5fq8rqWj_EzpOlNMW54TNflNBKXCjrw2TlYdBRPGjbYIaHed_YxZHG_kiawwJ_dARlzgfJaQbHAKkY');">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
-                                        </div>
-                                        <div class="absolute bottom-3 left-3 text-white">
-                                            <span
-                                                class="bg-purple-600 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Hackathon</span>
-                                        </div>
-                                    </div>
-                                    <div class="p-4">
-                                        <div class="flex justify-between items-start mb-2">
-                                            <div>
-                                                <h4
-                                                    class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                                                    Global Code Jam '23</h4>
-                                                <p class="text-sm text-slate-500 dark:text-slate-400">Nov 12-14 •
-                                                    Virtual</p>
-                                            </div>
-                                            <div
-                                                class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
-                                                <span
-                                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">NOV</span>
-                                                <span
-                                                    class="text-lg font-bold text-slate-900 dark:text-white leading-none">12</span>
+                                            <div class="p-4">
+                                                <div class="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors line-clamp-1"><%= ev.title %></h4>
+                                                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                                                            <%= new Date(ev.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %> &bull; <%= ev.mode %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
+                                                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase"><%= new Date(ev.date).toLocaleString(undefined, { month: 'short' }) %></span>
+                                                        <span class="text-lg font-bold text-slate-900 dark:text-white leading-none"><%= new Date(ev.date).getDate() %></span>
+                                                    </div>
+                                                </div>
+                                                <% if (ev.isRegistered) { %>
+                                                    <button disabled class="w-full mt-2 py-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-bold opacity-80 cursor-not-allowed">Registered</button>
+                                                <% } else if (ev.registrationMode === 'external') { %>
+                                                    <a href="<%= ev.externalLink %>" target="_blank" class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register Now</a>
+                                                <% } else { %>
+                                                    <a href="/student/events?eventId=<%= ev._id %>" class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register Now</a>
+                                                <% } %>
                                             </div>
                                         </div>
-                                        <button
-                                            class="w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Join
-                                            Team</button>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="col-span-1 md:col-span-2 py-8 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                                        <span class="material-symbols-outlined text-3xl mb-1 opacity-50">event_busy</span>
+                                        <p class="text-sm">No upcoming events right now.</p>
                                     </div>
-                                </div>
+                                <% } %>
                             </div>
                         </section>
                         <!-- Jobs & Internships -->
@@ -341,80 +315,35 @@
                                 <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors"
                                     href="/student/opportunities">View All Jobs</a>
                             </div>
-                            <div
-                                class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
-                                <!-- Job Item 1 -->
-                                <div
-                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <div
-                                        class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
-                                        <span
-                                            class="material-symbols-outlined text-2xl text-slate-600 dark:text-slate-400">deployed_code</span>
+                            <div class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
+                                <% if (freshOpportunities && freshOpportunities.length > 0) { %>
+                                    <% freshOpportunities.forEach(opp => { %>
+                                        <div class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                                                <span class="material-symbols-outlined text-2xl text-slate-600 dark:text-slate-400"><%= opp.type === 'Internship' ? 'deployed_code' : 'work' %></span>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4 class="font-semibold text-slate-900 dark:text-white truncate"><%= opp.title %></h4>
+                                                <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                                                    <span><%= opp.company %></span>
+                                                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                                    <span><%= opp.location || 'Remote' %></span>
+                                                </p>
+                                            </div>
+                                            <div class="flex items-center gap-3">
+                                                <% 
+                                                    let typeColor = opp.type === 'Internship' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+                                                %>
+                                                <span class="px-2.5 py-1 rounded-full <%= typeColor %> text-xs font-medium"><%= opp.type %></span>
+                                                <a href="/student/opportunities?jobId=<%= opp._id %>" class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90 transition-opacity">Apply</a>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="p-8 flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/20 text-sm">
+                                        No recent opportunities available yet. Connect with mentors to see jobs here.
                                     </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Frontend
-                                            Developer Intern</h4>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                                            <span>TechFlow Inc.</span>
-                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                            <span>Remote</span>
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-medium">Internship</span>
-                                        <button
-                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
-                                    </div>
-                                </div>
-                                <!-- Job Item 2 -->
-                                <div
-                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <div
-                                        class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
-                                        <span
-                                            class="material-symbols-outlined text-2xl text-blue-600 dark:text-blue-400">data_object</span>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Junior Data
-                                            Analyst</h4>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                                            <span>Metrics Global</span>
-                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                            <span>New York, NY</span>
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-medium">Full-time</span>
-                                        <button
-                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
-                                    </div>
-                                </div>
-                                <!-- Job Item 3 -->
-                                <div
-                                    class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <div
-                                        class="w-12 h-12 rounded-lg bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
-                                        <span
-                                            class="material-symbols-outlined text-2xl text-purple-600 dark:text-purple-400">brush</span>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-slate-900 dark:text-white truncate">Product Design
-                                            Associate</h4>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                                            <span>Creative Studio</span>
-                                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                            <span>Hybrid</span>
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-xs font-medium">Contract</span>
-                                        <button
-                                            class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90">Apply</button>
-                                    </div>
-                                </div>
+                                <% } %>
                             </div>
                         </section>
                     </div>
