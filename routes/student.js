@@ -1,4 +1,7 @@
 const express = require('express');
+const AIChatSession = require('../models/AIChatSession');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const genAI = new GoogleGenerativeAI("AIzaSyAhGPe2osfZvvQ3BaiTRQWxJkLd0As5dG0");
 const { requireAuth, requireRole } = require('../middleware/auth');
 const User = require('../models/User');
 const Connection = require('../models/Connection');
@@ -47,8 +50,8 @@ router.get('/home', requireAuth, requireRole('student'), async (req, res) => {
 
         // Fetch dynamic content from accepted mentors
         const acceptedIds = connections.filter(c => c.status === 'accepted').map(c => c.mentor);
-        
-        const upcomingEventsRaw = await Event.find({ author: { $in: acceptedIds }, isActive: true, date: { $gte: new Date(new Date().setHours(0,0,0,0)) } })
+
+        const upcomingEventsRaw = await Event.find({ author: { $in: acceptedIds }, isActive: true, date: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } })
             .sort({ date: 1 })
             .limit(2)
             .populate('author', 'name profilePicture')
@@ -56,7 +59,7 @@ router.get('/home', requireAuth, requireRole('student'), async (req, res) => {
 
         const studentRegs = await EventRegistration.find({ student: req.user._id }).lean();
         const regSet = new Set(studentRegs.map(r => r.event.toString()));
-        
+
         const upcomingEvents = upcomingEventsRaw.map(e => ({
             ...e,
             isRegistered: regSet.has(e._id.toString())
@@ -68,8 +71,8 @@ router.get('/home', requireAuth, requireRole('student'), async (req, res) => {
             .populate('author', 'name profilePicture company')
             .lean();
 
-        res.render('student/home', { 
-            user: req.user, 
+        res.render('student/home', {
+            user: req.user,
             mentors: availableMentors,
             upcomingEvents,
             freshOpportunities
@@ -209,16 +212,16 @@ router.get('/opportunities', requireAuth, requireRole('student'), async (req, re
     try {
         const connections = await Connection.find({ student: req.user._id, status: 'accepted' }).lean();
         const mentorIds = connections.map(c => c.mentor);
-        
+
         const opportunities = await Opportunity.find({ author: { $in: mentorIds }, isActive: true })
             .populate('author', 'name profilePicture company')
             .sort({ createdAt: -1 })
             .lean();
-            
+
         // Get student's existing applications
         const applications = await Application.find({ student: req.user._id }).lean();
         const appliedOppIds = applications.map(a => a.opportunity.toString());
-        
+
         // Annotate opportunities with applied status
         const oppsWithStatus = opportunities.map(opp => ({
             ...opp,
@@ -277,7 +280,7 @@ router.post('/opportunities/:id/apply', requireAuth, requireRole('student'), res
         });
 
         await Opportunity.findByIdAndUpdate(opportunityId, { $inc: { totalApplications: 1 } });
-        
+
         res.json({ success: true });
     } catch (err) {
         console.error('Apply error:', err);
@@ -295,16 +298,16 @@ router.get('/events', requireAuth, requireRole('student'), async (req, res) => {
     try {
         const connections = await Connection.find({ student: req.user._id, status: 'accepted' }).lean();
         const mentorIds = connections.map(c => c.mentor);
-        
+
         const events = await Event.find({ author: { $in: mentorIds }, isActive: true })
             .populate('author', 'name profilePicture company')
             .sort({ date: 1, time: 1 }) // Sort upcoming events ascending
             .lean();
-            
+
         // Get student's existing registrations
         const registrations = await EventRegistration.find({ student: req.user._id }).lean();
         const registeredEventIds = registrations.map(r => r.event.toString());
-        
+
         // Annotate events with registration status
         const eventsWithStatus = events.map(ev => ({
             ...ev,
@@ -355,12 +358,65 @@ router.post('/events/:id/register', requireAuth, requireRole('student'), async (
         });
 
         await Event.findByIdAndUpdate(eventId, { $inc: { totalRegistrations: 1 } });
-        
+
         res.json({ success: true });
     } catch (err) {
         console.error('Register error:', err);
         if (err.code === 11000) return res.status(400).json({ error: 'Already registered' });
         res.status(500).json({ error: err.message || 'Registration failed' });
+    }
+});
+
+// --- AI Career Counselor ---
+router.get('/counselor', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        let session = await AIChatSession.findOne({ student: req.user._id }).lean();
+        if (!session) {
+            session = { messages: [] };
+        }
+        res.render('student/counselor', { user: req.user, chatHistory: session.messages });
+    } catch (err) {
+        console.error('Counselor GET error:', err);
+        res.render('student/counselor', { user: req.user, chatHistory: [] });
+    }
+});
+
+router.post('/counselor/message', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        const { message } = req.body;
+        if (!message) return res.status(400).json({ error: 'Message required' });
+
+        let session = await AIChatSession.findOne({ student: req.user._id });
+        if (!session) {
+            session = new AIChatSession({ student: req.user._id, messages: [] });
+        }
+
+        // build history
+        const systemInstruction = "You are an AI Career Counselor for KampusLegacy. You must provide helpful, encouraging, and factual career advice to the student user. Keep your answers concise and well-formatted.";
+
+        let history = session.messages.map(m => ({
+            role: m.role,
+            parts: [{ text: m.text }]
+        }));
+
+        session.messages.push({ role: 'user', text: message });
+
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            systemInstruction
+        });
+
+        const chat = model.startChat({ history });
+        const result = await chat.sendMessage(message);
+        const responseText = result.response.text();
+
+        session.messages.push({ role: 'model', text: responseText });
+        await session.save();
+
+        res.json({ success: true, response: responseText });
+    } catch (err) {
+        console.error('AI Chat POST error:', err);
+        res.status(500).json({ error: 'AI Error' });
     }
 });
 

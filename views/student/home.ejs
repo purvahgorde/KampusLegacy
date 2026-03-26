@@ -120,9 +120,9 @@
                         Resources
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium"
-                        href="#">
-                        <span class="material-symbols-outlined">forum</span>
-                        Community
+                        href="/student/counselor">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                        AI Counselor
                     </a>
                 </nav>
             </div>
@@ -248,6 +248,35 @@
                                         <% } %>
                     </div>
                 </section>
+
+                <!-- AI Career Counselor Highlight Card -->
+                <div class="mb-10 relative overflow-hidden rounded-3xl bg-slate-900 dark:bg-primary-light/5 p-8 text-white">
+                    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="max-w-xl">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full bg-primary/20 text-primary-light text-[10px] font-bold uppercase tracking-widest border border-primary/30">AI Insight</span>
+                                <span class="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                                <span class="text-[10px] font-bold text-green-400 uppercase tracking-widest">Live Now</span>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-black mb-4 tracking-tight">Your AI Career <span class="text-primary-light">Counselor</span> 🤖</h2>
+                            <p class="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">Stuck on your career path? Ask our advanced AI for curated advice on internships, resumes, and technical growth — personalized just for you.</p>
+                            <a href="/student/counselor" class="inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary/90 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95 shadow-2xl shadow-primary/40 group">
+                                Start Your Journey 
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                        <div class="hidden lg:block relative">
+                            <div class="absolute -inset-10 bg-primary/30 rounded-full blur-[80px] animate-pulse"></div>
+                            <div class="relative h-48 w-48 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center rotate-3 group hover:rotate-0 transition-transform duration-500">
+                                <span class="material-symbols-outlined text-[100px] text-primary-light opacity-80">psychology</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Abstract Background Decorations -->
+                    <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-[100px]"></div>
+                    <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/10 blur-[100px]"></div>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Left Column (Span 2) -->
                     <div class="lg:col-span-2 space-y-8">
@@ -258,51 +287,76 @@
                                 Upcoming Events
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <% if (upcomingEvents && upcomingEvents.length > 0) { %>
-                                    <% upcomingEvents.forEach(ev => { %>
-                                        <div class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
-                                            <div class="h-32 w-full bg-cover bg-center relative" style="background-image: url('<%= ev.bannerImage %>');">
-                                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <% if (upcomingEvents && upcomingEvents.length> 0) { %>
+                                    <% upcomingEvents.forEach(ev=> { %>
+                                        <div
+                                            class="group bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
+                                            <div class="h-32 w-full bg-cover bg-center relative"
+                                                style="background-image: url('<%= ev.bannerImage %>');">
+                                                <div
+                                                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                                                </div>
                                                 <div class="absolute bottom-3 left-3 text-white">
-                                                    <% 
-                                                        let badgeBg = 'bg-primary';
-                                                        if (ev.eventType === 'HACKATHON') badgeBg = 'bg-purple-600';
-                                                        if (ev.eventType === 'WORKSHOP') badgeBg = 'bg-green-600';
-                                                        if (ev.eventType === 'SEMINAR') badgeBg = 'bg-amber-600';
-                                                        if (ev.eventType === 'NETWORKING') badgeBg = 'bg-sky-600';
-                                                    %>
-                                                    <span class="<%= badgeBg %> px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider"><%= ev.eventType || 'Event' %></span>
+                                                    <% let badgeBg='bg-primary' ; if (ev.eventType==='HACKATHON' )
+                                                        badgeBg='bg-purple-600' ; if (ev.eventType==='WORKSHOP' )
+                                                        badgeBg='bg-green-600' ; if (ev.eventType==='SEMINAR' )
+                                                        badgeBg='bg-amber-600' ; if (ev.eventType==='NETWORKING' )
+                                                        badgeBg='bg-sky-600' ; %>
+                                                        <span
+                                                            class="<%= badgeBg %> px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
+                                                            <%= ev.eventType || 'Event' %>
+                                                        </span>
                                                 </div>
                                             </div>
                                             <div class="p-4">
                                                 <div class="flex justify-between items-start mb-2">
                                                     <div>
-                                                        <h4 class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors line-clamp-1"><%= ev.title %></h4>
+                                                        <h4
+                                                            class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors line-clamp-1">
+                                                            <%= ev.title %>
+                                                        </h4>
                                                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                                                            <%= new Date(ev.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %> &bull; <%= ev.mode %>
+                                                            <%= new Date(ev.date).toLocaleDateString(undefined, {
+                                                                month: 'short' , day: 'numeric' , year: 'numeric' }) %>
+                                                                &bull; <%= ev.mode %>
                                                         </p>
                                                     </div>
-                                                    <div class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
-                                                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase"><%= new Date(ev.date).toLocaleString(undefined, { month: 'short' }) %></span>
-                                                        <span class="text-lg font-bold text-slate-900 dark:text-white leading-none"><%= new Date(ev.date).getDate() %></span>
+                                                    <div
+                                                        class="flex flex-col items-center bg-slate-100 dark:bg-slate-700 rounded-lg p-1.5 min-w-[50px]">
+                                                        <span
+                                                            class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">
+                                                            <%= new Date(ev.date).toLocaleString(undefined, {
+                                                                month: 'short' }) %>
+                                                        </span>
+                                                        <span
+                                                            class="text-lg font-bold text-slate-900 dark:text-white leading-none">
+                                                            <%= new Date(ev.date).getDate() %>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <% if (ev.isRegistered) { %>
-                                                    <button disabled class="w-full mt-2 py-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-bold opacity-80 cursor-not-allowed">Registered</button>
-                                                <% } else if (ev.registrationMode === 'external') { %>
-                                                    <a href="<%= ev.externalLink %>" target="_blank" class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register Now</a>
-                                                <% } else { %>
-                                                    <a href="/student/events?eventId=<%= ev._id %>" class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register Now</a>
-                                                <% } %>
+                                                    <button disabled
+                                                        class="w-full mt-2 py-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-bold opacity-80 cursor-not-allowed">Registered</button>
+                                                    <% } else if (ev.registrationMode==='external' ) { %>
+                                                        <a href="<%= ev.externalLink %>" target="_blank"
+                                                            class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register
+                                                            Now</a>
+                                                        <% } else { %>
+                                                            <a href="/student/events?eventId=<%= ev._id %>"
+                                                                class="block text-center w-full mt-2 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Register
+                                                                Now</a>
+                                                            <% } %>
                                             </div>
                                         </div>
-                                    <% }); %>
-                                <% } else { %>
-                                    <div class="col-span-1 md:col-span-2 py-8 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
-                                        <span class="material-symbols-outlined text-3xl mb-1 opacity-50">event_busy</span>
-                                        <p class="text-sm">No upcoming events right now.</p>
-                                    </div>
-                                <% } %>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <div
+                                                    class="col-span-1 md:col-span-2 py-8 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                                                    <span
+                                                        class="material-symbols-outlined text-3xl mb-1 opacity-50">event_busy</span>
+                                                    <p class="text-sm">No upcoming events right now.</p>
+                                                </div>
+                                                <% } %>
                             </div>
                         </section>
                         <!-- Jobs & Internships -->
@@ -315,35 +369,55 @@
                                 <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors"
                                     href="/student/opportunities">View All Jobs</a>
                             </div>
-                            <div class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
-                                <% if (freshOpportunities && freshOpportunities.length > 0) { %>
-                                    <% freshOpportunities.forEach(opp => { %>
-                                        <div class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                            <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
-                                                <span class="material-symbols-outlined text-2xl text-slate-600 dark:text-slate-400"><%= opp.type === 'Internship' ? 'deployed_code' : 'work' %></span>
+                            <div
+                                class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
+                                <% if (freshOpportunities && freshOpportunities.length> 0) { %>
+                                    <% freshOpportunities.forEach(opp=> { %>
+                                        <div
+                                            class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <div
+                                                class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                                                <span
+                                                    class="material-symbols-outlined text-2xl text-slate-600 dark:text-slate-400">
+                                                    <%= opp.type==='Internship' ? 'deployed_code' : 'work' %>
+                                                </span>
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <h4 class="font-semibold text-slate-900 dark:text-white truncate"><%= opp.title %></h4>
-                                                <p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                                                    <span><%= opp.company %></span>
+                                                <h4 class="font-semibold text-slate-900 dark:text-white truncate">
+                                                    <%= opp.title %>
+                                                </h4>
+                                                <p
+                                                    class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                                                    <span>
+                                                        <%= opp.company %>
+                                                    </span>
                                                     <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                                    <span><%= opp.location || 'Remote' %></span>
+                                                    <span>
+                                                        <%= opp.location || 'Remote' %>
+                                                    </span>
                                                 </p>
                                             </div>
                                             <div class="flex items-center gap-3">
-                                                <% 
-                                                    let typeColor = opp.type === 'Internship' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
-                                                %>
-                                                <span class="px-2.5 py-1 rounded-full <%= typeColor %> text-xs font-medium"><%= opp.type %></span>
-                                                <a href="/student/opportunities?jobId=<%= opp._id %>" class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90 transition-opacity">Apply</a>
+                                                <% let typeColor=opp.type==='Internship'
+                                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                                    : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                                                    ; %>
+                                                    <span
+                                                        class="px-2.5 py-1 rounded-full <%= typeColor %> text-xs font-medium">
+                                                        <%= opp.type %>
+                                                    </span>
+                                                    <a href="/student/opportunities?jobId=<%= opp._id %>"
+                                                        class="px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90 transition-opacity">Apply</a>
                                             </div>
                                         </div>
-                                    <% }); %>
-                                <% } else { %>
-                                    <div class="p-8 flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/20 text-sm">
-                                        No recent opportunities available yet. Connect with mentors to see jobs here.
-                                    </div>
-                                <% } %>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <div
+                                                    class="p-8 flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/20 text-sm">
+                                                    No recent opportunities available yet. Connect with mentors to see
+                                                    jobs here.
+                                                </div>
+                                                <% } %>
                             </div>
                         </section>
                     </div>
