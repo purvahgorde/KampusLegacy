@@ -7,6 +7,8 @@ const Connection = require('../models/Connection');
 const Resource = require('../models/Resource');
 const Opportunity = require('../models/Opportunity');
 const Application = require('../models/Application');
+const Event = require('../models/Event');
+const EventRegistration = require('../models/EventRegistration');
 const router = express.Router();
 
 // ─── Multer: resource uploads ──────────────────────────────────
@@ -41,6 +43,26 @@ const resumeUpload = multer({
         const allowed = ['.pdf', '.doc', '.docx'];
         if (allowed.includes(path.extname(file.originalname).toLowerCase())) cb(null, true);
         else cb(new Error('Only PDF, DOC, and DOCX files are allowed'));
+    },
+});
+
+// ─── Multer: event banners ──────────────────────────────────────
+const eventDir = path.join(__dirname, '../public/uploads/events');
+if (!fs.existsSync(eventDir)) fs.mkdirSync(eventDir, { recursive: true });
+const eventStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, eventDir),
+    filename: (req, file, cb) => {
+        const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, unique + path.extname(file.originalname));
+    },
+});
+const eventUpload = multer({
+    storage: eventStorage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB for banner
+    fileFilter: (req, file, cb) => {
+        const allowed = ['.jpg', '.jpeg', '.png', '.webp'];
+        if (allowed.includes(path.extname(file.originalname).toLowerCase())) cb(null, true);
+        else cb(new Error('Only JPG, PNG, and WebP images are allowed'));
     },
 });
 // ─── Mentor Community Home ──────────────────────────────────────
@@ -337,6 +359,144 @@ router.get('/opportunities/applications/:appId/resume', requireAuth, requireRole
         res.download(filePath, app.resumeFileName);
     } catch (err) {
         res.status(500).send('Download failed');
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// ─── EVENTS ────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+
+// GET /mentor/events — list all + stats
+router.get('/events', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const events = await Event.find({ author: req.user._id })
+            .sort({ createdAt: -1 })
+            .lean();
+        const totalViews = events.reduce((s, e) => s + e.views, 0);
+        const totalRegistrations = events.reduce((s, e) => s + e.totalRegistrations, 0);
+        res.render('mentor/events', {
+            user: req.user,
+            events,
+            stats: {
+                totalPosted: events.length,
+                totalViews,
+                totalRegistrations,
+                activeCount: events.filter(e => e.isActive).length,
+            }
+        });
+    } catch (err) {
+        console.error('Mentor events error:', err);
+        res.render('mentor/events', {
+            user: req.user,
+            events: [],
+            stats: { totalPosted: 0, totalViews: 0, totalRegistrations: 0, activeCount: 0 }
+        });
+    }
+});
+
+// POST /mentor/events/create
+router.post('/events/create', requireAuth, requireRole('mentor'), eventUpload.single('bannerImage'), async (req, res) => {
+    try {
+        const { title, description, date, time, location, mode, registrationMode, externalLink } = req.body;
+        const file = req.file;
+
+        if (!title || !description || !date || !time || !location || !mode) {
+            return res.json({ success: false, error: 'Please provide all required fields.' });
+        }
+        if (registrationMode === 'external' && !externalLink) {
+            return res.json({ success: false, error: 'External link is required for external registration mode.' });
+        }
+        if (!file) {
+            return res.json({ success: false, error: 'Banner image is required.' });
+        }
+
+        await Event.create({
+            title: title.trim(),
+            description: description.trim(),
+            date: new Date(date),
+            time: time.trim(),
+            location: location.trim(),
+            mode,
+            registrationMode: registrationMode || 'internal',
+            externalLink: registrationMode === 'external' ? externalLink.trim() : '',
+            bannerImage: '/uploads/events/' + file.filename,
+            author: req.user._id,
+        });
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Create event error:', err);
+        res.json({ success: false, error: 'Failed to create event.' });
+    }
+});
+
+// GET /mentor/events/:id — detail + registrations
+router.get('/events/:id', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const eventItem = await Event.findOne({ _id: req.params.id, author: req.user._id }).lean();
+        if (!eventItem) return res.redirect('/mentor/events');
+        
+        const registrations = await EventRegistration.find({ event: req.params.id })
+            .populate('student', 'name email profilePicture')
+            .sort({ registeredAt: -1 })
+            .lean();
+            
+        res.render('mentor/event-detail', { user: req.user, event: eventItem, registrations });
+    } catch (err) {
+        console.error('Event detail error:', err);
+        res.redirect('/mentor/events');
+    }
+});
+
+// PATCH /mentor/events/:id/toggle
+router.patch('/events/:id/toggle', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const ev = await Event.findOne({ _id: req.params.id, author: req.user._id });
+        if (!ev) return res.json({ success: false, error: 'Not found' });
+        ev.isActive = !ev.isActive;
+        await ev.save();
+        res.json({ success: true, isActive: ev.isActive });
+    } catch (err) {
+        res.json({ success: false, error: 'Toggle failed' });
+    }
+});
+
+// DELETE /mentor/events/:id
+router.delete('/events/:id', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const ev = await Event.findOne({ _id: req.params.id, author: req.user._id });
+        if (!ev) return res.json({ success: false, error: 'Not found' });
+        
+        // Delete banner file
+        if (ev.bannerImage) {
+            const fp = path.join(__dirname, '../public', ev.bannerImage);
+            if (fs.existsSync(fp)) fs.unlinkSync(fp);
+        }
+        
+        await EventRegistration.deleteMany({ event: req.params.id });
+        await ev.deleteOne();
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false, error: 'Delete failed' });
+    }
+});
+
+// PATCH /mentor/events/registrations/:regId/status
+router.patch('/events/registrations/:regId/status', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ['registered', 'attended', 'cancelled'];
+        if (!validStatuses.includes(status)) return res.json({ success: false, error: 'Invalid status' });
+        
+        const reg = await EventRegistration.findById(req.params.regId).populate('event');
+        if (!reg || reg.event.author.toString() !== req.user._id.toString()) {
+            return res.json({ success: false, error: 'Not found' });
+        }
+        
+        reg.status = status;
+        await reg.save();
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false, error: 'Status update failed' });
     }
 });
 

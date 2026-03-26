@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Connection = require('../models/Connection');
 const Opportunity = require('../models/Opportunity');
 const Application = require('../models/Application');
+const Event = require('../models/Event');
+const EventRegistration = require('../models/EventRegistration');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
@@ -253,6 +255,84 @@ router.post('/opportunities/:id/apply', requireAuth, requireRole('student'), res
         console.error('Apply error:', err);
         if (err.code === 11000) return res.status(400).json({ error: 'Already applied' });
         res.status(500).json({ error: err.message || 'Application failed' });
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// ─── EVENTS ────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+
+// GET /student/events — list events from connected mentors
+router.get('/events', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        const connections = await Connection.find({ student: req.user._id, status: 'accepted' }).lean();
+        const mentorIds = connections.map(c => c.mentor);
+        
+        const events = await Event.find({ author: { $in: mentorIds }, isActive: true })
+            .populate('author', 'name profilePicture company')
+            .sort({ date: 1, time: 1 }) // Sort upcoming events ascending
+            .lean();
+            
+        // Get student's existing registrations
+        const registrations = await EventRegistration.find({ student: req.user._id }).lean();
+        const registeredEventIds = registrations.map(r => r.event.toString());
+        
+        // Annotate events with registration status
+        const eventsWithStatus = events.map(ev => ({
+            ...ev,
+            hasRegistered: registeredEventIds.includes(ev._id.toString()),
+            registration: registrations.find(r => r.event.toString() === ev._id.toString()) || null
+        }));
+
+        res.render('student/events', {
+            user: req.user,
+            events: eventsWithStatus,
+            stats: {
+                available: events.length,
+                registered: registrations.length,
+                upcoming: events.filter(e => new Date(e.date) >= new Date()).length
+            }
+        });
+    } catch (err) {
+        console.error('Student events error:', err);
+        res.render('student/events', { user: req.user, events: [], stats: { available: 0, registered: 0, upcoming: 0 } });
+    }
+});
+
+// POST /student/events/:id/view
+router.post('/events/:id/view', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        await Event.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } });
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false });
+    }
+});
+
+// POST /student/events/:id/register
+router.post('/events/:id/register', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        const ev = await Event.findById(eventId);
+        if (!ev || !ev.isActive) return res.status(400).json({ error: 'Event not available' });
+
+        // Check if already registered
+        const existing = await EventRegistration.findOne({ event: eventId, student: req.user._id });
+        if (existing) return res.status(400).json({ error: 'Already registered' });
+
+        await EventRegistration.create({
+            event: eventId,
+            student: req.user._id,
+            status: 'registered'
+        });
+
+        await Event.findByIdAndUpdate(eventId, { $inc: { totalRegistrations: 1 } });
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Register error:', err);
+        if (err.code === 11000) return res.status(400).json({ error: 'Already registered' });
+        res.status(500).json({ error: err.message || 'Registration failed' });
     }
 });
 

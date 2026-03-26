@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Events - KampusLegacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#135bec", "primary-light": "#e8effd", "background-light": "#f6f6f8", "background-dark": "#101622" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="flex h-screen w-full">
+
+        <!-- Sidebar Navigation -->
+        <aside class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2332] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 z-20">
+            <a href="/" class="flex items-center gap-3 px-6 py-8">
+                <div class="h-8 w-8 text-primary">
+                    <svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">KampusLegacy</h1>
+            </a>
+            <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+                <!-- User Profile Summary -->
+                <div class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <% if (user.profilePicture) { %>
+                            <img alt="Student profile photo" class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600" src="<%= user.profilePicture %>" />
+                        <% } else { %>
+                            <div class="h-10 w-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold border-2 border-white dark:border-slate-600">
+                                <%= user.name.charAt(0).toUpperCase() %>
+                            </div>
+                        <% } %>
+                        <div class="overflow-hidden">
+                            <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white"><%= user.name %></h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nav Links -->
+                <nav class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium" href="/student/home">
+                        <span class="material-symbols-outlined fill-1">home</span>Home
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium" href="/student/dashboard">
+                        <span class="material-symbols-outlined">dashboard</span>Dashboard
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium" href="/student/mentors">
+                        <span class="material-symbols-outlined">group</span>Mentors
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium" href="/student/opportunities">
+                        <span class="material-symbols-outlined">work</span>Jobs &amp; Internships
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="/student/events">
+                        <span class="material-symbols-outlined">event</span>Events
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors font-medium" href="/student/resources">
+                        <span class="material-symbols-outlined">folder_open</span>Resources
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 mt-auto">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium" href="#">
+                    <span class="material-symbols-outlined">settings</span>Settings
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors text-sm font-medium" href="/auth/logout">
+                    <span class="material-symbols-outlined">logout</span>Log Out
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden">
+            <header class="h-16 flex items-center px-6 lg:px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Upcoming Mentor Events</h2>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6 lg:p-8 scrollbar-thin">
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600">
+                            <span class="material-symbols-outlined">event_available</span>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">Upcoming Events</p>
+                            <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.upcoming %></p>
+                        </div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600">
+                            <span class="material-symbols-outlined">groups</span>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">Total Available</p>
+                            <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.available %></p>
+                        </div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div class="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-600">
+                            <span class="material-symbols-outlined">how_to_reg</span>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">Your Registrations</p>
+                            <p class="text-xl font-bold text-slate-900 dark:text-white"><%= stats.registered %></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header + Search -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-colors" data-filter="All">All Events</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors" data-filter="Online">Online</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors" data-filter="Offline">Offline Meetups</button>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                        <input type="text" id="search-events" placeholder="Search title, location..." class="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-primary focus:border-primary placeholder-slate-400 text-slate-900 dark:text-white outline-none">
+                    </div>
+                </div>
+
+                <!-- List -->
+                <% if (events.length === 0) { %>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-16 flex flex-col items-center justify-center text-center">
+                        <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-700 mb-4">event_busy</span>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No upcoming events</h3>
+                        <p class="text-slate-500 max-w-sm">Connect with more mentors to unlock hidden webinars, masterclasses, and offline meetups.</p>
+                    </div>
+                <% } else { %>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="events-grid">
+                        <% events.forEach(function(ev) { %>
+                            <div class="event-card rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col cursor-pointer hover:shadow-md hover:border-primary/50 transition-all overflow-hidden relative group"
+                                data-mode="<%= ev.mode %>"
+                                data-search="<%= (ev.title + ' ' + ev.location + ' ' + (ev.author?.name || '')).toLowerCase() %>"
+                                onclick="openEventModal('<%= escape(JSON.stringify(ev)) %>')">
+                                
+                                <% if (ev.hasRegistered) { %>
+                                    <div class="absolute top-4 right-4 z-10 bg-green-500/90 backdrop-blur text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded shadow-sm border border-green-400/50">
+                                        Registered
+                                    </div>
+                                <% } %>
+
+                                <!-- Banner Image -->
+                                <div class="h-40 w-full overflow-hidden border-b border-slate-100 dark:border-slate-800 shrink-0 relative">
+                                    <img src="<%= ev.bannerImage %>" alt="Event Banner" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                </div>
+
+                                <div class="p-5 flex-1 relative">
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                        <%= ev.title %>
+                                    </h3>
+                                    
+                                    <div class="space-y-1.5 mb-5">
+                                        <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 gap-2">
+                                            <span class="material-symbols-outlined text-[14px]">calendar_today</span> 
+                                            <%= new Date(ev.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) %> at <%= ev.time %>
+                                        </div>
+                                        <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 gap-2 truncate">
+                                            <span class="material-symbols-outlined text-[14px]">location_on</span> <%= ev.location %>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-300">
+                                            <%= ev.mode %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-slate-100 dark:border-slate-800 px-5 py-3 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between shrink-0">
+                                    <div class="flex items-center gap-2">
+                                        <% if (ev.author?.profilePicture) { %>
+                                            <img src="<%= ev.author.profilePicture %>" class="w-5 h-5 rounded-full object-cover">
+                                        <% } else { %>
+                                            <div class="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold">
+                                                <%= (ev.author?.name || 'M' ).charAt(0) %>
+                                            </div>
+                                        <% } %>
+                                        <span class="text-xs text-slate-500 font-medium">via <%= ev.author?.name %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                        <div id="no-results" class="col-span-1 md:col-span-2 lg:col-span-3 hidden py-12 text-center text-slate-500">
+                            <span class="material-symbols-outlined text-4xl mb-2 opacity-50">search_off</span>
+                            <p>No events match your filters/search.</p>
+                        </div>
+                    </div>
+                <% } %>
+            </main>
+        </div>
+    </div>
+
+    <!-- Event Detail / Register Modal -->
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden flex flex-col items-center justify-end sm:justify-center p-0 sm:p-4">
+        <div class="absolute inset-0 bg-slate-900/60 modal-backdrop transition-opacity opacity-0" id="detail-bg"></div>
+        <div class="relative bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col transform transition-transform translate-y-full sm:translate-y-0 sm:scale-95 opacity-0" id="detail-panel">
+            <button id="close-detail-btn" class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center bg-black/50 hover:bg-black/70 rounded-full transition-colors text-white shadow-sm">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            <div class="overflow-y-auto scrollbar-thin">
+                <!-- Header Banner -->
+                <div id="modal-banner" class="w-full h-48 sm:h-64 object-cover"></div>
+
+                <div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800">
+                    <div id="modal-header-content"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white mb-3">About the Event</h4>
+                    <p id="modal-desc" class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed"></p>
+                </div>
+
+                <!-- Registration Section -->
+                <div class="p-6 md:p-8 bg-slate-50 dark:bg-slate-900/50" id="modal-register-section">
+                    <!-- Content injected based on state -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filtering logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('search-events');
+        const cards = document.querySelectorAll('.event-card');
+        const noResults = document.getElementById('no-results');
+        let currentFilter = 'All';
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                });
+                btn.classList.add('bg-primary', 'text-white');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                currentFilter = btn.dataset.filter;
+                runFilters();
+            });
+        });
+
+        searchInput?.addEventListener('input', runFilters);
+
+        function runFilters() {
+            const query = (searchInput?.value || '').toLowerCase();
+            let visible = 0;
+
+            cards.forEach(card => {
+                const matchesFilter = currentFilter === 'All' || card.dataset.mode === currentFilter;
+                const matchesSearch = !query || card.dataset.search.includes(query);
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'flex';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('detail-modal');
+        const bg = document.getElementById('detail-bg');
+        const panel = document.getElementById('detail-panel');
+        let currentEvent = null;
+
+        function escapeHtml(unsafe) {
+            return (unsafe || '').toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        window.openEventModal = function(encodedEvent) {
+            const ev = JSON.parse(unescape(encodedEvent));
+            currentEvent = ev;
+
+            // Track view
+            fetch(`/student/events/${ev._id}/view`, { method: 'POST' });
+
+            // Banner styling
+            document.getElementById('modal-banner').style.backgroundImage = `url('${ev.bannerImage}')`;
+            document.getElementById('modal-banner').style.backgroundSize = 'cover';
+            document.getElementById('modal-banner').style.backgroundPosition = 'center';
+
+            const headerStr = `
+                <div class="mb-4">
+                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-300">
+                        ${escapeHtml(ev.mode)}
+                    </span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-5">${escapeHtml(ev.title)}</h3>
+                
+                <div class="flex flex-col sm:flex-row gap-y-3 gap-x-8 text-sm text-slate-700 dark:text-slate-300">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-[20px] text-primary">calendar_today</span>
+                        <div>
+                            <p class="font-semibold text-slate-900 dark:text-white">${new Date(ev.date).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <p class="text-slate-500">${escapeHtml(ev.time)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-[20px] text-primary">location_on</span>
+                        <div>
+                            <p class="font-semibold text-slate-900 dark:text-white">${ev.mode}</p>
+                            <p class="text-slate-500">${escapeHtml(ev.location)}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal-header-content').innerHTML = headerStr;
+
+            document.getElementById('modal-desc').textContent = ev.description;
+
+            const regSection = document.getElementById('modal-register-section');
+
+            if (ev.hasRegistered) {
+                regSection.innerHTML = `
+                    <div class="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800/50 rounded-xl p-5 flex items-start gap-4">
+                        <div class="bg-green-100 dark:bg-green-900/40 p-2 rounded-full text-green-600 dark:text-green-400 shrink-0">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Registration Confirmed</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">You are registered to attend this event. Your mentor will be able to see you on the attendee list.</p>
+                            <span class="inline-flex items-center bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded text-xs font-semibold text-slate-600 dark:text-slate-300 border shadow-sm uppercase tracking-wider">
+                                ${ev.registration.status}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            } else if (ev.registrationMode === 'external') {
+                regSection.innerHTML = `
+                    <div class="text-center py-4">
+                        <h4 class="text-base font-bold text-slate-900 dark:text-white mb-2">Register Externally</h4>
+                        <p class="text-sm text-slate-500 mb-6">This event requires registration on an external platform.</p>
+                        <a href="${ev.externalLink}" target="_blank" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-xl transition-all shadow-md active:scale-95">
+                            Register Now <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                        </a>
+                    </div>
+                `;
+            } else {
+                regSection.innerHTML = `
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="text-base font-bold text-slate-900 dark:text-white mb-1">Join this event</h4>
+                            <p class="text-sm text-slate-500">Secure your spot by registering now.</p>
+                        </div>
+                        <div id="register-error" class="hidden text-sm text-red-600 font-medium"></div>
+                        <button id="submit-register-btn" onclick="submitRegistration()" class="w-full sm:w-auto px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl text-sm font-semibold transition-all shadow-md active:scale-95 flex justify-center items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">how_to_reg</span> Register to Attend
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Show animation
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            bg.classList.remove('opacity-0');
+            panel.classList.remove('opacity-0', 'translate-y-full', 'sm:scale-95');
+        };
+
+        function closeDetailModal() {
+            bg.classList.add('opacity-0');
+            panel.classList.add('opacity-0', 'translate-y-full', 'sm:scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                currentEvent = null;
+            }, 300);
+        }
+
+        document.getElementById('close-detail-btn').addEventListener('click', closeDetailModal);
+        bg.addEventListener('click', closeDetailModal);
+
+        window.submitRegistration = async function() {
+            if (!currentEvent) return;
+
+            const errEl = document.getElementById('register-error');
+            const btn = document.getElementById('submit-register-btn');
+
+            if (errEl) errEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">refresh</span> Registering...';
+            btn.classList.add('opacity-70');
+
+            try {
+                const res = await fetch(`/student/events/${currentEvent._id}/register`, {
+                    method: 'POST'
+                });
+                const data = await res.json();
+                if (data.success) {
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Success!';
+                    btn.classList.replace('bg-primary', 'bg-green-600');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    throw new Error(data.error || 'Failed to register');
+                }
+            } catch (e) {
+                if(errEl) {
+                    errEl.textContent = e.message;
+                    errEl.classList.remove('hidden');
+                } else {
+                    alert(e.message);
+                }
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">how_to_reg</span> Register to Attend';
+                btn.classList.remove('opacity-70');
+            }
+        };
+    </script>
+</body>
+</html>
