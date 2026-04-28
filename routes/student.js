@@ -1,7 +1,7 @@
 const express = require('express');
 const AIChatSession = require('../models/AIChatSession');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const genAI = new GoogleGenerativeAI("AIzaSyAhGPe2osfZvvQ3BaiTRQWxJkLd0As5dG0");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "AIzaSyAhGPe2osfZvvQ3BaiTRQWxJkLd0As5dG0");
 const { requireAuth, requireRole } = require('../middleware/auth');
 const User = require('../models/User');
 const Connection = require('../models/Connection');
@@ -417,6 +417,27 @@ router.post('/counselor/message', requireAuth, requireRole('student'), async (re
     } catch (err) {
         console.error('AI Chat POST error:', err);
         res.status(500).json({ error: 'AI Error' });
+    }
+});
+
+// ─── POST /student/profile/update ─────────────────────────────
+router.post('/profile/update', requireAuth, requireRole('student'), async (req, res) => {
+    try {
+        const { name, bio, university, graduationYear, domain, skills } = req.body;
+        const update = {};
+        if (name) update.name = name.trim();
+        if (bio !== undefined) update.bio = bio.trim();
+        if (university !== undefined) update.university = university.trim();
+        if (graduationYear) update.graduationYear = parseInt(graduationYear) || null;
+        if (domain !== undefined) update.domain = domain.trim();
+        if (skills !== undefined) {
+            update.skills = skills.split(',').map(s => s.trim()).filter(Boolean);
+        }
+        await require('../models/User').findByIdAndUpdate(req.user._id, update);
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Profile update error:', err);
+        res.status(500).json({ success: false, error: 'Update failed' });
     }
 });
 

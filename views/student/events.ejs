@@ -41,18 +41,18 @@
             </a>
             <div class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
                 <!-- User Profile Summary -->
-                <div class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700">
+                <div
+                    class="mb-6 p-4 rounded-xl bg-primary-light/50 dark:bg-slate-800/50 border border-primary/10 dark:border-slate-700 cursor-pointer hover:shadow-md hover:border-primary/20 transition-all group"
+                    onclick="openProfilePopup()">
                     <div class="flex items-center gap-3">
-                        <% if (user.profilePicture) { %>
-                            <img alt="Student profile photo" class="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-600" src="<%= user.profilePicture %>" />
-                        <% } else { %>
-                            <div class="h-10 w-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold border-2 border-white dark:border-slate-600">
-                                <%= user.name.charAt(0).toUpperCase() %>
-                            </div>
-                        <% } %>
-                        <div class="overflow-hidden">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-base border-2 border-white dark:border-slate-600 flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <%= user.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <div class="overflow-hidden flex-1">
                             <h3 class="text-sm font-semibold truncate text-slate-900 dark:text-white"><%= user.name %></h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Student</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">edit</span>View Profile
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -443,5 +443,6 @@
             }
         });
     </script>
+    <%- include('../partials/profile-popup', { user, role: 'student' }) %>
 </body>
 </html>

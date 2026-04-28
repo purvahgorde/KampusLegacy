@@ -1,0 +1,308 @@
+
+
+<!-- ─── Profile Popup Overlay ────────────────────────────────── -->
+<div id="profile-overlay"
+    class="fixed inset-0 z-[999] flex items-center justify-end p-6 hidden"
+    onclick="if(event.target===this) closeProfilePopup()">
+
+    <!-- Sidebar-style popup card -->
+    <div id="profile-popup"
+        class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden translate-x-8 opacity-0 transition-all duration-300"
+        style="max-height: 90vh;">
+
+        <!-- Header Gradient -->
+        <div class="relative bg-gradient-to-br from-primary to-blue-600 px-6 pt-8 pb-16 flex-shrink-0">
+            <button onclick="closeProfilePopup()"
+                class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+            <div class="flex items-end gap-4">
+                <!-- Avatar -->
+                <div class="relative">
+                    <div id="popup-avatar-wrapper"
+                        class="w-20 h-20 rounded-2xl border-4 border-white dark:border-slate-800 shadow-xl overflow-hidden bg-white/20 flex items-center justify-center">
+                        <% if (user.profilePicture) { %>
+                            <img src="<%= user.profilePicture %>" alt="Profile" class="w-full h-full object-cover" />
+                        <% } else { %>
+                            <span class="text-3xl font-black text-white" id="popup-avatar-initial">
+                                <%= user.name.charAt(0).toUpperCase() %>
+                            </span>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0 pb-1">
+                    <h3 class="text-white font-black text-lg truncate" id="popup-display-name"><%= user.name %></h3>
+                    <div class="inline-flex items-center gap-1 bg-white/20 rounded-full px-2.5 py-0.5 mt-1">
+                        <span class="material-symbols-outlined text-white text-xs">
+                            <%= role === 'mentor' ? 'cast_for_education' : 'school' %>
+                        </span>
+                        <span class="text-white/90 text-xs font-bold capitalize"><%= role %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info chips row (overlapping the header) -->
+        <div class="px-6 -mt-8 mb-2 flex gap-2 flex-wrap flex-shrink-0">
+            <% if (user.company) { %>
+                <span class="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm">
+                    <span class="material-symbols-outlined text-primary text-xs">business</span>
+                    <%= user.company %>
+                </span>
+            <% } %>
+            <% if (user.university) { %>
+                <span class="inline-flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm">
+                    <span class="material-symbols-outlined text-primary text-xs">school</span>
+                    <%= user.university %>
+                </span>
+            <% } %>
+        </div>
+
+        <!-- Scrollable form body -->
+        <div class="flex-1 overflow-y-auto px-6 pb-6" style="scrollbar-width: thin;">
+            <form id="profile-edit-form" class="space-y-4">
+
+                <!-- View Mode -->
+                <div id="profile-view-mode">
+                    <!-- Email -->
+                    <div class="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-slate-400 text-lg">mail</span>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Email</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white truncate"><%= user.email %></p>
+                        </div>
+                    </div>
+                    <% if (role === 'mentor' && user.jobTitle) { %>
+                    <div class="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-slate-400 text-lg">work</span>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Job Title</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white"><%= user.jobTitle %></p>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if (user.domain) { %>
+                    <div class="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-slate-400 text-lg">category</span>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Domain</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white"><%= user.domain %></p>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if (role === 'student' && user.graduationYear) { %>
+                    <div class="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Graduation Year</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white"><%= user.graduationYear %></p>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if (user.bio) { %>
+                    <div class="py-3 border-b border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Bio</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"><%= user.bio %></p>
+                    </div>
+                    <% } %>
+                    <% if (user.skills && user.skills.length > 0) { %>
+                    <div class="py-3">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Skills</p>
+                        <div class="flex flex-wrap gap-2">
+                            <% user.skills.forEach(skill => { %>
+                                <span class="px-2.5 py-1 bg-primary/10 text-primary rounded-lg text-xs font-bold"><%= skill %></span>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+
+                <!-- Edit Mode (hidden initially) -->
+                <div id="profile-edit-mode" class="hidden space-y-3">
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Full Name</label>
+                        <input type="text" name="name" value="<%= user.name %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bio</label>
+                        <textarea name="bio" rows="3"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
+                            placeholder="Tell others about yourself..."><%= user.bio || '' %></textarea>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">University</label>
+                        <input type="text" name="university" value="<%= user.university || '' %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="MIT, IIT Bombay..." />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Domain / Area</label>
+                        <input type="text" name="domain" value="<%= user.domain || '' %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="e.g. Software Engineering" />
+                    </div>
+                    <% if (role === 'student') { %>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Graduation Year</label>
+                        <input type="number" name="graduationYear" value="<%= user.graduationYear || '' %>" min="2000" max="2035"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="2026" />
+                    </div>
+                    <% } %>
+                    <% if (role === 'mentor') { %>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Job Title</label>
+                        <input type="text" name="jobTitle" value="<%= user.jobTitle || '' %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="Senior Engineer" />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Company</label>
+                        <input type="text" name="company" value="<%= user.company || '' %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="Google, Microsoft..." />
+                    </div>
+                    <% } %>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Skills <span class="normal-case font-normal">(comma separated)</span></label>
+                        <input type="text" name="skills" value="<%= (user.skills || []).join(', ') %>"
+                            class="mt-1 w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="JavaScript, Python, React..." />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex gap-3 flex-shrink-0 bg-white dark:bg-slate-900">
+            <!-- View Mode buttons -->
+            <div id="view-mode-btns" class="flex gap-3 w-full">
+                <button onclick="switchToEditMode()"
+                    class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-primary text-white rounded-xl text-sm font-bold hover:bg-blue-700 active:scale-95 transition-all shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-sm">edit</span>
+                    Edit Profile
+                </button>
+                <a href="/auth/logout"
+                    class="flex items-center justify-center gap-2 py-2.5 px-4 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-red-600 hover:border-red-200 dark:hover:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all">
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                </a>
+            </div>
+            <!-- Edit Mode buttons -->
+            <div id="edit-mode-btns" class="hidden flex gap-3 w-full">
+                <button onclick="cancelEdit()"
+                    class="flex-1 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    Cancel
+                </button>
+                <button onclick="saveProfile('<%= role %>')"
+                    id="save-profile-btn"
+                    class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-primary text-white rounded-xl text-sm font-bold hover:bg-blue-700 active:scale-95 transition-all shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Save
+                </button>
+            </div>
+        </div>
+
+        <!-- Save Toast -->
+        <div id="save-toast"
+            class="hidden absolute bottom-20 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2 z-50">
+            <span class="material-symbols-outlined text-sm">check_circle</span>
+            Profile updated!
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ─── Open / Close ───────────────────────────────────────────
+    window.openProfilePopup = function() {
+        const overlay = document.getElementById('profile-overlay');
+        const popup   = document.getElementById('profile-popup');
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            popup.style.transform  = 'translateX(0)';
+            popup.style.opacity    = '1';
+        });
+    };
+
+    window.closeProfilePopup = function() {
+        const overlay = document.getElementById('profile-overlay');
+        const popup   = document.getElementById('profile-popup');
+        popup.style.transform  = 'translateX(2rem)';
+        popup.style.opacity    = '0';
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+        cancelEdit();
+    };
+
+    // ─── Edit Mode ──────────────────────────────────────────────
+    window.switchToEditMode = function() {
+        document.getElementById('profile-view-mode').classList.add('hidden');
+        document.getElementById('profile-edit-mode').classList.remove('hidden');
+        document.getElementById('view-mode-btns').classList.add('hidden');
+        document.getElementById('edit-mode-btns').classList.remove('hidden');
+        document.getElementById('edit-mode-btns').classList.add('flex');
+    };
+
+    window.cancelEdit = function() {
+        document.getElementById('profile-view-mode').classList.remove('hidden');
+        document.getElementById('profile-edit-mode').classList.add('hidden');
+        document.getElementById('view-mode-btns').classList.remove('hidden');
+        document.getElementById('edit-mode-btns').classList.add('hidden');
+        document.getElementById('edit-mode-btns').classList.remove('flex');
+    };
+
+    // ─── Save Profile ────────────────────────────────────────────
+    window.saveProfile = async function(role) {
+        const btn = document.getElementById('save-profile-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Saving...';
+
+        const form = document.getElementById('profile-edit-form');
+        const formData = new FormData(form);
+        const body = {};
+        formData.forEach((val, key) => { body[key] = val; });
+
+        try {
+            const res = await fetch(`/${role}/profile/update`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (data.success) {
+                // Update display name
+                const nameInput = form.querySelector('[name="name"]');
+                if (nameInput) {
+                    document.getElementById('popup-display-name').textContent = nameInput.value;
+                    const initial = document.getElementById('popup-avatar-initial');
+                    if (initial) initial.textContent = nameInput.value.charAt(0).toUpperCase();
+                }
+                showSaveToast();
+                cancelEdit();
+                // Soft reload page title / header name without full refresh
+                const pageH = document.querySelector('h2, h1');
+                if (pageH && nameInput && pageH.textContent.includes('Welcome')) {
+                    pageH.textContent = pageH.textContent.replace(/Welcome back.*?!/, `Welcome back, ${nameInput.value.split(' ')[0]}!`);
+                }
+            } else {
+                alert('Failed to save: ' + (data.error || 'Unknown error'));
+            }
+        } catch (e) {
+            alert('Network error. Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">save</span> Save';
+        }
+    };
+
+    function showSaveToast() {
+        const toast = document.getElementById('save-toast');
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+            toast.classList.remove('flex');
+        }, 3000);
+    }
+})();
+</script>

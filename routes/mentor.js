@@ -641,4 +641,27 @@ router.patch('/events/registrations/:regId/status', requireAuth, requireRole('me
     }
 });
 
+// ─── POST /mentor/profile/update ─────────────────────────────
+router.post('/profile/update', requireAuth, requireRole('mentor'), async (req, res) => {
+    try {
+        const User = require('../models/User');
+        const { name, bio, domain, jobTitle, company, university, skills } = req.body;
+        const update = {};
+        if (name)               update.name       = name.trim();
+        if (bio !== undefined)  update.bio        = bio.trim();
+        if (domain !== undefined) update.domain   = domain.trim();
+        if (jobTitle !== undefined) update.jobTitle = jobTitle.trim();
+        if (company !== undefined) update.company = company.trim();
+        if (university !== undefined) update.university = university.trim();
+        if (skills !== undefined) {
+            update.skills = skills.split(',').map(s => s.trim()).filter(Boolean);
+        }
+        await User.findByIdAndUpdate(req.user._id, update);
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Profile update error:', err);
+        res.status(500).json({ success: false, error: 'Update failed' });
+    }
+});
+
 module.exports = router;

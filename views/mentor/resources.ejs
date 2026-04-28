@@ -120,15 +120,17 @@ function getCategoryStyle(cat) {
                 </nav>
             </div>
             <div class="p-6 border-t border-slate-200 dark:border-slate-800 mt-auto">
-                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
-                    <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                        <%= user.name.charAt(0).toUpperCase() %>
+                <div
+                        onclick="openProfilePopup()"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+                        <div class="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <%= user.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate flex items-center gap-1"><span class="material-symbols-outlined text-xs">edit</span>View Profile</p>
+                        </div>
                     </div>
-                    <div class="min-w-0">
-                        <p class="text-sm font-medium text-slate-900 dark:text-white truncate"><%= user.name %></p>
-                        <p class="text-xs text-slate-500">Mentor</p>
-                    </div>
-                </div>
                 <a href="/auth/logout" class="mt-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors text-sm font-medium">
                     <span class="material-symbols-outlined">logout</span>Log Out
                 </a>
@@ -420,5 +422,6 @@ function getCategoryStyle(cat) {
             .then(function(d) { if (d.success) location.reload(); });
     }
 </script>
+    <%- include('../partials/profile-popup', { user, role: 'mentor' }) %>
 </body>
 </html>
