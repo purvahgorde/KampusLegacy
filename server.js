@@ -48,7 +48,3 @@ mongoose
   });
 
 
-// // Start server WITHOUT MongoDB
-// app.listen(PORT, () => {
-//   console.log(`🚀 Server running at http://localhost:${PORT}`);
-// });
