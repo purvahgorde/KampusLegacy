@@ -1,5 +1,5 @@
 const express = require('express');
-// const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 require('dotenv').config();
@@ -35,20 +35,20 @@ app.use('/mentor', mentorRoutes);
 app.use('/api', apiRoutes);
 
 // ─── MongoDB Connection & Server Start ───────────────────────
-// mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => {
-//     console.log('✅ Connected to MongoDB');
-//     app.listen(PORT, () => {
-//       console.log(`🚀 Server running at http://localhost:${PORT}`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.error('❌ MongoDB connection error:', err.message);
-//   });
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
+  });
 
 
-// Start server WITHOUT MongoDB
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
+// // Start server WITHOUT MongoDB
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server running at http://localhost:${PORT}`);
+// });
